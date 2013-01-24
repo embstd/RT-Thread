@@ -1,0 +1,5 @@
+--cpu Cortex-M3 "usart.o" "application.o" "board.o" "led.o" "rtc.o" "serial.o" "startup.o" "stm32f10x_it.o" "clock.o" "device.o" "idle.o" "ipc.o" "irq.o" "kservice.o" "mem.o" "mempool.o" "module.o" "object.o" "rtm.o" "scheduler.o" "slab.o" "thread.o" "timer.o" "misc.o" "stm32f10x_adc.o" "stm32f10x_bkp.o" "stm32f10x_can.o" "stm32f10x_cec.o" "stm32f10x_crc.o" "stm32f10x_dac.o" "stm32f10x_dbgmcu.o" "stm32f10x_dma.o" "stm32f10x_exti.o" "stm32f10x_flash.o" "stm32f10x_fsmc.o" "stm32f10x_gpio.o" "stm32f10x_i2c.o" "stm32f10x_iwdg.o" "stm32f10x_pwr.o" "stm32f10x_rcc.o" "stm32f10x_rtc.o" "stm32f10x_sdio.o" "stm32f10x_spi.o" "stm32f10x_tim.o" "stm32f10x_usart.o" "stm32f10x_wwdg.o" ".\startup_stm32f10x_hd.o" ".\context_rvds.o" "core_cm3.o" "system_stm32f10x.o" "backtrace.o" "div0.o" "showmem.o" "cpuport.o" --library_type=microlib --feedback "RTT_LED.fed" 
+--strict --scatter "RTT_LED.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\RTT_LED.map" -o "RTT_LED.axf"
