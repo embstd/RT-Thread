@@ -13,6 +13,8 @@
  */
 
 #include <rtdevice.h>
+#include <i2c.h>
+#include <i2c_dev.h>
 
 static struct rt_mutex i2c_core_lock;
 

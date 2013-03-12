@@ -61,14 +61,14 @@ static void led_thread_entry(void* parameter)
         rt_kprintf("led on, count : %d\r\n",count);
 #endif
         count++;
-        rt_hw_led_on(0);
+        //rt_hw_led_on(0);
         rt_thread_delay( RT_TICK_PER_SECOND/2 ); /* sleep 0.5 second and switch to other thread */
 
         /* led1 off */
 #ifndef RT_USING_FINSH
         rt_kprintf("led off\r\n");
 #endif
-        rt_hw_led_off(0);
+        //rt_hw_led_off(0);
         rt_thread_delay( RT_TICK_PER_SECOND/2 );
     }
 }
