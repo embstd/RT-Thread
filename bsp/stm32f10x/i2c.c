@@ -38,7 +38,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
 {
     struct rt_i2c_priv_data i2c_priv_data;
     struct rt_i2c_msg i2c_msg, i2c_msg2;
-    rt_uint32_t i2c_data[10];
+    rt_uint8_t i2c_data[10];
     rt_device_t device;
     rt_err_t ret = -RT_ERROR;
 
@@ -55,7 +55,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     i2c_msg.len=2;
     i2c_data[0]=reg;
     i2c_data[1]=data;
-    i2c_msg.bug=i2c_data;
+    i2c_msg.buf=i2c_data;
 
     i2c_priv_data.msgs=&i2c_msg;
     i2c_priv_data.number=1;
@@ -63,12 +63,11 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     if (rt_device_open(device, 0) == RT_EOK)
     {
         i2c_dbg("ioctl...\n");
-        ret=rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
+        rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
         rt_device_close(device);
     }
     else
     {
-
         i2c_err("open:w err\n");
         goto l_err;
     }
@@ -80,13 +79,13 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     i2c_msg.flags=RT_I2C_WR;
     i2c_msg.len=1;
     i2c_data[0]=reg;
-    i2c_msg.bug=i2c_data;
+    i2c_msg.buf=i2c_data;
     // Read data msg
-    i2c_msg.addr=addr;
-    i2c_msg.flags=RT_I2C_RD;
-    i2c_msg.len=1;
+    i2c_msg2.addr=addr;
+    i2c_msg2.flags=RT_I2C_RD;
+    i2c_msg2.len=1;
     i2c_data[1]=0;
-    i2c_msg.bug=&i2c_data[1];
+    i2c_msg2.buf=&i2c_data[1];
 
     i2c_priv_data.msgs=&i2c_msg;
     i2c_priv_data.number=2;
@@ -94,7 +93,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     if (rt_device_open(device, 0) == RT_EOK)
     {
         i2c_dbg("ioctl...\n");
-        ret=rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
+        rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
         rt_device_close(device);
     }
     else
