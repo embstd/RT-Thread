@@ -21,9 +21,9 @@
 #include <i2c_dev.h>
  
 #if 1
-#define i2c_dbg(fmt, ...)   do{rt_kprintf("i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)
+#define i2c_dbg(fmt, ...)   do{rt_kprintf("i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
 #endif
-#define i2c_err(fmt, ...)   do{rt_kprintf("[ERR] i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)
+#define i2c_err(fmt, ...)   do{rt_kprintf("[ERR] i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
 
 
 /** \brief set system time(date not modify).
@@ -62,7 +62,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
   
     if (rt_device_open(device, 0) == RT_EOK)
     {
-        i2c_dbg("ioctl...\n");
+        i2c_dbg("ioctl... send msg addr=0x%x, len=%d, reg=0x%d,  data=0x%x\n",i2c_msg.addr, i2c_msg.len, i2c_data[0], i2c_data[1]);
         rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
         rt_device_close(device);
     }

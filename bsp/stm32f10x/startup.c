@@ -133,8 +133,8 @@ void rtthread_startup(void)
 
 	rt_kprintf("==>%d",i++);
     rt_hw_rtc_init();
-	rt_i2c_stm32_add_bus();
-	rt_kprintf("==>add I2C bus %d\n",i++);
+	//rt_i2c_stm32_add_bus();
+	//rt_kprintf("==>add I2C bus %d\n",i++);
 	/* init all device */
 	rt_device_init_all();
 

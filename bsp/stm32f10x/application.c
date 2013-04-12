@@ -151,6 +151,9 @@ void rt_init_thread_entry(void* parameter)
 		rtgui_system_server_init();
 	}
 #endif /* #ifdef RT_USING_RTGUI */
+
+	rt_i2c_stm32_add_bus();
+	rt_kprintf("==>add I2C bus\n");
 }
 
 int rt_application_init()

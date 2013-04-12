@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"stm",
+				"stm32_err"
+			],
+			[
+				"i2",
+				"i2c_err"
+			],
+			[
+				"i2c",
+				"i2c_priv_data"
+			],
+			[
 				"ret",
 				"ret"
 			]
@@ -12,13 +24,58 @@
 	"buffers":
 	[
 		{
-			"contents": "/*\n * File      : i2c-stm32.c\n * This file is part of RT-Thread RTOS\n * COPYRIGHT (C) 2006 - 2012, RT-Thread Development Team\n *\n * The license and distribution terms for this file may be\n * found in the file LICENSE in this distribution or at\n * http://www.rt-thread.org/license/LICENSE\n *\n * Change Logs:\n * Date           Author        Notes\n * 2012-04-25     weety         first version\n */\n\n#include <rtdevice.h>\n#include <stm32f10x.h>\n#include <stm32f10x_i2c.h>\n#include <stm32f10x_rcc.h>\n#include <i2c.h>\n#include <i2c_dev.h>\n\n#define EEPROM_ADDRESS 0xA0\n\n#define I2C_Speed              400000\n#define I2C1_SLAVE_ADDRESS7    0xA0\n\n\n#if 1\n#define stm32_dbg(fmt, ...)   do{rt_kprintf(\"stm i2c:\"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)\n#endif\n#define stm32_err(fmt, ...)   do{rt_kprintf(\"[ERR] stm i2c:\"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)\n\nstruct rt_i2c_stm32_ops\n{\n    void *data;            /* private data for lowlevel routines */\n};\n\n\nstatic void i2c_start(struct rt_i2c_stm32_ops *ops)\n{\n	/* Send STRAT condition */\n  	I2C_GenerateSTART(I2C1, ENABLE);\n}\n\nstatic void i2c_restart(struct rt_i2c_stm32_ops *ops)\n{\n  	/* Send STRAT condition */\n  	I2C_GenerateSTART(I2C1, ENABLE);  \n}\n\nstatic void i2c_stop(struct rt_i2c_stm32_ops *ops)\n{\n  /* Test on EV8 and clear it */\n  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n  \n  /* Send STOP condition */\n  I2C_GenerateSTOP(I2C1, ENABLE);\n}\n/*\nrt_inline rt_bool_t i2c_waitack(struct rt_i2c_stm32_ops *ops)\n{\n    rt_bool_t ack;\n\n    return ack;\n}\n*/\n\nstatic rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,\n                                struct rt_i2c_msg        *msg)\n{\n    //rt_int32_t ret;\n    //rt_size_t bytes = 0;\n    const rt_uint8_t *ptr = msg->buf;\n    rt_int32_t count = msg->len;\n    rt_uint16_t ignore_nack = msg->flags & RT_I2C_IGNORE_NACK;\n	\n	  /* Test on EV8 and clear it */\n  	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n\n	while (count --) \n    {\n    	/* Send the current byte */\n   		I2C_SendData(I2C1, *ptr); \n\n    	/* Point to the next byte to be written */\n    	ptr++; \n  \n    	/* Test on EV8 and clear it */\n    	while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n 	};\n\n    return msg->len-count;\n}\n\nstatic rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)\n{\n    if (ack)\n          I2C_AcknowledgeConfig(I2C1, ENABLE);\n  else\n  I2C_AcknowledgeConfig(I2C1, DISABLE);\n        return RT_EOK;\n}\n\nstatic rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,\n                                struct rt_i2c_msg        *msg)\n{\n    rt_int32_t val;\n    rt_int32_t bytes = 0;   /* actual bytes */\n    rt_uint8_t *ptr = msg->buf;\n    rt_int32_t count = msg->len;\n    const rt_uint32_t flags = msg->flags;\n    stm32_dbg(\"recv_bytes\\n\");\n    /* While there is data to be read */\n    while(count--)  \n    {\n\n        if (!(flags & RT_I2C_NO_READ_ACK))\n        {\n            val = i2c_send_ack_or_nack(bus, count);\n            if (val < 0)\n            {\n               stm32_err(\"recv_bytes:No Read Ack.\\n\");\n               return val;\n            }\n        }\n\n        /* Test on EV7 and clear it */\n        if(I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED))  \n        {      \n            /* Read a byte from the EEPROM */\n            *ptr = I2C_ReceiveData(I2C1);\n\n            /* Point to the next location where the byte read will be saved */\n            ptr++; \n        }   \n    }\n    /* Enable Acknowledgement to be ready for another reception */\n    I2C_AcknowledgeConfig(I2C1, ENABLE);\n\n    return msg->len-count;\n}\n\nstatic rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,\n                                   rt_uint8_t                addr,\n                                   rt_int32_t                retries)\n{\n\n    stm32_dbg(\"send_address\\n\");\n    /* Test on EV5 and clear it */\n    while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));  \n\n    /* Send EEPROM address for write */\n    I2C_Send7bitAddress(I2C1, addr, I2C_Direction_Transmitter);\n\n    /* Test on EV6 and clear it */\n    //while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));\n\n    /* Send the EEPROM's internal address to write to */\n    //I2C_SendData(I2C1, addr);\n\n    return 0;\n}\n\nstatic rt_err_t i2c_stm32_send_address(struct rt_i2c_bus_device *bus,\n                                     struct rt_i2c_msg        *msg)\n{\n    rt_uint16_t flags = msg->flags;\n    rt_uint16_t ignore_nack = msg->flags & RT_I2C_IGNORE_NACK;\n    struct rt_i2c_stm32_ops *ops = bus->priv;\n\n    rt_uint8_t addr1;\n    rt_int32_t retries;\n    rt_err_t ret;\n\n    retries = ignore_nack ? 0 : bus->retries;\n    stm32_dbg(\"send addr:retries=%d\\n\", retries);\n/*\n    if (flags & RT_I2C_ADDR_10BIT)\n    {\n        addr1 = 0xf0 | ((msg->addr >> 7) & 0x06);\n        addr2 = msg->addr & 0xff;\n\n        stm32_dbg(\"addr1: %d, addr2: %d\\n\", addr1, addr2);\n\n        ret = i2c_send_address(bus, addr1, retries);\n        if ((ret != 1) && !ignore_nack)\n        {\n            stm32_dbg(\"NACK: sending first addr\\n\");\n\n            return -RT_EIO;\n        }\n\n        ret = i2c_writeb(bus, addr2);\n        if ((ret != 1) && !ignore_nack)\n        {\n            stm32_dbg(\"NACK: sending second addr\\n\");\n\n            return -RT_EIO;\n        }\n        if (flags & RT_I2C_RD)\n        {\n            stm32_dbg(\"send repeated start condition\\n\");\n            i2c_restart(ops);\n            addr1 |= 0x01;\n            ret = i2c_send_address(bus, addr1, retries);\n            if ((ret != 1) && !ignore_nack)\n            {\n                stm32_dbg(\"NACK: sending repeated addr\\n\");\n\n                return -RT_EIO;\n            }\n        }\n    } */\n	if (!(flags & RT_I2C_ADDR_10BIT))\n    {\n        /* 7-bit addr */\n        addr1 = msg->addr << 1;\n        if (flags & RT_I2C_RD)\n            addr1 |= 1;\n        ret = i2c_send_address(bus, addr1, retries);\n        if ((ret != 1) && !ignore_nack)\n            return -RT_EIO;\n    }\n\n    return RT_EOK;\n}\n\nstatic rt_size_t i2c_stm32_xfer(struct rt_i2c_bus_device *bus,\n                              struct rt_i2c_msg         msgs[],\n                              rt_uint32_t               num)\n{\n    struct rt_i2c_msg *msg;\n    struct rt_i2c_stm32_ops *ops = bus->priv;\n    rt_int32_t i, ret;\n    rt_uint16_t ignore_nack;\n\n    stm32_dbg(\"send start condition\\n\");\n    i2c_start(ops);\n    for (i = 0; i < num; i++)\n    {\n        msg = &msgs[i];\n        ignore_nack = msg->flags & RT_I2C_IGNORE_NACK;\n        if (!(msg->flags & RT_I2C_NO_START))\n        {\n            if (i)\n            {\n                i2c_restart(ops);\n            }\n            ret = i2c_stm32_send_address(bus, msg);\n            if ((ret != RT_EOK) && !ignore_nack)\n            {\n                stm32_err(\"receive NACK from device addr 0x%02x msg %d\\n\",\n                        msgs[i].addr, i);\n                goto out;\n            }\n        }\n        if (msg->flags & RT_I2C_RD)\n        {\n            ret = i2c_recv_bytes(bus, msg);\n            if (ret >= 1)\n                stm32_dbg(\"read %d byte%s\\n\", ret, ret == 1 ? \"\" : \"s\");\n            if (ret < msg->len)\n            {\n                if (ret >= 0)\n                    ret = -RT_EIO;\n                goto out;\n            }\n        }\n        else\n        {\n            ret = i2c_send_bytes(bus, msg);\n            if (ret >= 1)\n                stm32_dbg(\"write %d byte%s\\n\", ret, ret == 1 ? \"\" : \"s\");\n            if (ret < msg->len)\n            {\n                if (ret >= 0)\n                {\n                    stm32_err(\"send bytes:i=%d,err=%d\\n\",i,ret);\n                    ret = -RT_ERROR;\n                }    \n                goto out;\n            }\n        }\n    }\n    ret = i;\n\nout:\n    stm32_dbg(\"send stop condition\\n\");\n    i2c_stop(ops);\n\n    return ret;\n}\n\nstatic const struct rt_i2c_bus_device_ops i2c_stm32_bus_ops =\n{\n    i2c_stm32_xfer,\n    RT_NULL,\n    RT_NULL\n};\n\n/*\n * 函数名：I2C_GPIO_Config\n * 描述  ：I2C1 I/O配置\n * 输入  ：无\n * 输出  ：无\n * 调用  ：内部调用\n */\nstatic void I2C_GPIO_Config(void)\n{\n  GPIO_InitTypeDef  GPIO_InitStructure; \n\n	/* 使能与 I2C1 有关的时钟 */\n	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1,ENABLE);  \n    \n  /* PB6-I2C1_SCL、PB7-I2C1_SDA*/\n  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6 | GPIO_Pin_7;\n  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;\n  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;	       // 开漏输出\n  GPIO_Init(GPIOB, &GPIO_InitStructure);\n}\n\n/*\n * 函数名：I2C_Configuration\n * 描述  ：I2C 工作模式配置\n * 输入  ：无\n * 输出  ：无\n * 调用  ：内部调用\n */\nstatic void I2C_Mode_Config(void)\n{\n  I2C_InitTypeDef  I2C_InitStructure; \n\n  /* I2C 配置 */\n  I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;\n  I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;\n  I2C_InitStructure.I2C_OwnAddress1 = I2C1_SLAVE_ADDRESS7;\n  I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;\n  I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;\n  I2C_InitStructure.I2C_ClockSpeed = I2C_Speed;\n  \n  /* 使能 I2C1 */\n  I2C_Cmd(I2C1, ENABLE);\n\n  /* I2C1 初始化 */\n  I2C_Init(I2C1, &I2C_InitStructure);\n\n	/*允许1字节1应答模式*/\n  I2C_AcknowledgeConfig(I2C1, ENABLE);    \n}\n\nstruct rt_i2c_bus_device stm32_bus;\nconst char stm32_bus_name[] = \"I2C1\";\n\nrt_err_t rt_i2c_stm32_add_bus(void)\n{\n  struct rt_i2c_stm32_ops *stm32_ops = stm32_bus.priv;\n  //RT_ASSERT(stm32_ops != RT_NULL);\n\n  rt_i2c_core_init();\n\n  stm32_bus.ops = &i2c_stm32_bus_ops;\n\n  I2C_GPIO_Config(); \n\n  I2C_Mode_Config();\n\n\n  stm32_dbg(\"add_bus:%s\\n\", stm32_bus_name);\n  return rt_i2c_bus_device_register(&stm32_bus, stm32_bus_name);\n}\n\n\n",
-			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
-			"file_size": 10037,
-			"file_write_time": 130101273564062500,
+			"file": "components/drivers/i2c/i2c_dev.c",
 			"settings":
 			{
-				"buffer_size": 9517,
+				"buffer_size": 3576,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/drivers/include/drivers/i2c.h",
+			"settings":
+			{
+				"buffer_size": 2924,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/device.c",
+			"settings":
+			{
+				"buffer_size": 10056,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "bsp/stm32f10x/application.c",
+			"settings":
+			{
+				"buffer_size": 3754,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "bsp/stm32f10x/i2c.c",
+			"settings":
+			{
+				"buffer_size": 3111,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+			"settings":
+			{
+				"buffer_size": 9595,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/drivers/i2c/i2c_core.c",
+			"settings":
+			{
+				"buffer_size": 3459,
 				"line_ending": "Windows"
 			}
 		}
@@ -66,7 +123,7 @@
 				"Snippet: input - tel"
 			]
 		],
-		"width": 424.0
+		"width": 528.0
 	},
 	"console":
 	{
@@ -83,10 +140,43 @@
 	},
 	"file_history":
 	[
-		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Default (Windows).sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/CTags/Default.sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Base File.sublime-settings",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_mutex.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_jffs2.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cjffs2%5Cdfs_jffs2.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/src/ipc.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdebug.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/jffs2/dfs_jffs2.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/include/rtdef.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/rtc/rtc.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c_dev.h",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc88xx-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc88xx-pcm.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
+		"/C/Documents and Settings/smit/桌面/tcc-pcm.c",
+		"/C/Documents and Settings/smit/桌面/tcc88xx-pcm.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/readme.txt                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Creadme.txt",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/RT.sublime-project",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtc.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/src/module.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/file/readspeed.c",
+		"/D/Program Files/SublimeText2/Data/Packages/User/Default (Windows).sublime-keymap",
+		"/D/Program Files/SublimeText2/Data/Packages/Default/Default (Windows).sublime-keymap",
 		"/D/Program Files/SublimeText2/Data/Packages/Default/Preferences.sublime-settings",
+		"/D/Program Files/SublimeText2/Data/Packages/User/Preferences.sublime-settings",
+		"/D/Program Files/SublimeText2/Data/Packages/User/C.sublime-settings",
+		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Base File.sublime-settings",
+		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Default (Windows).sublime-keymap",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/at91sam9260/led.c",
+		"/D/Program Files/SublimeText2/Data/Packages/CTags/Default.sublime-keymap",
 		"/D/Program Files/SublimeText2/Data/Packages/Package Control/Package Control.sublime-settings",
 		"/D/Program Files/SublimeText2/Data/Packages/Tag/Tag Package.sublime-settings",
 		"/D/Program Files/SublimeText2/Data/Packages/User/Tag Package.sublime-settings",
@@ -94,11 +184,6 @@
 		"/C/Documents and Settings/smit/桌面/C12.txt",
 		"/D/Program Files/SublimeText2/Data/Packages/CTags/Default.sublime-mousemap",
 		"/D/Program Files/SublimeText2/Data/Packages/CTags/CTags.sublime-settings",
-		"/D/Program Files/SublimeText2/Data/Packages/Default/Default (Windows).sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/User/Default (Windows).sublime-keymap",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/RT.sublime-project",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/led.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c",
@@ -117,6 +202,11 @@
 		"height": 90.0,
 		"where_history":
 		[
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h,*.c",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c,*.h",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,-*.c",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread"
 		]
 	},
@@ -125,12 +215,38 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"i2c_stop",
+			"rt_application_init",
+			"rt_init_thread_entry",
+			"RT_OBJECT_HOOK_CALL",
+			"rt_ipc_object_init",
+			"IPC",
+			"jffs2_lock",
+			"rt_mutex_take",
+			"RT_DEBUG_IPC",
+			"RT_DEBUG_LOG",
+			"rt_mutex_init",
+			"RT_EOK",
+			"rt_err_t",
+			"rt_mutex_init",
+			"i2c_core_lock",
+			"rt_i2c_core_init",
+			"rt_device_register",
+			"rt_i2c_bus_device_device_init",
+			"RT_I2C_DEBUG",
+			"i2c_dbg",
+			"rt_i2c_bus_device_register",
+			"rt_i2c_stm32_add_bus",
+			"gpio",
+			"yp",
+			"rt_device_open",
+			"indent",
 			"I2C_GenerateSTART",
 			"GPIO_Init",
 			"I2C_GPIO_Config"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -145,23 +261,171 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+					"file": "components/drivers/i2c/i2c_dev.c",
 					"settings":
 					{
-						"buffer_size": 9517,
+						"buffer_size": 3576,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2455,
-								2326
+								2647,
+								2662
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1138.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "components/drivers/include/drivers/i2c.h",
+					"settings":
+					{
+						"buffer_size": 2924,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1743,
+								1755
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/device.c",
+					"settings":
+					{
+						"buffer_size": 10056,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7923,
+								7923
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4170.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "bsp/stm32f10x/application.c",
+					"settings":
+					{
+						"buffer_size": 3754,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3054,
+								3074
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 465.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "bsp/stm32f10x/i2c.c",
+					"settings":
+					{
+						"buffer_size": 3111,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2700,
+								2700
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 25.0,
+						"translation.y": 945.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+					"settings":
+					{
+						"buffer_size": 9595,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1296,
+								1296
 							]
 						],
 						"settings":
@@ -173,7 +437,37 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1035.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "components/drivers/i2c/i2c_core.c",
+					"settings":
+					{
+						"buffer_size": 3459,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2089,
+								2089
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

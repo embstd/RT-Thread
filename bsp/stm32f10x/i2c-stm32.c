@@ -26,9 +26,9 @@
 
 
 #if 1
-#define stm32_dbg(fmt, ...)   do{rt_kprintf("stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)
+#define stm32_dbg(fmt, ...)   do{rt_kprintf("stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
 #endif
-#define stm32_err(fmt, ...)   do{rt_kprintf("[ERR] stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(1)
+#define stm32_err(fmt, ...)   do{rt_kprintf("[ERR] stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
 
 struct rt_i2c_stm32_ops
 {
@@ -357,10 +357,16 @@ const char stm32_bus_name[] = "I2C1";
 
 rt_err_t rt_i2c_stm32_add_bus(void)
 {
+  rt_err_t ret;
   struct rt_i2c_stm32_ops *stm32_ops = stm32_bus.priv;
   //RT_ASSERT(stm32_ops != RT_NULL);
 
-  rt_i2c_core_init();
+  ret=rt_i2c_core_init();
+  if (ret != RT_EOK)
+  {
+    stm32_err("core_init err.\n");
+    return RT_ERROR;
+  }
 
   stm32_bus.ops = &i2c_stm32_bus_ops;
 

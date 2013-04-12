@@ -177,3 +177,9 @@
 // #define RT_USING_BSP_CMSIS
 
 #endif
+
+
+// Debug Info 
+#define RT_I2C_DEBUG
+//#define RT_DEBUG_IPC 1
+// Debug Info END
