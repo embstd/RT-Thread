@@ -37,32 +37,32 @@
 rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data)
 {
     struct rt_i2c_priv_data i2c_priv_data;
-    struct rt_i2c_msg i2c_msg, i2c_msg2;
+    struct rt_i2c_msg i2c_msg[2];
     rt_uint8_t i2c_data[10];
     rt_device_t device;
     rt_err_t ret = -RT_ERROR;
 
-    device = rt_device_find("I2C1");
+    device = rt_device_find("I2C");
     if (device == RT_NULL)
     {
-        i2c_err("Can't find I2C1 device.\n");
+        i2c_err("Can't find I2C device.\n");
         return -RT_ERROR;
     }
 
     // Write Action
-    i2c_msg.addr=addr;
-    i2c_msg.flags=RT_I2C_WR;
-    i2c_msg.len=2;
+    i2c_msg[0].addr=addr;
+    i2c_msg[0].flags=RT_I2C_WR;
+    i2c_msg[0].len=2;
     i2c_data[0]=reg;
     i2c_data[1]=data;
-    i2c_msg.buf=i2c_data;
+    i2c_msg[0].buf=i2c_data;
 
-    i2c_priv_data.msgs=&i2c_msg;
+    i2c_priv_data.msgs=i2c_msg;
     i2c_priv_data.number=1;
   
     if (rt_device_open(device, 0) == RT_EOK)
     {
-        i2c_dbg("ioctl... send msg addr=0x%x, len=%d, reg=0x%d,  data=0x%x\n",i2c_msg.addr, i2c_msg.len, i2c_data[0], i2c_data[1]);
+        i2c_dbg("ioctl... send msg addr=0x%x, len=%d, reg=0x%d,  data=0x%x\n",i2c_msg[0].addr, i2c_msg[0].len, i2c_data[0], i2c_data[1]);
         rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);
         rt_device_close(device);
     }
@@ -75,19 +75,19 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
 
     // Read Action
     // Write reg addr msg
-    i2c_msg.addr=addr;
-    i2c_msg.flags=RT_I2C_WR;
-    i2c_msg.len=1;
+    i2c_msg[0].addr=addr;
+    i2c_msg[0].flags=RT_I2C_WR;
+    i2c_msg[0].len=1;
     i2c_data[0]=reg;
-    i2c_msg.buf=i2c_data;
+    i2c_msg[0].buf=i2c_data;
     // Read data msg
-    i2c_msg2.addr=addr;
-    i2c_msg2.flags=RT_I2C_RD;
-    i2c_msg2.len=1;
+    i2c_msg[1].addr=addr;
+    i2c_msg[1].flags=RT_I2C_RD;
+    i2c_msg[1].len=1;
     i2c_data[1]=0;
-    i2c_msg2.buf=&i2c_data[1];
+    i2c_msg[1].buf=&i2c_data[1];
 
-    i2c_priv_data.msgs=&i2c_msg;
+    i2c_priv_data.msgs=i2c_msg;
     i2c_priv_data.number=2;
   
     if (rt_device_open(device, 0) == RT_EOK)

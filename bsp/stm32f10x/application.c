@@ -47,29 +47,37 @@
 
 ALIGN(RT_ALIGN_SIZE)
 static rt_uint8_t led_stack[ 512 ];
+
+#define EEPROM_Block0_ADDRESS 0xA0
+
 static struct rt_thread led_thread;
 static void led_thread_entry(void* parameter)
 {
     unsigned int count=0;
+    int i;
 
     rt_hw_led_init();
 
     while (1)
-    {
-        /* led1 on */
-#ifndef RT_USING_FINSH
-        rt_kprintf("led on, count : %d\r\n",count);
-#endif
-        count++;
-        //rt_hw_led_on(0);
-        rt_thread_delay( RT_TICK_PER_SECOND/2 ); /* sleep 0.5 second and switch to other thread */
-
-        /* led1 off */
-#ifndef RT_USING_FINSH
-        rt_kprintf("led off\r\n");
-#endif
-        //rt_hw_led_off(0);
-        rt_thread_delay( RT_TICK_PER_SECOND/2 );
+    { 
+    	//Key GPIOE_14, LED GPIOE_0
+    	if (!gpio(4, 14, 0, 0)) //Key Down
+    	{
+    		/* code */
+    		for(i=3; i>0; i--)
+    		{
+    			gpio(4,0,1,0); //LED ON
+    			rt_thread_delay(RT_TICK_PER_SECOND/2);
+    			gpio(4,0,1,1); //LED OFF
+    			rt_thread_delay(RT_TICK_PER_SECOND/2);
+    		}
+    		gpio(4,0,1,0); //LED ON
+    		i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF0);
+    	}
+    	else
+    	{
+    		gpio(4,0,1,1); //LED OFF
+    	}
     }
 }
 
