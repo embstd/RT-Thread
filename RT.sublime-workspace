@@ -4,8 +4,32 @@
 		"selected_items":
 		[
 			[
+				"la",
+				"last_event"
+			],
+			[
+				"add",
+				"addr"
+			],
+			[
+				"rt",
+				"rt_kprintf"
+			],
+			[
+				"u",
+				"uint32_t"
+			],
+			[
+				"nu",
+				"num_data"
+			],
+			[
 				"stm",
-				"stm32_err"
+				"stm32_i2c_check_timeout"
+			],
+			[
+				"rt_",
+				"rt_thread_delay"
 			],
 			[
 				"i2",
@@ -40,10 +64,36 @@
 			}
 		},
 		{
-			"file": "src/device.c",
+			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
 			"settings":
 			{
-				"buffer_size": 10056,
+				"buffer_size": 10558,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 1939 files for \"I2C_EVENT_MASTER_BYTE_TRANSMITTED\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n   67  {\n   68    /* Test on EV8 and clear it */\n   69:   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n   70:   stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT,\"i2c_stop\");\n   71    /* Send STOP condition */\n   72    I2C_GenerateSTOP(I2C_BUS_NUM, ENABLE);\n   ..\n   92    stm32_dbg(\"send_bytes, len=%d\\n\", msg->len);\n   93    /* Test on EV8 and clear it */\n   94:   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n   95:   stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT,\"i2c_send_bytes\");\n   96    \n   97    while (count < msg->len) \n   ..\n  105  \n  106    /* Test on EV8 and clear it */\n  107:     //while (!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n  108:     stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, \"i2c_send_bytes ing\");\n  109    \n  110      count ++; \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\n15 matches across 7 files\n\n\nSearching 1939 files for \"I2C_CheckEvent\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  572   *  \n  573   * 1) Basic state monitoring:\n  574:  *    Using I2C_CheckEvent() function:\n  575   *    It compares the status registers (SR1 and SR2) content to a given event\n  576   *    (can be the combination of one or more flags).\n  ...\n  584   *    - Limitations:\n  585   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  586:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  587   *        hold or corrupted real state. \n  588   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  611   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  612   *       - This function is suitable when multiple flags are monitored at the same time.\n  613:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  614   *         choose when an event is accepted (when all events flags are set and no \n  615   *         other flags are set or just when the needed flags are set like \n  616:  *         I2C_CheckEvent() function).\n  617   *     - Limitations:\n  618   *       - User may need to define his own events.\n  ...\n  643   *******************************************************************************\n  644   */\n  645: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT);\n  646  /**\n  647   * \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n  919   *  \n  920   * 1) Basic state monitoring:\n  921:  *    Using I2C_CheckEvent() function:\n  922   *    It compares the status registers (SR1 and SR2) content to a given event\n  923   *    (can be the combination of one or more flags).\n  ...\n  931   *    - Limitations:\n  932   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  933:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  934   *        hold or corrupted real state. \n  935   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  958   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  959   *       - This function is suitable when multiple flags are monitored at the same time.\n  960:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  961   *         choose when an event is accepted (when all events flags are set and no \n  962   *         other flags are set or just when the needed flags are set like \n  963:  *         I2C_CheckEvent() function).\n  964   *     - Limitations:\n  965   *       - User may need to define his own events.\n  ...\n 1028    * - ERROR: Last event is different from the I2C_EVENT\n 1029    */\n 1030: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT)\n 1031  {\n 1032    uint32_t lastevent = 0;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n   41    {\n   42      rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */\n   43:     if(I2C_CheckEvent(I2Cx, I2C_EVENT))\n   44      {\n   45        return RT_EOK;    \n   ..\n   67  {\n   68    /* Test on EV8 and clear it */\n   69:   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n   70    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT,\"i2c_stop\");\n   71    /* Send STOP condition */\n   ..\n  105  \n  106    /* Test on EV8 and clear it */\n  107:     //while (!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n  108      stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, \"i2c_send_bytes ing\");\n  109    \n  ...\n  147  \n  148  /* Test on EV7 and clear it */\n  149:     //if(I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED))  \n  150      if(!stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED, TIMEOUT, \"i2c_recv_bytes\"))\n  151      {      \n  ...\n  172    stm32_dbg(\"send_address:0x%x\\n\", addr);\n  173      /* Test on EV5 and clear it */\n  174:   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT));  \n  175    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT, \"i2c_send_address\");\n  176    \n  ...\n  186  \n  187      /* Test on EV6 and clear it */\n  188:     //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));\n  189  \n  190      /* Send the EEPROM's internal address to write to */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  572   *  \n  573   * 1) Basic state monitoring:\n  574:  *    Using I2C_CheckEvent() function:\n  575   *    It compares the status registers (SR1 and SR2) content to a given event\n  576   *    (can be the combination of one or more flags).\n  ...\n  584   *    - Limitations:\n  585   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  586:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  587   *        hold or corrupted real state. \n  588   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  611   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  612   *       - This function is suitable when multiple flags are monitored at the same time.\n  613:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  614   *         choose when an event is accepted (when all events flags are set and no \n  615   *         other flags are set or just when the needed flags are set like \n  616:  *         I2C_CheckEvent() function).\n  617   *     - Limitations:\n  618   *       - User may need to define his own events.\n  ...\n  643   *******************************************************************************\n  644   */\n  645: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT);\n  646  /**\n  647   * \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n  919   *  \n  920   * 1) Basic state monitoring:\n  921:  *    Using I2C_CheckEvent() function:\n  922   *    It compares the status registers (SR1 and SR2) content to a given event\n  923   *    (can be the combination of one or more flags).\n  ...\n  931   *    - Limitations:\n  932   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  933:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  934   *        hold or corrupted real state. \n  935   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  958   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  959   *       - This function is suitable when multiple flags are monitored at the same time.\n  960:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  961   *         choose when an event is accepted (when all events flags are set and no \n  962   *         other flags are set or just when the needed flags are set like \n  963:  *         I2C_CheckEvent() function).\n  964   *     - Limitations:\n  965   *       - User may need to define his own events.\n  ...\n 1028    * - ERROR: Last event is different from the I2C_EVENT\n 1029    */\n 1030: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT)\n 1031  {\n 1032    uint32_t lastevent = 0;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  572   *  \n  573   * 1) Basic state monitoring:\n  574:  *    Using I2C_CheckEvent() function:\n  575   *    It compares the status registers (SR1 and SR2) content to a given event\n  576   *    (can be the combination of one or more flags).\n  ...\n  584   *    - Limitations:\n  585   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  586:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  587   *        hold or corrupted real state. \n  588   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  611   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  612   *       - This function is suitable when multiple flags are monitored at the same time.\n  613:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  614   *         choose when an event is accepted (when all events flags are set and no \n  615   *         other flags are set or just when the needed flags are set like \n  616:  *         I2C_CheckEvent() function).\n  617   *     - Limitations:\n  618   *       - User may need to define his own events.\n  ...\n  643   *******************************************************************************\n  644   */\n  645: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT);\n  646  /**\n  647   * \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n  919   *  \n  920   * 1) Basic state monitoring:\n  921:  *    Using I2C_CheckEvent() function:\n  922   *    It compares the status registers (SR1 and SR2) content to a given event\n  923   *    (can be the combination of one or more flags).\n  ...\n  931   *    - Limitations:\n  932   *      - If an error occurs (ie. error flags are set besides to the monitored flags),\n  933:  *        the I2C_CheckEvent() function may return SUCCESS despite the communication\n  934   *        hold or corrupted real state. \n  935   *        In this case, it is advised to use error interrupts to monitor the error\n  ...\n  958   *         library (stm32f10x_i2c.h) or to custom values defined by user.\n  959   *       - This function is suitable when multiple flags are monitored at the same time.\n  960:  *       - At the opposite of I2C_CheckEvent() function, this function allows user to\n  961   *         choose when an event is accepted (when all events flags are set and no \n  962   *         other flags are set or just when the needed flags are set like \n  963:  *         I2C_CheckEvent() function).\n  964   *     - Limitations:\n  965   *       - User may need to define his own events.\n  ...\n 1028    * - ERROR: Last event is different from the I2C_EVENT\n 1029    */\n 1030: ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT)\n 1031  {\n 1032    uint32_t lastevent = 0;\n\n36 matches across 7 files\n\n\nSearching 1939 files for \"I2C_EVENT_MASTER_BYTE_TRANSMITTED\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n   69  {\n   70    /* Test on EV8 and clear it */\n   71:   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n   72:   stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT,\"i2c_stop\");\n   73    /* Send STOP condition */\n   74    I2C_GenerateSTOP(I2C_BUS_NUM, ENABLE);\n   ..\n   95    /* Test on EV8 and clear it */\n   96    \n   97:   stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT,\"i2c_send_bytes\");\n   98    \n   99    while (count < msg->len) \n  ...\n  107  \n  108    /* Test on EV8 and clear it */\n  109:     //while (!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));\n  110:     stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, \"i2c_send_bytes ing\");\n  111    \n  112      count ++; \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  387  #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389: #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  390  \n  391  \n  ...\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n 1022    *     \n\n14 matches across 7 files\n\n\nSearching 1939 files for \"I2C_EVENT_MASTER_BYTE_TRANSMITTING\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  385  /* Master TRANSMITTER mode --------------------------*/\n  386  /* --EV8 */\n  387: #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389  #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  ...\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n  495                               ((EVENT) == I2C_EVENT_SLAVE_ACK_FAILURE))\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  385  /* Master TRANSMITTER mode --------------------------*/\n  386  /* --EV8 */\n  387: #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389  #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  ...\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n  495                               ((EVENT) == I2C_EVENT_SLAVE_ACK_FAILURE))\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  385  /* Master TRANSMITTER mode --------------------------*/\n  386  /* --EV8 */\n  387: #define I2C_EVENT_MASTER_BYTE_TRANSMITTING                 ((uint32_t)0x00070080) /* TRA, BUSY, MSL, TXE flags */\n  388  /* --EV8_2 */\n  389  #define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */\n  ...\n  491                               ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n  494                               ((EVENT) == I2C_EVENT_MASTER_MODE_ADDRESS10) || \\\n  495                               ((EVENT) == I2C_EVENT_SLAVE_ACK_FAILURE))\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018    *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019:   *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n 1021    *     @arg I2C_EVENT_MASTER_MODE_ADDRESS10                       : EV9\n\n9 matches across 6 files\n",
+			"settings":
+			{
+				"buffer_size": 24500,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+			"settings":
+			{
+				"buffer_size": 44450,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+			"settings":
+			{
+				"buffer_size": 29345,
 				"line_ending": "Windows"
 			}
 		},
@@ -51,7 +101,7 @@
 			"file": "bsp/stm32f10x/application.c",
 			"settings":
 			{
-				"buffer_size": 3754,
+				"buffer_size": 3978,
 				"line_ending": "Windows"
 			}
 		},
@@ -59,23 +109,7 @@
 			"file": "bsp/stm32f10x/i2c.c",
 			"settings":
 			{
-				"buffer_size": 3111,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
-			"settings":
-			{
-				"buffer_size": 9595,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "components/drivers/i2c/i2c_core.c",
-			"settings":
-			{
-				"buffer_size": 3459,
+				"buffer_size": 3201,
 				"line_ending": "Windows"
 			}
 		}
@@ -140,15 +174,47 @@
 	},
 	"file_history":
 	[
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/13-野火M3-IIC/野火M3-IIC/USER/main.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/board.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/README.txt                D%3A%5CSoftware%5Ctools_win_4.0_v10%5Ctools_win%5CREADME.txt",
+		"/D/Software/tools_win_4.0_v10/tools_win/README.txt",
+		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/13-野火M3-IIC/野火M3-IIC/USER/i2c_ee.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/mm.c",
+		"/C/Documents and Settings/smit/桌面/reg.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/src/dfs_file.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_wwdg.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitattributes",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/enc28j60.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cenc28j60.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/enc28j60.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/components/finsh/finsh_token.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/led.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/usart.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/drivers/usart.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/console.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/src/device.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/application.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Capplication.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtthread.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/application.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_mutex.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_jffs2.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cjffs2%5Cdfs_jffs2.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/src/ipc.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdebug.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/jffs2/dfs_jffs2.c",
@@ -161,7 +227,6 @@
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
 		"/C/Documents and Settings/smit/桌面/tcc-pcm.c",
 		"/C/Documents and Settings/smit/桌面/tcc88xx-pcm.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/readme.txt                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Creadme.txt",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/RT.sublime-project",
@@ -184,8 +249,6 @@
 		"/C/Documents and Settings/smit/桌面/C12.txt",
 		"/D/Program Files/SublimeText2/Data/Packages/CTags/Default.sublime-mousemap",
 		"/D/Program Files/SublimeText2/Data/Packages/CTags/CTags.sublime-settings",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/led.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/at91sam9260/at91_i2c_gpio.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/proj/RTT_LED.map",
@@ -215,6 +278,64 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"i2c_stop",
+			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
+			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
+			"I2C_CheckEvent",
+			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
+			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
+			"i2c_send_bytes",
+			"stm32_i2c_check_timeout",
+			"i2c_send_bytes",
+			"i2c_start",
+			"i2c_restart",
+			"I2C_Send7bitAddress",
+			"I2C_Direction_Transmitter",
+			"I2C_Direction_",
+			"I2C_Direction_Receiver",
+			"I2C_Cmd",
+			"I2C_AcknowledgeConfig",
+			"i2c_recv_bytes",
+			"I2C_Speed",
+			"I2C1",
+			"I2C_BUS_NUM",
+			"rt_i2c_stm32_add_bus",
+			"I2C_Mode_I2C",
+			"GPIO_Remap_I2C1",
+			"GPIO_Mode_AF_OD",
+			"CFR_EWI_BB",
+			"PERIPH_BB_BASE",
+			"I2S3_CLOCK_SRC",
+			"TIM2",
+			"TIM2_BASE",
+			"WWDG",
+			"CFR_EWI_BB",
+			"WWDG_OFFSET",
+			"EEPROM_ADDRESS",
+			"CFR_EWI_BB",
+			"FINSH_FUNCTION_EXPORT",
+			"case",
+			"switch",
+			"UART2_GPIO_RX",
+			"GPIO_Init",
+			"i2c_send_bytes",
+			"send_address",
+			"I2C_CheckEvent",
+			"I2C_EE_WaitEepromStandbyState",
+			"I2C_EE_PageWrite",
+			"I2C_EE_ByteWrite",
+			"I2C_PageSize",
+			"I2C1",
+			"rt_i2c_priv_data",
+			"led_thread_entry",
+			"rt_thread_delay",
+			"RT_ERR",
+			"delay",
+			"i2c_stop",
+			"I2C_GenerateSTOP",
+			"I2C_CheckEvent",
+			"i2c_stm32_send_address",
+			"i2c_start",
 			"i2c_stop",
 			"rt_application_init",
 			"rt_init_thread_entry",
@@ -251,6 +372,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"I2C_BUS_NUM"
 		],
 		"reverse": true,
 		"show_context": true,
@@ -261,7 +383,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -276,8 +398,8 @@
 						"selection":
 						[
 							[
-								2647,
-								2662
+								2679,
+								2683
 							]
 						],
 						"settings":
@@ -289,7 +411,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1138.0,
+						"translation.y": 1260.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -318,114 +440,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/device.c",
-					"settings":
-					{
-						"buffer_size": 10056,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7923,
-								7923
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4170.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "bsp/stm32f10x/application.c",
-					"settings":
-					{
-						"buffer_size": 3754,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3054,
-								3074
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 465.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "bsp/stm32f10x/i2c.c",
-					"settings":
-					{
-						"buffer_size": 3111,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2700,
-								2700
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 25.0,
-						"translation.y": 945.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
 					"settings":
 					{
-						"buffer_size": 9595,
+						"buffer_size": 10558,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1296,
-								1296
+								7669,
+								7669
 							]
 						],
 						"settings":
@@ -437,25 +470,447 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2482.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "components/drivers/i2c/i2c_core.c",
+					"buffer": 3,
 					"settings":
 					{
-						"buffer_size": 3459,
+						"buffer_size": 24500,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										325,
+										358
+									],
+									[
+										688,
+										721
+									],
+									[
+										1189,
+										1222
+									],
+									[
+										1503,
+										1536
+									],
+									[
+										1586,
+										1619
+									],
+									[
+										1871,
+										1904
+									],
+									[
+										1954,
+										1987
+									],
+									[
+										2164,
+										2197
+									],
+									[
+										2249,
+										2282
+									],
+									[
+										2612,
+										2645
+									],
+									[
+										2975,
+										3008
+									],
+									[
+										3476,
+										3509
+									],
+									[
+										3884,
+										3917
+									],
+									[
+										4247,
+										4280
+									],
+									[
+										4734,
+										4767
+									],
+									[
+										5137,
+										5151
+									],
+									[
+										5458,
+										5472
+									],
+									[
+										5887,
+										5901
+									],
+									[
+										6133,
+										6147
+									],
+									[
+										6372,
+										6386
+									],
+									[
+										6623,
+										6637
+									],
+									[
+										6944,
+										6958
+									],
+									[
+										7373,
+										7387
+									],
+									[
+										7619,
+										7633
+									],
+									[
+										7834,
+										7848
+									],
+									[
+										8117,
+										8131
+									],
+									[
+										8268,
+										8282
+									],
+									[
+										8545,
+										8559
+									],
+									[
+										8803,
+										8817
+									],
+									[
+										9112,
+										9126
+									],
+									[
+										9365,
+										9379
+									],
+									[
+										9685,
+										9699
+									],
+									[
+										10006,
+										10020
+									],
+									[
+										10435,
+										10449
+									],
+									[
+										10681,
+										10695
+									],
+									[
+										10920,
+										10934
+									],
+									[
+										11171,
+										11185
+									],
+									[
+										11492,
+										11506
+									],
+									[
+										11921,
+										11935
+									],
+									[
+										12167,
+										12181
+									],
+									[
+										12382,
+										12396
+									],
+									[
+										12638,
+										12652
+									],
+									[
+										12959,
+										12973
+									],
+									[
+										13388,
+										13402
+									],
+									[
+										13634,
+										13648
+									],
+									[
+										13873,
+										13887
+									],
+									[
+										14110,
+										14124
+									],
+									[
+										14431,
+										14445
+									],
+									[
+										14860,
+										14874
+									],
+									[
+										15106,
+										15120
+									],
+									[
+										15321,
+										15335
+									],
+									[
+										15771,
+										15804
+									],
+									[
+										16134,
+										16167
+									],
+									[
+										16635,
+										16668
+									],
+									[
+										16949,
+										16982
+									],
+									[
+										17032,
+										17065
+									],
+									[
+										17273,
+										17306
+									],
+									[
+										17483,
+										17516
+									],
+									[
+										17568,
+										17601
+									],
+									[
+										17931,
+										17964
+									],
+									[
+										18294,
+										18327
+									],
+									[
+										18795,
+										18828
+									],
+									[
+										19203,
+										19236
+									],
+									[
+										19566,
+										19599
+									],
+									[
+										20053,
+										20086
+									],
+									[
+										20505,
+										20539
+									],
+									[
+										20989,
+										21023
+									],
+									[
+										21480,
+										21514
+									],
+									[
+										21905,
+										21939
+									],
+									[
+										22389,
+										22423
+									],
+									[
+										22880,
+										22914
+									],
+									[
+										23291,
+										23325
+									],
+									[
+										23775,
+										23809
+									],
+									[
+										24252,
+										24286
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								20240,
+								20240
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 4,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 5820.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+					"settings":
+					{
+						"buffer_size": 44450,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2089,
-								2089
+								35334,
+								35334
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 15523.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+					"settings":
+					{
+						"buffer_size": 29345,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15348,
+								15382
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5430.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "bsp/stm32f10x/application.c",
+					"settings":
+					{
+						"buffer_size": 3978,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1507,
+								1513
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1215.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "bsp/stm32f10x/i2c.c",
+					"settings":
+					{
+						"buffer_size": 3201,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2465,
+								2465
 							]
 						],
 						"settings":
@@ -467,7 +922,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 796.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -508,7 +963,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
