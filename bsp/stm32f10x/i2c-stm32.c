@@ -19,11 +19,9 @@
 #include <i2c.h>
 #include <i2c_dev.h>
 
-#define EEPROM_ADDRESS 0xA0
-
-#define I2C_Speed              400000
-#define I2C_BUS_NUM_SLAVE_ADDRESS7    0xA0
-#define I2C_BUS_NUM   I2C2   //I2C1, I2C2
+#define I2C_Speed              100000
+#define I2C_BUS_NUM_SLAVE_ADDRESS7    0x61
+#define I2C_BUS_NUM   I2C1   //I2C1, I2C2
 
 #if 1
 #define stm32_dbg(fmt, ...)   do{rt_kprintf("stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
@@ -35,10 +33,11 @@ struct rt_i2c_stm32_ops
     void *data;            /* private data for lowlevel routines */
 };
 
-#define TIMEOUT 5
-static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, int to)
+#define TIMEOUT 10
+static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, int to, char * msg)
 {
- 
+    uint32_t last_event;
+
   for(; to > 0; to--)
   {
     rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */
@@ -47,27 +46,28 @@ static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, i
       return RT_EOK;    
     }
   }
-  stm32_err("Time out to check event 0x%x .\n", I2C_EVENT);
+  last_event=I2C_GetLastEvent(I2Cx);
+  stm32_err("[%s] Time out to check event 0x%x vs last_event[0x%x] .\n", msg, I2C_EVENT, last_event);
   return RT_ERROR;
 }
 
 static void i2c_start(struct rt_i2c_stm32_ops *ops)
 {
+    stm32_dbg("send start condition\n");
   /* Send STRAT condition */
     I2C_GenerateSTART(I2C_BUS_NUM, ENABLE);
 }
 
 static void i2c_restart(struct rt_i2c_stm32_ops *ops)
 {
+    stm32_dbg("send re-start condition\n");
     /* Send STRAT condition */
     I2C_GenerateSTART(I2C_BUS_NUM, ENABLE);  
 }
 
 static void i2c_stop(struct rt_i2c_stm32_ops *ops)
 {
-  /* Test on EV8 and clear it */
-  //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT);
+  stm32_dbg("send stop condition\n");
   /* Send STOP condition */
   I2C_GenerateSTOP(I2C_BUS_NUM, ENABLE);
 }
@@ -86,15 +86,16 @@ static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,
   //rt_int32_t ret;
   //rt_size_t bytes = 0;
   const rt_uint8_t *ptr = msg->buf;
-  rt_int32_t count = msg->len;
+  rt_int32_t count =0;
   rt_uint16_t ignore_nack = msg->flags & RT_I2C_IGNORE_NACK;
 
-  stm32_dbg("send_bytes, len=%d\n", count);
-  /* Test on EV8 and clear it */
-  //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT);
-  
-  while (count --) 
+  stm32_dbg("send_bytes, len=%d\n", msg->len);
+
+
+/* Test on EV6 and clear it */ 
+  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED, TIMEOUT,"i2c_send_bytes");
+
+  while (count < msg->len) 
   {
     stm32_dbg("send_bytes: count=%d, data=0x%x\n",count,*ptr);
   /* Send the current byte */
@@ -105,10 +106,12 @@ static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,
 
   /* Test on EV8 and clear it */
     //while (!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT);
+    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, "i2c_send_bytes ing");
+  
+    count ++; 
   };
 
-  return msg->len-count;
+  return count;
 }
 
 static rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)
@@ -126,11 +129,11 @@ static rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,
   rt_int32_t val;
   rt_int32_t bytes        = 0;   /* actual bytes */
   rt_uint8_t *ptr         = msg->buf;
-  rt_int32_t count        = msg->len;
+  rt_int32_t count        = 0;
   const rt_uint32_t flags = msg->flags;
   stm32_dbg("recv_bytes, len=%d\n", count);
 /* While there is data to be read */
-  while(count--)  
+  while(count < msg->len)  
   {
 
     if (!(flags & RT_I2C_NO_READ_ACK))
@@ -145,19 +148,21 @@ static rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,
 
 /* Test on EV7 and clear it */
     //if(I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED))  
-    if(!stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED, TIMEOUT))
+    if(!stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED, TIMEOUT, "i2c_recv_bytes"))
     {      
 /* Read a byte from the EEPROM */
       *ptr                    = I2C_ReceiveData(I2C_BUS_NUM);
 
+      stm32_dbg("recv_bytes:data[%d]=0x%x.\n",count, *ptr);
 /* Point to the next location where the byte read will be saved */
       ptr++; 
-    }   
+    } 
+    count ++;  
   }
 /* Enable Acknowledgement to be ready for another reception */
   I2C_AcknowledgeConfig(I2C_BUS_NUM, ENABLE);
 
-  return msg->len-count;
+  return count;
 }
 
 static rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,
@@ -168,9 +173,17 @@ static rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,
   stm32_dbg("send_address:0x%x\n", addr);
     /* Test on EV5 and clear it */
   //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT));  
-  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT);
+  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT, "i2c_send_address");
+  
+  if(addr&0x1)
+  {
+    /* Send EEPROM address for read */
+    I2C_Send7bitAddress(I2C_BUS_NUM, addr & 0xFE, I2C_Direction_Receiver);
+  }else
+  {
     /* Send EEPROM address for write */
-  I2C_Send7bitAddress(I2C_BUS_NUM, addr, I2C_Direction_Transmitter);
+    I2C_Send7bitAddress(I2C_BUS_NUM, addr& 0xFE, I2C_Direction_Transmitter);
+  }
 
     /* Test on EV6 and clear it */
     //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
@@ -219,7 +232,9 @@ static rt_size_t i2c_stm32_xfer(struct rt_i2c_bus_device *bus,
     rt_int32_t i, ret;
     rt_uint16_t ignore_nack;
 
-    stm32_dbg("send start condition\n");
+    /* Ê¹ÄÜ I2C_BUS_NUM */
+    I2C_Cmd(I2C_BUS_NUM, ENABLE);
+
     i2c_start(ops);
     for (i = 0; i < num; i++)
     {
@@ -270,7 +285,7 @@ static rt_size_t i2c_stm32_xfer(struct rt_i2c_bus_device *bus,
     ret = i;
 
 out:
-    stm32_dbg("send stop condition\n");
+
     i2c_stop(ops);
 
     return ret;

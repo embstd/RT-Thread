@@ -48,7 +48,7 @@
 ALIGN(RT_ALIGN_SIZE)
 static rt_uint8_t led_stack[ 512 ];
 
-#define EEPROM_Block0_ADDRESS 0xA0
+#define EEPROM_Block0_ADDRESS 0x50//0xA0
 
 static struct rt_thread led_thread;
 static void led_thread_entry(void* parameter)
@@ -72,12 +72,19 @@ static void led_thread_entry(void* parameter)
     			rt_thread_delay(RT_TICK_PER_SECOND/2);
     		}
     		gpio(4,0,1,0); //LED ON
-    		i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF0);
+    		i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF7);
     	}
     	else
     	{
     		gpio(4,0,1,1); //LED OFF
     	}
+
+
+		gpio(4,12,1,0); //IO Output ON
+		rt_thread_delay(RT_TICK_PER_SECOND/2);
+		gpio(4,12,1,1); //IO Output OFF
+		rt_thread_delay(RT_TICK_PER_SECOND/2);
+
     }
 }
 

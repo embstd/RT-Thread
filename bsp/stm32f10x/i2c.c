@@ -51,7 +51,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
 
     // Write Action
     i2c_msg[0].addr=addr;
-    i2c_msg[0].flags=RT_I2C_WR;
+    i2c_msg[0].flags=RT_I2C_WR | RT_I2C_IGNORE_NACK;
     i2c_msg[0].len=2;
     i2c_data[0]=reg;
     i2c_data[1]=data;
@@ -76,13 +76,13 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     // Read Action
     // Write reg addr msg
     i2c_msg[0].addr=addr;
-    i2c_msg[0].flags=RT_I2C_WR;
+    i2c_msg[0].flags=RT_I2C_WR | RT_I2C_IGNORE_NACK;
     i2c_msg[0].len=1;
     i2c_data[0]=reg;
     i2c_msg[0].buf=i2c_data;
     // Read data msg
     i2c_msg[1].addr=addr;
-    i2c_msg[1].flags=RT_I2C_RD;
+    i2c_msg[1].flags=RT_I2C_RD | RT_I2C_IGNORE_NACK;
     i2c_msg[1].len=1;
     i2c_data[1]=0;
     i2c_msg[1].buf=&i2c_data[1];

@@ -440,6 +440,11 @@
               <FileType>1</FileType>
               <FilePath>.\i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>mm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\mm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
