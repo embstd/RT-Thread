@@ -33,18 +33,18 @@ struct rt_i2c_stm32_ops
     void *data;            /* private data for lowlevel routines */
 };
 
-#define TIMEOUT 10
+#define TIMEOUT 5
 static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, int to, char * msg)
 {
     uint32_t last_event;
 
   for(; to > 0; to--)
-  {
-    rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */
+  {   
     if(I2C_CheckEvent(I2Cx, I2C_EVENT))
     {
       return RT_EOK;    
     }
+    rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */
   }
   last_event=I2C_GetLastEvent(I2Cx);
   stm32_err("[%s] Time out to check event 0x%x vs last_event[0x%x] .\n", msg, I2C_EVENT, last_event);
@@ -56,6 +56,8 @@ static void i2c_start(struct rt_i2c_stm32_ops *ops)
     stm32_dbg("send start condition\n");
   /* Send STRAT condition */
     I2C_GenerateSTART(I2C_BUS_NUM, ENABLE);
+      /* Test on EV5 and clear it */
+    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT, "i2c_start EV5");
 }
 
 static void i2c_restart(struct rt_i2c_stm32_ops *ops)
@@ -63,6 +65,8 @@ static void i2c_restart(struct rt_i2c_stm32_ops *ops)
     stm32_dbg("send re-start condition\n");
     /* Send STRAT condition */
     I2C_GenerateSTART(I2C_BUS_NUM, ENABLE);  
+    /* Test on EV5 and clear it */
+    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT, "i2c_restart EV5");
 }
 
 static void i2c_stop(struct rt_i2c_stm32_ops *ops)
@@ -93,7 +97,7 @@ static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,
 
 
 /* Test on EV6 and clear it */ 
-  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED, TIMEOUT,"i2c_send_bytes");
+  //stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED, TIMEOUT,"i2c_send_bytes");
 
   while (count < msg->len) 
   {
@@ -104,11 +108,17 @@ static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,
   /* Point to the next byte to be written */
     ptr++; 
 
-  /* Test on EV8 and clear it */
-    //while (!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-    stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, "i2c_send_bytes ing");
-  
-    count ++; 
+    if(count == (msg->len-1))
+    {
+        /* Test on EV8 and clear it */
+        stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTING, TIMEOUT, "i2c_send_bytes EV8");
+    }
+    else
+    {
+      /* Test on EV8_2 and clear it */
+        stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_TRANSMITTED, TIMEOUT, "i2c_send_bytes EV8_2");
+    }
+      count ++; 
   };
 
   return count;
@@ -117,9 +127,13 @@ static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,
 static rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)
 {
   if (ack)
+  {
     I2C_AcknowledgeConfig(I2C_BUS_NUM, ENABLE);
-  else
-    I2C_AcknowledgeConfig(I2C_BUS_NUM, DISABLE);
+    stm32_err("send Ack.\n");
+  }else
+  {
+     I2C_AcknowledgeConfig(I2C_BUS_NUM, DISABLE);
+  }
   return RT_EOK;
 }
 
@@ -138,7 +152,7 @@ static rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,
 
     if (!(flags & RT_I2C_NO_READ_ACK))
     {
-      val                     = i2c_send_ack_or_nack(bus, count);
+      val                     = i2c_send_ack_or_nack(bus,  msg->len - count - 1);
       if (val < 0)
       {
         stm32_err("recv_bytes:No Read Ack.\n");
@@ -170,28 +184,24 @@ static rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,
                                    rt_int32_t                retries)
 {
 
+  rt_int32_t ret;
   stm32_dbg("send_address:0x%x\n", addr);
-    /* Test on EV5 and clear it */
-  //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT));  
-  stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_MODE_SELECT,TIMEOUT, "i2c_send_address");
   
+
   if(addr&0x1)
   {
     /* Send EEPROM address for read */
     I2C_Send7bitAddress(I2C_BUS_NUM, addr & 0xFE, I2C_Direction_Receiver);
+    /* Test on EV6 and clear it */
+    ret=stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED, TIMEOUT,"i2c_send_address rEV6");
   }else
   {
     /* Send EEPROM address for write */
     I2C_Send7bitAddress(I2C_BUS_NUM, addr& 0xFE, I2C_Direction_Transmitter);
-  }
-
     /* Test on EV6 and clear it */
-    //while(!I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-
-    /* Send the EEPROM's internal address to write to */
-    //I2C_SendData(I2C_BUS_NUM, addr);
-
-  return 0;
+    ret=stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED, TIMEOUT,"i2c_send_address wEV6");
+  }
+  return ret==RT_EOK;
 }
 
 static rt_err_t i2c_stm32_send_address(struct rt_i2c_bus_device *bus,
@@ -391,6 +401,6 @@ rt_err_t rt_i2c_stm32_add_bus(void)
   I2C_Mode_Config();
 
 
-  stm32_dbg("add_bus:%s\n", stm32_bus_name);
+  stm32_dbg("add_bus:%s, bus register=0x%x\n", stm32_bus_name, I2C_BUS_NUM);
   return rt_i2c_bus_device_register(&stm32_bus, stm32_bus_name);
 }

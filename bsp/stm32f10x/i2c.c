@@ -51,7 +51,7 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
 
     // Write Action
     i2c_msg[0].addr=addr;
-    i2c_msg[0].flags=RT_I2C_WR | RT_I2C_IGNORE_NACK;
+    i2c_msg[0].flags=RT_I2C_WR ;
     i2c_msg[0].len=2;
     i2c_data[0]=reg;
     i2c_data[1]=data;
@@ -76,13 +76,13 @@ rt_err_t i2c(rt_uint32_t wr, rt_uint32_t addr, rt_uint32_t reg, rt_uint32_t data
     // Read Action
     // Write reg addr msg
     i2c_msg[0].addr=addr;
-    i2c_msg[0].flags=RT_I2C_WR | RT_I2C_IGNORE_NACK;
+    i2c_msg[0].flags=RT_I2C_WR;
     i2c_msg[0].len=1;
     i2c_data[0]=reg;
     i2c_msg[0].buf=i2c_data;
     // Read data msg
     i2c_msg[1].addr=addr;
-    i2c_msg[1].flags=RT_I2C_RD | RT_I2C_IGNORE_NACK;
+    i2c_msg[1].flags=RT_I2C_RD;
     i2c_msg[1].len=1;
     i2c_data[1]=0;
     i2c_msg[1].buf=&i2c_data[1];
@@ -107,6 +107,40 @@ l_err:
     return ret;
 }
 
+rt_err_t test_usage(void)
+{
+rt_kprintf("\n================ "
+    "0: For help\n "
+    "1: For test at24c16b IIC.\n "
+    "=======================\n");
+    return RT_EOK;
+}
+
+rt_err_t at24c16b(void)
+{
+
+    
+}
+
+rt_err_t test(rt_uint32_t op)
+{
+
+    switch(op)
+    {
+        case 0: 
+            test_usage();
+            break;
+        case 1:
+            at24c16b();
+            break;
+        default:
+            rt_kprintf("mem: Unknow option: %d\n", op);
+            return RT_ERROR;
+    }
+    return RT_EOK;
+}
+
+
 #ifdef RT_USING_FINSH
 #include <finsh.h>
 #include <rtdevice.h>
@@ -121,5 +155,5 @@ l_err:
 // FINSH_FUNCTION_EXPORT(list_date, show date and time.)
 
 FINSH_FUNCTION_EXPORT(i2c, i2c(W[0]/R[1] Addr reg data))
-//FINSH_FUNCTION_EXPORT(set_time, set time. e.g: set_time(23,59,59))
+FINSH_FUNCTION_EXPORT(test, test example. e.g: test(0) for help)
 #endif
