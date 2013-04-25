@@ -72,7 +72,14 @@ static void led_thread_entry(void* parameter)
     			rt_thread_delay(RT_TICK_PER_SECOND/2);
     		}
     		gpio(4,0,1,0); //LED ON
-    		i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF7);
+    		//Write
+    		i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF0);
+    		i2c(0,EEPROM_Block0_ADDRESS,0x2,0xF2);
+    		i2c(0,EEPROM_Block0_ADDRESS,0x4,0xF4);
+    		//Read
+    		i2c(1,EEPROM_Block0_ADDRESS,0x0,0xF0);
+    		i2c(1,EEPROM_Block0_ADDRESS,0x2,0xF2);
+    		i2c(1,EEPROM_Block0_ADDRESS,0x4,0xF4);
     	}
     	else
     	{

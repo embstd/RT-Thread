@@ -19,12 +19,14 @@
 #include <i2c.h>
 #include <i2c_dev.h>
 
-#define I2C_Speed              100000
+#define I2C_Speed              400000
 #define I2C_BUS_NUM_SLAVE_ADDRESS7    0x61
 #define I2C_BUS_NUM   I2C1   //I2C1, I2C2
 
-#if 1
+#if 0
 #define stm32_dbg(fmt, ...)   do{rt_kprintf("stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
+#else
+#define stm32_dbg(fmt, ...)
 #endif
 #define stm32_err(fmt, ...)   do{rt_kprintf("[ERR] stm i2c:"); rt_kprintf(fmt, ##__VA_ARGS__); }while(0)
 
@@ -129,7 +131,7 @@ static rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)
   if (ack)
   {
     I2C_AcknowledgeConfig(I2C_BUS_NUM, ENABLE);
-    stm32_err("send Ack.\n");
+    stm32_dbg("send Ack.\n");
   }else
   {
      I2C_AcknowledgeConfig(I2C_BUS_NUM, DISABLE);
