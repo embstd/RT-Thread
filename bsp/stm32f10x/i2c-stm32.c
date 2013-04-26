@@ -35,7 +35,7 @@ struct rt_i2c_stm32_ops
     void *data;            /* private data for lowlevel routines */
 };
 
-#define TIMEOUT 5
+#define TIMEOUT 1000
 static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, int to, char * msg)
 {
     uint32_t last_event;
@@ -46,7 +46,7 @@ static rt_err_t stm32_i2c_check_timeout(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT, i
     {
       return RT_EOK;    
     }
-    rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */
+    //rt_thread_delay(RT_TICK_PER_SECOND/4); /* sleep 0.25 second and switch to other thread */
   }
   last_event=I2C_GetLastEvent(I2Cx);
   stm32_err("[%s] Time out to check event 0x%x vs last_event[0x%x] .\n", msg, I2C_EVENT, last_event);
