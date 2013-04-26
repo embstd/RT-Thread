@@ -790,11 +790,6 @@
               <FilePath>.\i2c-stm32.c</FilePath>
             </File>
             <File>
-              <FileName>atc24xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\components\devices\atc24xx\atc24xx.c</FilePath>
-            </File>
-            <File>
               <FileName>i2c_shell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\components\drivers\i2c\i2c_shell.c</FilePath>
@@ -808,6 +803,31 @@
               <FileName>i2c_core.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\components\drivers\i2c\i2c_core.c</FilePath>
+            </File>
+            <File>
+              <FileName>atc24xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\components\devices\i2c_flash\atc24xx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SPI</GroupName>
+          <Files>
+            <File>
+              <FileName>rt_stm32f10x_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\rt_stm32f10x_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_dev.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\components\drivers\spi\spi_dev.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\components\drivers\spi\spi_core.c</FilePath>
             </File>
           </Files>
         </Group>

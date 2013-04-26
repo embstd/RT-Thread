@@ -72,45 +72,35 @@
 	"buffers":
 	[
 		{
-			"contents": "Searching 2214 files for \"rt_i2c_bus_device\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n   87  */\n   88  \n   89: static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,\n   90                                  struct rt_i2c_msg        *msg)\n   91  {\n   ..\n  127  }\n  128  \n  129: static rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)\n  130  {\n  131    if (ack)\n  ...\n  140  }\n  141  \n  142: static rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,\n  143                                  struct rt_i2c_msg        *msg)\n  144  {\n  ...\n  182  }\n  183  \n  184: static rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,\n  185                                     rt_uint8_t                addr,\n  186                                     rt_int32_t                retries)\n  ...\n  207  }\n  208  \n  209: static rt_err_t i2c_stm32_send_address(struct rt_i2c_bus_device *bus,\n  210                                       struct rt_i2c_msg        *msg)\n  211  {\n  ...\n  236  }\n  237  \n  238: static rt_size_t i2c_stm32_xfer(struct rt_i2c_bus_device *bus,\n  239                                struct rt_i2c_msg         msgs[],\n  240                                rt_uint32_t               num)\n  ...\n  304  }\n  305  \n  306: static const struct rt_i2c_bus_device_ops i2c_stm32_bus_ops =\n  307  {\n  308      i2c_stm32_xfer,\n  ...\n  381  }\n  382  \n  383: struct rt_i2c_bus_device stm32_bus;\n  384  const char stm32_bus_name[] = \"I2C\";\n  385  \n  ...\n  405  \n  406    stm32_dbg(\"add_bus:%s, bus register=0x%x\\n\", stm32_bus_name, I2C_BUS_NUM);\n  407:   return rt_i2c_bus_device_register(&stm32_bus, stm32_bus_name);\n  408  }\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c-bit-ops.c:\n  132  }\n  133  \n  134: static rt_int32_t i2c_writeb(struct rt_i2c_bus_device *bus, rt_uint8_t data)\n  135  {\n  136      rt_int32_t i;\n  ...\n  160  }\n  161  \n  162: static rt_int32_t i2c_readb(struct rt_i2c_bus_device *bus)\n  163  {\n  164      rt_uint8_t i;\n  ...\n  189  }\n  190  \n  191: static rt_size_t i2c_send_bytes(struct rt_i2c_bus_device *bus,\n  192                                  struct rt_i2c_msg        *msg)\n  193  {\n  ...\n  225  }\n  226  \n  227: static rt_err_t i2c_send_ack_or_nack(struct rt_i2c_bus_device *bus, int ack)\n  228  {\n  229      struct rt_i2c_bit_ops *ops = bus->priv;\n  ...\n  243  }\n  244  \n  245: static rt_size_t i2c_recv_bytes(struct rt_i2c_bus_device *bus,\n  246                                  struct rt_i2c_msg        *msg)\n  247  {\n  ...\n  283  }\n  284  \n  285: static rt_int32_t i2c_send_address(struct rt_i2c_bus_device *bus,\n  286                                     rt_uint8_t                addr,\n  287                                     rt_int32_t                retries)\n  ...\n  306  }\n  307  \n  308: static rt_err_t i2c_bit_send_address(struct rt_i2c_bus_device *bus,\n  309                                       struct rt_i2c_msg        *msg)\n  310  {\n  ...\n  369  }\n  370  \n  371: static rt_size_t i2c_bit_xfer(struct rt_i2c_bus_device *bus,\n  372                                struct rt_i2c_msg         msgs[],\n  373                                rt_uint32_t               num)\n  ...\n  432  }\n  433  \n  434: static const struct rt_i2c_bus_device_ops i2c_bit_bus_ops =\n  435  {\n  436      i2c_bit_xfer,\n  ...\n  439  };\n  440  \n  441: rt_err_t rt_i2c_bit_add_bus(struct rt_i2c_bus_device *bus,\n  442                              const char               *bus_name)\n  443  {\n  ...\n  447      bus->ops = &i2c_bit_bus_ops;\n  448  \n  449:     return rt_i2c_bus_device_register(bus, bus_name);\n  450  }\n  451  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c_core.c:\n   17  static struct rt_mutex i2c_core_lock;\n   18  \n   19: rt_err_t rt_i2c_bus_device_register(struct rt_i2c_bus_device *bus,\n   20                                      const char               *bus_name)\n   21  {\n   ..\n   29          bus->timeout = RT_TICK_PER_SECOND;\n   30  \n   31:     res = rt_i2c_bus_device_device_init(bus, bus_name);\n   32  \n   33      i2c_dbg(\"I2C bus [%s] registered\\n\", bus_name);\n   ..\n   38  }\n   39  \n   40: struct rt_i2c_bus_device *rt_i2c_bus_device_find(const char *bus_name)\n   41  {\n   42:     struct rt_i2c_bus_device *bus;\n   43      rt_device_t dev = rt_device_find(bus_name);\n   44      if (dev == RT_NULL || dev->type != RT_Device_Class_I2CBUS)\n   ..\n   49      }\n   50  \n   51:     bus = (struct rt_i2c_bus_device *)dev->user_data;\n   52  \n   53      return bus;\n   54  }\n   55  \n   56: rt_size_t rt_i2c_transfer(struct rt_i2c_bus_device *bus,\n   57                            struct rt_i2c_msg         msgs[],\n   58                            rt_uint32_t               num)\n   ..\n   85  }\n   86  \n   87: rt_size_t rt_i2c_master_send(struct rt_i2c_bus_device *bus,\n   88                               rt_uint16_t               addr,\n   89                               rt_uint16_t               flags,\n   ..\n  104  }\n  105  \n  106: rt_size_t rt_i2c_master_recv(struct rt_i2c_bus_device *bus,\n  107                               rt_uint16_t               addr,\n  108                               rt_uint16_t               flags,\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c_dev.c:\n   17  static rt_err_t i2c_bus_device_init(rt_device_t dev)\n   18  {\n   19:     struct rt_i2c_bus_device *bus = (struct rt_i2c_bus_device *)dev->user_data;\n   20      RT_ASSERT(bus != RT_NULL);\n   21  \n   ..\n   30      rt_uint16_t addr;\n   31      rt_uint16_t flags;\n   32:     struct rt_i2c_bus_device *bus = (struct rt_i2c_bus_device *)dev->user_data;\n   33  \n   34      RT_ASSERT(bus != RT_NULL);\n   ..\n   50      rt_uint16_t addr;\n   51      rt_uint16_t flags;\n   52:     struct rt_i2c_bus_device *bus = (struct rt_i2c_bus_device *)dev->user_data;\n   53  \n   54      RT_ASSERT(bus != RT_NULL);\n   ..\n   69      rt_err_t ret;\n   70      struct rt_i2c_priv_data *priv_data;\n   71:     struct rt_i2c_bus_device *bus = (struct rt_i2c_bus_device *)dev->user_data;\n   72  \n   73      RT_ASSERT(bus != RT_NULL);\n   ..\n  100  }\n  101  \n  102: rt_err_t rt_i2c_bus_device_device_init(struct rt_i2c_bus_device *bus,\n  103                                         const char               *name)\n  104  {\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\include\\drivers\\i2c-bit-ops.h:\n   34  };\n   35  \n   36: rt_err_t rt_i2c_bit_add_bus(struct rt_i2c_bus_device *bus,\n   37                              const char               *bus_name);\n   38  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\include\\drivers\\i2c.h:\n   37  };\n   38  \n   39: struct rt_i2c_bus_device;\n   40  \n   41: struct rt_i2c_bus_device_ops\n   42  {\n   43:     rt_size_t (*master_xfer)(struct rt_i2c_bus_device *bus,\n   44                               struct rt_i2c_msg msgs[],\n   45                               rt_uint32_t num);\n   46:     rt_size_t (*slave_xfer)(struct rt_i2c_bus_device *bus,\n   47                              struct rt_i2c_msg msgs[],\n   48                              rt_uint32_t num);\n   49:     rt_err_t (*i2c_bus_control)(struct rt_i2c_bus_device *bus,\n   50                                  rt_uint32_t,\n   51                                  rt_uint32_t);\n   ..\n   53  \n   54  /*for i2c bus driver*/\n   55: struct rt_i2c_bus_device\n   56  {\n   57      struct rt_device parent;\n   58:     const struct rt_i2c_bus_device_ops *ops;\n   59      rt_uint16_t  flags;\n   60      rt_uint16_t  addr;\n   ..\n   71  #endif\n   72  \n   73: rt_err_t rt_i2c_bus_device_register(struct rt_i2c_bus_device *bus,\n   74                                      const char               *bus_name);\n   75: struct rt_i2c_bus_device *rt_i2c_bus_device_find(const char *bus_name);\n   76: rt_size_t rt_i2c_transfer(struct rt_i2c_bus_device *bus,\n   77                            struct rt_i2c_msg         msgs[],\n   78                            rt_uint32_t               num);\n   79: rt_size_t rt_i2c_master_send(struct rt_i2c_bus_device *bus,\n   80                               rt_uint16_t               addr,\n   81                               rt_uint16_t               flags,\n   82                               const rt_uint8_t         *buf,\n   83                               rt_uint32_t               count);\n   84: rt_size_t rt_i2c_master_recv(struct rt_i2c_bus_device *bus,\n   85                               rt_uint16_t               addr,\n   86                               rt_uint16_t               flags,\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\include\\drivers\\i2c_dev.h:\n   33  };\n   34  \n   35: rt_err_t rt_i2c_bus_device_device_init(struct rt_i2c_bus_device *bus,\n   36                                         const char               *name);\n   37  \n\n57 matches across 7 files\n",
-			"settings":
-			{
-				"buffer_size": 8688,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "components/drivers/i2c/i2c_dev.c",
-			"settings":
-			{
-				"buffer_size": 3538,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "components/drivers/include/drivers/i2c.h",
-			"settings":
-			{
-				"buffer_size": 2924,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "components/drivers/spi/spi_core.c",
-			"settings":
-			{
-				"buffer_size": 12105,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "components/drivers/i2c/i2c_core.c",
 			"settings":
 			{
 				"buffer_size": 3421,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/devices/spi_flash/sst25vfxx.c",
+			"settings":
+			{
+				"buffer_size": 10892,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/devices/spi_flash/at45dbxx.c",
+			"settings":
+			{
+				"buffer_size": 15192,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/devices/spi_flash/spi_flash.h",
+			"settings":
+			{
+				"buffer_size": 925,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -174,15 +164,26 @@
 	},
 	"file_history":
 	[
-		"/D/GitHub/EmbStd_STM32/复件 RT-Thread/components/drivers/i2c/i2c_core.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_core.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/libc/minilibc/sys/types.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/sst25vfxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_dev.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/spi.h                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdrivers%5Cinclude%5Cdrivers%5Cspi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/spi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
+		"/D/GitHub/EmbStd_STM32/复件 RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/x86/drivers/keyboard.c",
 		"/C/TDDOWNLOAD/rt-thread-master/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_core.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_dev.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_shell.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/spi.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/SConscript",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/rtdevice.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.c",
@@ -193,15 +194,11 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/startup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/src/kservice.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/kernel/tc_comm.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/include/rtdef.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
 		"/C/Documents and Settings/smit/桌面/i2c-tcc.c",
 		"/C/Documents and Settings/smit/桌面/i2c-s3c2410.c",
@@ -254,7 +251,6 @@
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
 		"/C/Documents and Settings/smit/桌面/tcc-pcm.c",
 		"/C/Documents and Settings/smit/桌面/tcc88xx-pcm.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/readme.txt                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Creadme.txt",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/RT.sublime-project",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtc.c",
@@ -292,6 +288,7 @@
 		"height": 90.0,
 		"where_history":
 		[
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c,*h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h",
@@ -308,6 +305,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"block_size",
+			"sst25vfxx_flash_control",
+			"sector_count",
+			"MC_ID_SST25VF040B",
+			"rt_size_t",
+			"rt_err_t",
+			"GPIO_Pin",
+			"rt_spi_ops",
+			"rt_spidev_device_init",
+			"rt_spi_transfer",
+			"rt_spi_bus_attach_device",
+			"rt_spi_bus_register",
 			"rt_i2c_bus_device",
 			"spi",
 			"RT_Device_Class",
@@ -423,11 +432,7 @@
 			"rt_i2c_stm32_add_bus",
 			"gpio",
 			"yp",
-			"rt_device_open",
-			"indent",
-			"I2C_GenerateSTART",
-			"GPIO_Init",
-			"I2C_GPIO_Config"
+			"rt_device_open"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -448,367 +453,11 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"settings":
-					{
-						"buffer_size": 8688,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										170,
-										187
-									],
-									[
-										347,
-										364
-									],
-									[
-										476,
-										493
-									],
-									[
-										651,
-										668
-									],
-									[
-										902,
-										919
-									],
-									[
-										1079,
-										1096
-									],
-									[
-										1292,
-										1309
-									],
-									[
-										1407,
-										1424
-									],
-									[
-										1602,
-										1619
-									],
-									[
-										1799,
-										1816
-									],
-									[
-										1939,
-										1956
-									],
-									[
-										2066,
-										2083
-									],
-									[
-										2243,
-										2260
-									],
-									[
-										2405,
-										2422
-									],
-									[
-										2580,
-										2597
-									],
-									[
-										2829,
-										2846
-									],
-									[
-										3004,
-										3021
-									],
-									[
-										3217,
-										3234
-									],
-									[
-										3357,
-										3374
-									],
-									[
-										3533,
-										3550
-									],
-									[
-										3731,
-										3748
-									],
-									[
-										3765,
-										3782
-									],
-									[
-										3958,
-										3975
-									],
-									[
-										4108,
-										4125
-									],
-									[
-										4127,
-										4144
-									],
-									[
-										4199,
-										4216
-									],
-									[
-										4400,
-										4417
-									],
-									[
-										4524,
-										4541
-									],
-									[
-										4745,
-										4762
-									],
-									[
-										4972,
-										4989
-									],
-									[
-										5288,
-										5305
-									],
-									[
-										5321,
-										5338
-									],
-									[
-										5486,
-										5503
-									],
-									[
-										5519,
-										5536
-									],
-									[
-										5684,
-										5701
-									],
-									[
-										5717,
-										5734
-									],
-									[
-										5895,
-										5912
-									],
-									[
-										5928,
-										5945
-									],
-									[
-										6049,
-										6066
-									],
-									[
-										6086,
-										6103
-									],
-									[
-										6341,
-										6358
-									],
-									[
-										6553,
-										6570
-									],
-									[
-										6594,
-										6611
-									],
-									[
-										6668,
-										6685
-									],
-									[
-										6850,
-										6867
-									],
-									[
-										7034,
-										7051
-									],
-									[
-										7221,
-										7238
-									],
-									[
-										7308,
-										7325
-									],
-									[
-										7441,
-										7458
-									],
-									[
-										7475,
-										7492
-									],
-									[
-										7593,
-										7610
-									],
-									[
-										7612,
-										7629
-									],
-									[
-										7698,
-										7715
-									],
-									[
-										7897,
-										7914
-									],
-									[
-										8238,
-										8255
-									],
-									[
-										8513,
-										8530
-									],
-									[
-										8550,
-										8567
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								5172,
-								5172
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2385.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "components/drivers/i2c/i2c_dev.c",
-					"settings":
-					{
-						"buffer_size": 3538,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								605,
-								605
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "components/drivers/include/drivers/i2c.h",
-					"settings":
-					{
-						"buffer_size": 2924,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								929,
-								929
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "components/drivers/spi/spi_core.c",
-					"settings":
-					{
-						"buffer_size": 12105,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1267,
-								1267
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "components/drivers/i2c/i2c_core.c",
 					"settings":
 					{
@@ -819,8 +468,8 @@
 						"selection":
 						[
 							[
-								2112,
-								2112
+								2699,
+								2708
 							]
 						],
 						"settings":
@@ -832,7 +481,94 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 1168.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "components/devices/spi_flash/sst25vfxx.c",
+					"settings":
+					{
+						"buffer_size": 10892,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6634,
+								6634
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5146.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "components/devices/spi_flash/at45dbxx.c",
+					"settings":
+					{
+						"buffer_size": 15192,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								481,
+								481
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2700.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "components/devices/spi_flash/spi_flash.h",
+					"settings":
+					{
+						"buffer_size": 925,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								883,
+								883
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -896,6 +632,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 189.0,
+	"side_bar_width": 237.0,
 	"status_bar_visible": true
 }

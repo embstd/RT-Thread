@@ -163,7 +163,7 @@ rt_err_t at24c16b_write(rt_uint32_t WriteAddr, rt_uint32_t NumByteToWrite)
         }
       }
       rt_free(p);  
-    
+    return RT_EOK;
 }
 
 rt_err_t at24c16b_read(rt_uint32_t addr, rt_uint32_t num)

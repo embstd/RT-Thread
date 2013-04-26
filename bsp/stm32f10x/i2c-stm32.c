@@ -9,7 +9,7 @@
  *
  * Change Logs:
  * Date           Author        Notes
- * 2012-04-25     weety         first version
+ * 2013-04-25     EmbStd@gmail.com         first version
  */
 
 #include <rtdevice.h>
