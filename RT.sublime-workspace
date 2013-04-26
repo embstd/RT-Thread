@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"E",
+				"RT_ERROR"
+			],
+			[
+				"AT",
+				"AT_NUM"
+			],
+			[
+				"rt_uin",
+				"rt_uint32_t"
+			],
+			[
+				"rt",
+				"rt_uint8_t"
+			],
+			[
 				"RT",
 				"RT_EOK"
 			],
@@ -22,10 +38,6 @@
 			[
 				"add",
 				"addr"
-			],
-			[
-				"rt",
-				"rt_kprintf"
 			],
 			[
 				"u",
@@ -60,84 +72,10 @@
 	"buffers":
 	[
 		{
-			"file": "components/drivers/i2c/i2c_dev.c",
+			"file": "bsp/stm32f10x/gpio.c",
 			"settings":
 			{
-				"buffer_size": 3576,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "components/drivers/include/drivers/i2c.h",
-			"settings":
-			{
-				"buffer_size": 2924,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
-			"settings":
-			{
-				"buffer_size": 10984,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 1939 files for \"I2C_EVENT_MASTER_BYTE_RECEIVED\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  374    *  @note In case the  user software does not guarantee that this event EV7 is \n  375    *  managed before the current byte end of transfer, then user may check on EV7 \n  376:   *  and BTF flag at the same time (ie. (I2C_EVENT_MASTER_BYTE_RECEIVED | I2C_FLAG_BTF)).\n  377    *  In this case the communication may be slower.\n  378    * \n  ...\n  381  /* Master RECEIVER mode -----------------------------*/ \n  382  /* --EV7 */\n  383: #define  I2C_EVENT_MASTER_BYTE_RECEIVED                    ((uint32_t)0x00030040)  /* BUSY, MSL and RXNE flags */\n  384  \n  385  /* Master TRANSMITTER mode --------------------------*/\n  ...\n  489                               ((EVENT) == I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) || \\\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f107\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1016    *     @arg I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED            : EV6     \n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018:   *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n  162  \n  163  /* Test on EV7 and clear it */\n  164:     //if(I2C_CheckEvent(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED))  \n  165:     if(!stm32_i2c_check_timeout(I2C_BUS_NUM, I2C_EVENT_MASTER_BYTE_RECEIVED, TIMEOUT, \"i2c_recv_bytes\"))\n  166      {      \n  167  /* Read a byte from the EEPROM */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  374    *  @note In case the  user software does not guarantee that this event EV7 is \n  375    *  managed before the current byte end of transfer, then user may check on EV7 \n  376:   *  and BTF flag at the same time (ie. (I2C_EVENT_MASTER_BYTE_RECEIVED | I2C_FLAG_BTF)).\n  377    *  In this case the communication may be slower.\n  378    * \n  ...\n  381  /* Master RECEIVER mode -----------------------------*/ \n  382  /* --EV7 */\n  383: #define  I2C_EVENT_MASTER_BYTE_RECEIVED                    ((uint32_t)0x00030040)  /* BUSY, MSL and RXNE flags */\n  384  \n  385  /* Master TRANSMITTER mode --------------------------*/\n  ...\n  489                               ((EVENT) == I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) || \\\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1016    *     @arg I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED            : EV6     \n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018:   *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_i2c.h:\n  374    *  @note In case the  user software does not guarantee that this event EV7 is \n  375    *  managed before the current byte end of transfer, then user may check on EV7 \n  376:   *  and BTF flag at the same time (ie. (I2C_EVENT_MASTER_BYTE_RECEIVED | I2C_FLAG_BTF)).\n  377    *  In this case the communication may be slower.\n  378    * \n  ...\n  381  /* Master RECEIVER mode -----------------------------*/ \n  382  /* --EV7 */\n  383: #define  I2C_EVENT_MASTER_BYTE_RECEIVED                    ((uint32_t)0x00030040)  /* BUSY, MSL and RXNE flags */\n  384  \n  385  /* Master TRANSMITTER mode --------------------------*/\n  ...\n  489                               ((EVENT) == I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) || \\\n  490                               ((EVENT) == I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) || \\\n  491:                              ((EVENT) == I2C_EVENT_MASTER_BYTE_RECEIVED) || \\\n  492                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTED) || \\\n  493                               ((EVENT) == I2C_EVENT_MASTER_BYTE_TRANSMITTING) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_i2c.c:\n 1016    *     @arg I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED            : EV6     \n 1017    *     @arg I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED               : EV6\n 1018:   *     @arg I2C_EVENT_MASTER_BYTE_RECEIVED                        : EV7\n 1019    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTING                    : EV8\n 1020    *     @arg I2C_EVENT_MASTER_BYTE_TRANSMITTED                     : EV8_2\n\n14 matches across 7 files\n",
-			"settings":
-			{
-				"buffer_size": 5524,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "components/drivers/i2c/i2c-bit-ops.c",
-			"settings":
-			{
-				"buffer_size": 10183,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
-			"settings":
-			{
-				"buffer_size": 29345,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
-			"settings":
-			{
-				"buffer_size": 44450,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
-			"settings":
-			{
-				"buffer_size": 29345,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bsp/stm32f10x/application.c",
-			"settings":
-			{
-				"buffer_size": 3978,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bsp/stm32f10x/i2c.c",
-			"settings":
-			{
-				"buffer_size": 3649,
+				"buffer_size": 1964,
 				"line_ending": "Windows"
 			}
 		}
@@ -202,17 +140,36 @@
 	},
 	"file_history":
 	[
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/kernel/tc_comm.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/include/rtdef.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
-		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/13-野火M3-IIC/野火M3-IIC/USER/main.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+		"/C/Documents and Settings/smit/桌面/i2c-tcc.c",
+		"/C/Documents and Settings/smit/桌面/i2c-s3c2410.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/net/lwip-1.3.2/apps/ping.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c-bit-ops.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/calibration.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/mm.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/main.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5C%E9%87%8E%E7%81%ABM3-IIC%5CUSER%5Cmain.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c_ee.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5C%E9%87%8E%E7%81%ABM3-IIC%5CUSER%5Ci2c_ee.c",
+		"/C/Documents and Settings/smit/桌面/野火M3-IIC/USER/main.c",
+		"/C/Documents and Settings/smit/桌面/野火M3-IIC/USER/i2c_ee.c",
+		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/13-野火M3-IIC/野火M3-IIC/USER/main.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/board.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/README.txt                D%3A%5CSoftware%5Ctools_win_4.0_v10%5Ctools_win%5CREADME.txt",
 		"/D/Software/tools_win_4.0_v10/tools_win/README.txt",
 		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/13-野火M3-IIC/野火M3-IIC/USER/i2c_ee.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/mm.c",
 		"/C/Documents and Settings/smit/桌面/reg.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h",
@@ -230,26 +187,18 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/drivers/usart.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/console.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/src/device.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/application.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Capplication.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtthread.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/application.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_mutex.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_jffs2.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cjffs2%5Cdfs_jffs2.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/src/ipc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdebug.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/jffs2/dfs_jffs2.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/include/rtdef.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/rtc/rtc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c_dev.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc88xx-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc88xx-pcm.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
@@ -290,9 +239,12 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c,*h",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h,*.c",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c,*.h",
@@ -306,6 +258,24 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"RT_Device_Class_SPIBUS",
+			"RT_Device_Class_I2CBUS",
+			"IS_I2C_EVENT",
+			"I2C_EVENT_MASTER_MODE_SELECT",
+			"i2c_stop",
+			"i2c_send_address",
+			"rt_i2c_transfer",
+			"I2C_SendData",
+			"stm32_i2c_check_timeout",
+			"rt_malloc",
+			"RT_NULL",
+			"rt_malloc",
+			"at24c16b_write",
+			"rt_i2c_master_send",
+			"I2C_PageSize",
+			"I2C_EE_BufferRead",
+			"rt_malloc",
+			"malloc",
 			"EV7",
 			"I2C_EVENT_MASTER_BYTE_RECEIVED",
 			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
@@ -419,325 +389,23 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "components/drivers/i2c/i2c_dev.c",
+					"file": "bsp/stm32f10x/gpio.c",
 					"settings":
 					{
-						"buffer_size": 3576,
+						"buffer_size": 1964,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2679,
-								2683
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1260.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "components/drivers/include/drivers/i2c.h",
-					"settings":
-					{
-						"buffer_size": 2924,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1743,
-								1755
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
-					"settings":
-					{
-						"buffer_size": 10984,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2221,
-								2221
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 602.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"settings":
-					{
-						"buffer_size": 5524,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										389,
-										419
-									],
-									[
-										613,
-										643
-									],
-									[
-										1034,
-										1064
-									],
-									[
-										1539,
-										1569
-									],
-									[
-										1912,
-										1942
-									],
-									[
-										1999,
-										2029
-									],
-									[
-										2450,
-										2480
-									],
-									[
-										2674,
-										2704
-									],
-									[
-										3095,
-										3125
-									],
-									[
-										3600,
-										3630
-									],
-									[
-										4139,
-										4169
-									],
-									[
-										4363,
-										4393
-									],
-									[
-										4784,
-										4814
-									],
-									[
-										5275,
-										5305
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								635,
-								635
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "components/drivers/i2c/i2c-bit-ops.c",
-					"settings":
-					{
-						"buffer_size": 10183,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2701,
-								2701
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1455.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
-					"settings":
-					{
-						"buffer_size": 29345,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15081,
-								15081
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5278.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
-					"settings":
-					{
-						"buffer_size": 44450,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								18340,
-								18333
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 8520.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
-					"settings":
-					{
-						"buffer_size": 29345,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13342,
-								13384
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4755.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "bsp/stm32f10x/application.c",
-					"settings":
-					{
-						"buffer_size": 3978,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1507,
-								1513
+								0,
+								0
 							]
 						],
 						"settings":
@@ -747,37 +415,7 @@
 							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 720.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "bsp/stm32f10x/i2c.c",
-					"settings":
-					{
-						"buffer_size": 3649,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2960,
-								2960
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 720.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

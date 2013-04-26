@@ -19,7 +19,7 @@
 #include <i2c.h>
 #include <i2c_dev.h>
 
-#define I2C_Speed              400000
+#define I2C_Speed              300000
 #define I2C_BUS_NUM_SLAVE_ADDRESS7    0x61
 #define I2C_BUS_NUM   I2C1   //I2C1, I2C2
 
