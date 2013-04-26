@@ -2,6 +2,8 @@
 *i
 *.d
 bsp/stm32f10x/build/*
+bsp/stm32f10x/*.dep
+bsp/stm32f10x/*.bin
 
 .*
 ctags.exe
