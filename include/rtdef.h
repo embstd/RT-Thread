@@ -18,6 +18,7 @@
  * 2012-12-29     Bernard      change the RT_USING_MEMPOOL location and add
  *                             RT_USING_MEMHEAP condition.
  * 2012-12-30     Bernard      add more control command for graphic.
+ * 2013-01-09     Bernard      change version number.
  */
  
 #ifndef __RT_DEF_H__
@@ -37,7 +38,7 @@ extern "C" {
 
 /* RT-Thread version information */
 #define RT_VERSION                      1L              /**< major version number */
-#define RT_SUBVERSION                   1L              /**< minor version number */
+#define RT_SUBVERSION                   2L              /**< minor version number */
 #define RT_REVISION                     0L              /**< revise version number */
 
 /* RT-Thread version */
@@ -153,6 +154,15 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset */
 #define RT_MM_PAGE_SIZE                 4096
 #define RT_MM_PAGE_MASK                 (RT_MM_PAGE_SIZE - 1)
 #define RT_MM_PAGE_BITS                 12
+
+/* kernel malloc definitions */
+#ifndef RT_KERNEL_MALLOC
+#define RT_KERNEL_MALLOC(sz)			rt_malloc(sz)
+#endif
+
+#ifndef RT_KERNEL_FREE
+#define RT_KERNEL_FREE(ptr)				rt_free(ptr)
+#endif
 
 /**
  * @addtogroup Error

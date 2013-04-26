@@ -19,10 +19,19 @@
 #include <rtthread.h>
 #include "usb_common.h"
 
-#define CONTROL_SEND_STATUS             0x00
-#define CONTROL_RECEIVE_STATUS          0x01
+/* Vendor ID */
+#ifdef USB_VENDOR_ID
+#define _VENDOR_ID USB_VENDOR_ID
+#else
+#define _VENDOR_ID 0x0EFF
+#endif
+/* Product ID */
+#ifdef USB_PRODUCT_ID
+#define _PRODUCT_ID USB_PRODUCT_ID
+#else 
+#define _PRODUCT_ID 0x0001
+#endif
 
-#define USB_VENDOR_ID                   0x0483   /* Vendor ID */
 #define USB_BCD_DEVICE                  0x0200   /* USB Specification Release Number in Binary-Coded Decimal */
 #define USB_BCD_VERSION                 0x0200   /* USB 2.0 */
 
@@ -42,6 +51,7 @@ struct udcd_ops
     rt_err_t (*ep_stop)(struct uendpoint* ep);
     rt_err_t (*ep_read)(struct uendpoint* ep, void *buffer, rt_size_t size);
     rt_size_t (*ep_write)(struct uendpoint* ep, void *buffer, rt_size_t size);
+    rt_err_t (*send_status)(void);
 };
 
 struct udcd
@@ -63,7 +73,7 @@ struct uendpoint
     rt_bool_t is_stall;
 };
 typedef struct uendpoint* uep_t;
-
+ 
 struct ualtsetting
 {
     rt_list_t list;
@@ -156,7 +166,7 @@ struct udev_msg
 };
 typedef struct udev_msg* udev_msg_t;
 
-udevice_t rt_usbd_device_create(const char** str);
+udevice_t rt_usbd_device_create(void);
 uconfig_t rt_usbd_config_create(void);
 uclass_t rt_usbd_class_create(udevice_t device, udev_desc_t dev_desc,
                               uclass_ops_t ops);
@@ -170,6 +180,7 @@ rt_err_t rt_usbd_post_event(struct udev_msg* msg, rt_size_t size);
 rt_err_t rt_usbd_free_device(udevice_t device);
 rt_err_t rt_usbd_device_set_controller(udevice_t device, udcd_t dcd);
 rt_err_t rt_usbd_device_set_descriptor(udevice_t device, udev_desc_t dev_desc);
+rt_err_t rt_usbd_device_set_string(udevice_t device, const char** ustring);
 rt_err_t rt_usbd_device_add_config(udevice_t device, uconfig_t cfg);
 rt_err_t rt_usbd_config_add_class(uconfig_t cfg, uclass_t cls);
 rt_err_t rt_usbd_class_add_interface(uclass_t cls, uintf_t intf);
@@ -186,6 +197,7 @@ uep_t rt_usbd_find_endpoint(udevice_t device, uclass_t* pcls, rt_uint8_t ep_addr
 
 uclass_t rt_usbd_class_mstorage_create(udevice_t device);
 uclass_t rt_usbd_class_cdc_create(udevice_t device);
+uclass_t rt_usbd_class_rndis_create(udevice_t device);
 
 #ifdef RT_USB_DEVICE_COMPOSITE
 rt_err_t rt_usbd_class_set_iad(uclass_t cls, uiad_desc_t iad_desc);
@@ -261,6 +273,13 @@ rt_inline rt_size_t dcd_ep_write(udcd_t dcd, uep_t ep, void *buffer,
     RT_ASSERT(dcd != RT_NULL);
 
     return dcd->ops->ep_write(ep, buffer, size);
+}
+
+rt_inline rt_err_t dcd_send_status(udcd_t dcd)
+{
+    RT_ASSERT(dcd != RT_NULL);
+
+    return dcd->ops->send_status();
 }
 
 #endif

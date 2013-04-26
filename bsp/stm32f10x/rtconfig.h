@@ -179,7 +179,8 @@
 #endif
 
 
-// Debug Info 
-#define RT_I2C_DEBUG
+// Debug Info
+#define RT_USING_I2C 1 
+#define RT_I2C_DEBUG 1
 //#define RT_DEBUG_IPC 1
 // Debug Info END

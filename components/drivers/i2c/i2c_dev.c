@@ -13,8 +13,6 @@
  */
 
 #include <rtdevice.h>
-#include <i2c.h>
-#include <i2c_dev.h>
 
 static rt_err_t i2c_bus_device_init(rt_device_t dev)
 {

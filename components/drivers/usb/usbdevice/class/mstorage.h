@@ -18,11 +18,6 @@
 
 #include <rtthread.h>
 
-#define USBREQ_GET_MAX_LUN                  0xfe
-#define USBREQ_MASS_STORAGE_RESET           0xff
-
-#define USB_MASS_STORAGE_PRODUCT_ID         0x1000   /* Product ID */
-
 #pragma pack(1)
 
 struct umass_descriptor

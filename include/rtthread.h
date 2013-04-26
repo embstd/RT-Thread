@@ -242,6 +242,7 @@ rt_err_t rt_memheap_init(struct rt_memheap *memheap,
                          rt_uint32_t        size);
 rt_err_t rt_memheap_detach(struct rt_memheap *heap);
 void* rt_memheap_alloc(struct rt_memheap *heap, rt_uint32_t size);
+void *rt_memheap_realloc(struct rt_memheap* heap, void* ptr, rt_size_t newsize);
 void rt_memheap_free(void *ptr);
 #endif
 
@@ -425,7 +426,6 @@ void rt_module_unload_sethook(void (*hook)(rt_module_t module));
 /*
  * interrupt service
  */
-typedef void (*rt_isr_handler_t)(int vector);
 
 /*
  * rt_interrupt_enter and rt_interrupt_leave only can be called by BSP

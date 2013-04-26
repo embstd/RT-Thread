@@ -31,8 +31,6 @@ extern void finsh_system_init(void);
 extern void finsh_set_device(const char* device);
 #endif
 
-extern rt_err_t rt_i2c_stm32_add_bus(void);
-
 #ifdef __CC_ARM
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #elif __ICCARM__
@@ -62,16 +60,16 @@ void assert_failed(u8* file, u32 line)
 u32 ChipUniqueID[3];
 u16 ChipFlashSize;
 /*
- * 函数名：Get_ChipInfo
- * 描述  ：获取芯片ID,Flash size
- * 输入  ：无
- * 输出  ：无
+ * oˉêy??￡oGet_ChipInfo
+ * ?èê?  ￡o??è?D???ID,Flash size
+ * ê?è?  ￡o?T
+ * ê?3?  ￡o?T
  */
 void Get_ChipInfo(void)
 {
-	ChipUniqueID[0] = *(__IO u32 *)(0X1FFFF7F0); // 高字节
+	ChipUniqueID[0] = *(__IO u32 *)(0X1FFFF7F0); // ??×??ú
 	ChipUniqueID[1] = *(__IO u32 *)(0X1FFFF7EC); // 
-	ChipUniqueID[2] = *(__IO u32 *)(0X1FFFF7E8); // 低字节
+	ChipUniqueID[2] = *(__IO u32 *)(0X1FFFF7E8); // μí×??ú
 
 	ChipFlashSize   = *(__IO u16 *)(0X1FFFF7E0);
 }	
@@ -81,7 +79,6 @@ void Get_ChipInfo(void)
  */
 void rtthread_startup(void)
 {
-	int i=0;
 	/* init board */
 	rt_hw_board_init();
 
@@ -102,23 +99,19 @@ void rtthread_startup(void)
 
 #ifdef RT_USING_HEAP
 #if STM32_EXT_SRAM
-
 	rt_system_heap_init((void*)STM32_EXT_SRAM_BEGIN, (void*)STM32_EXT_SRAM_END);
 #else
 	#ifdef __CC_ARM
-
 		rt_system_heap_init((void*)&Image$$RW_IRAM1$$ZI$$Limit, (void*)STM32_SRAM_END);
 	#elif __ICCARM__
-
 	    rt_system_heap_init(__segment_end("HEAP"), (void*)STM32_SRAM_END);
 	#else
-
 		/* init memory system */
 		rt_system_heap_init((void*)&__bss_end, (void*)STM32_SRAM_END);
 	#endif
+#endif
+#endif
 
-#endif
-#endif
 	/* init scheduler system */
 	rt_system_scheduler_init();
 
@@ -131,32 +124,29 @@ void rtthread_startup(void)
 #endif
 #endif
 
-	rt_kprintf("==>%d",i++);
     rt_hw_rtc_init();
-	//rt_i2c_stm32_add_bus();
-	//rt_kprintf("==>add I2C bus %d\n",i++);
+
 	/* init all device */
 	rt_device_init_all();
 
 	/* init application */
 	rt_application_init();
-	rt_kprintf("app ==>%d",i++);
+
 #ifdef RT_USING_FINSH
 	/* init finsh */
 	finsh_system_init();
-		rt_kprintf("finsh==>%d",i++);
 	finsh_set_device("uart1");
 #endif
-	rt_kprintf("==>%d",i++);
+
     /* init timer thread */
     rt_system_timer_thread_init();
 
 	/* init idle thread */
 	rt_thread_idle_init();
-	rt_kprintf("==>%d",i++);
+
 	/* start scheduler */
 	rt_system_scheduler_start();
-	rt_kprintf("end ==>%d",i++);
+
 	/* never reach here */
 	return ;
 }
