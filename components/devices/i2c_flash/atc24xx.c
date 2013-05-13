@@ -233,12 +233,48 @@ l_err:
 
 }
 
+rt_err_t test_adc(int cnt)
+{
+    rt_device_t device;
+    rt_uint32_t data[32], i;
+   
+    device = rt_device_find("ADC1");
+    if (device == RT_NULL)
+    {
+        rt_kprintf("Can't find ADC1 device.\n");
+        return -RT_ERROR;
+    }
+
+    if (rt_device_open(device, 0) == RT_EOK)
+    {
+        if(cnt>32)
+            cnt=32;
+
+        rt_device_read(device, 0, data, cnt);
+        rt_device_close(device);
+        
+        rt_kprintf("ADC TEST: \n");
+        for(i=0; i<cnt; i++)
+        {
+            if((!(i%4)) && i)
+            {
+                rt_kprintf("\n");
+            }
+            rt_kprintf("%d\t", data[i]);
+        }
+        rt_kprintf("\n");
+    }
+
+    return RT_EOK;
+}
+
 rt_err_t test_usage(void)
 {
     rt_kprintf("\n================ \n"
     "0: For help\n "
     "1: For test at24c16b write IIC.\n "
     "2: For test at24c16b read IIC.\n "
+    "3: For test adc.\n "
     "=======================\n");
     return RT_EOK;
 }
@@ -261,8 +297,11 @@ rt_err_t test(rt_uint32_t op)
         case 2:
             at24c16b_read(AT_ADDR, AT_NUM);
             break;
+        case 3:
+            test_adc(10);
+            break; 
         default:
-            rt_kprintf("mem: Unknow option: %d\n", op);
+            rt_kprintf("test: Unknow option: %d\n", op);
             return RT_ERROR;
     }
     return RT_EOK;
