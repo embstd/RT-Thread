@@ -105,6 +105,7 @@ static void DMA_Configuration(struct stm32_spi_bus * stm32_spi_bus, const void *
     DMA_Init(stm32_spi_bus->DMA_Channel_TX, &DMA_InitStructure);
 
     DMA_Cmd(stm32_spi_bus->DMA_Channel_TX, ENABLE);
+    rt_kprintf("DMA_Configuration end\n");
 }
 #endif
 
@@ -221,6 +222,8 @@ static rt_uint32_t xfer(struct rt_spi_device* device, struct rt_spi_message* mes
     struct stm32_spi_cs * stm32_spi_cs = device->parent.user_data;
     rt_uint32_t size = message->length;
 
+     //rt_kprintf("xfer start, msg len=%d, cfg w=%d\n",message->length, config->data_width);
+     //rt_kprintf("send %s, rec %s \n", message->send_buf != RT_NULL? "Y":"N", message->recv_buf != RT_NULL? "Y":"N");
     /* take CS */
     if(message->cs_take)
     {
@@ -352,6 +355,7 @@ void rt_stm32f10x_spi_init(void)
 #endif /* #ifdef SPI_USE_DMA */
         rt_spi_bus_register(&stm32_spi_bus_1.parent, "spi1", &stm32_spi_ops);
     } /* register SPI1 */
+        rt_kprintf("rt_spi_bus_register spi1\n");
 #endif /* #ifdef USING_SPI1 */
 
 #ifdef USING_SPI2
@@ -445,5 +449,37 @@ void rt_stm32f10x_spi_init(void)
         rt_spi_bus_register(&stm32_spi_bus_3.parent, "spi3", &stm32_spi_ops);
     }/* register SPI */
 #endif /* #ifdef USING_SPI3 */
+
+
+
+
+#ifdef USING_SPI1
+    /* attach spi10 : CS PA4 */
+    {
+        static struct rt_spi_device rt_spi_device;
+        static struct stm32_spi_cs  stm32_spi_cs;
+        GPIO_InitTypeDef GPIO_InitStructure;
+
+        stm32_spi_cs.GPIOx = GPIOA;
+        stm32_spi_cs.GPIO_Pin = GPIO_Pin_4;
+
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+        GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_4;
+        GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+        GPIO_SetBits(GPIOA, GPIO_Pin_4);
+
+        rt_spi_bus_attach_device(&rt_spi_device, "spi10", "spi1", (void*)&stm32_spi_cs);
+    }
+#endif
+
+
+
+
+
+        
 	return ;
 }

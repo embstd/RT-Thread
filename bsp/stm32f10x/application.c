@@ -43,12 +43,25 @@
 #include <rtgui/driver.h>
 #endif
 
-#include "led.h"
+#include "gpio.h"
 
 ALIGN(RT_ALIGN_SIZE)
-static rt_uint8_t led_stack[ 512 ];
+static rt_uint8_t led_stack[ 4096 ];
 
 #define EEPROM_Block0_ADDRESS 0x50//0xA0
+
+#define LED1_GPIO GPIO_NUM(2,6) //GPIOC_6
+#define LED1_ON()  gpio_direction_output(LED1_GPIO, 1)
+#define LED1_OFF() gpio_direction_output(LED1_GPIO, 0)
+
+#define LED2_GPIO GPIO_NUM(2,7) //GPIOC_7
+#define LED2_ON()  gpio_direction_output(LED2_GPIO, 1)
+#define LED2_OFF() gpio_direction_output(LED2_GPIO, 0)
+
+#define KEY1_GPIO GPIO_NUM(4,0) //GPIOE_0
+#define GETKEY1()  gpio_direction_input(KEY1_GPIO)
+#define KEY2_GPIO GPIO_NUM(4,1) //GPIOE_1
+#define GETKEY2()  gpio_direction_input(KEY2_GPIO)
 
 static struct rt_thread led_thread;
 static void led_thread_entry(void* parameter)
@@ -56,42 +69,39 @@ static void led_thread_entry(void* parameter)
     unsigned int count=0;
     int i;
 
-    rt_hw_led_init();
-
     while (1)
     { 
-    	//Key GPIOE_14, LED GPIOE_0
-    	if (!gpio(4, 14, 0, 0)) //Key Down
+
+    	if (!GETKEY1()) //Key Down
     	{
     		/* code */
     		for(i=3; i>0; i--)
     		{
-    			gpio(4,0,1,0); //LED ON
+    			LED1_ON();
     			rt_thread_delay(RT_TICK_PER_SECOND/2);
-    			gpio(4,0,1,1); //LED OFF
+    			LED1_OFF();
     			rt_thread_delay(RT_TICK_PER_SECOND/2);
     		}
-    		gpio(4,0,1,0); //LED ON
-    		// //Write
-    		// i2c(0,EEPROM_Block0_ADDRESS,0x0,0xF0);
-    		// i2c(0,EEPROM_Block0_ADDRESS,0x2,0xF2);
-    		// i2c(0,EEPROM_Block0_ADDRESS,0x4,0xF4);
-    		// //Read
-    		// i2c(1,EEPROM_Block0_ADDRESS,0x0,0xF0);
-    		// i2c(1,EEPROM_Block0_ADDRESS,0x2,0xF2);
-    		// i2c(1,EEPROM_Block0_ADDRESS,0x4,0xF4);
-    		at24c16b_write(0x0, 128);
-    		at24c16b_read(0x0, 128);
+    		LED1_ON();
+
+    		// at24c16b_write(0x0, 128);
+    		// at24c16b_read(0x0, 128);
+
+    			if (dfs_mount("W25X10BV", "/", "elm", 0, 0) == 0)
+		rt_kprintf("SPI File System initialized!\n");
+	else
+		rt_kprintf("SPI File System init failed!\n");
+
     	}
     	else
     	{
-    		gpio(4,0,1,1); //LED OFF
+    		LED1_OFF();
     	}
 
 
-		gpio(4,12,1,0); //IO Output ON
+		LED2_ON();
 		rt_thread_delay(RT_TICK_PER_SECOND/2);
-		gpio(4,12,1,1); //IO Output OFF
+		LED2_OFF();
 		rt_thread_delay(RT_TICK_PER_SECOND/2);
 
     }
@@ -110,12 +120,12 @@ void rt_init_thread_entry(void* parameter)
 		elm_init();
 
 		/* mount sd card fat partition 1 as root directory */
-		if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
-		{
-			rt_kprintf("File System initialized!\n");
-		}
-		else
-			rt_kprintf("File System initialzation failed!\n");
+		// if (dfs_mount("sd0", "/", "elm", 0, 0) == 0)
+		// {
+		// 	rt_kprintf("File System initialized!\n");
+		// }
+		// else
+		// 	rt_kprintf("File System initialzation failed!\n");
 #endif
 	}
 #endif
@@ -176,7 +186,38 @@ void rt_init_thread_entry(void* parameter)
 	}
 #endif /* #ifdef RT_USING_RTGUI */
 
+#ifdef RT_USING_I2C	
 	rt_i2c_stm32_add_bus();
+#endif	
+
+#ifdef RT_USING_SPI
+	rt_stm32f10x_spi_init();
+	rt_kprintf("spi bus\n");
+
+	w25qxx_init("W25X10BV","spi10");
+	rt_kprintf("W25X10BV devices\n");
+
+#ifdef RT_USING_DFS
+	#ifdef RT_USING_DFS_ELMFAT	
+	/* mount spi flash fat as root directory */
+	// if (dfs_mount("W25X10BV", "/", "elm", 0, 0) == 0)
+	// 	rt_kprintf("SPI File System initialized!\n");
+	// else
+	// 	rt_kprintf("SPI File System init failed!\n");
+	#endif
+#endif
+
+#if defined(RT_USING_DFS_DEVFS)
+		devfs_init();
+		if (dfs_mount(RT_NULL, "/devfs", "devfs", 0, 0) == 0)
+			rt_kprintf("Device File System  devfs initialized!\n");
+		else
+			rt_kprintf("Device File System devfs initialzation failed!\n");
+#endif
+
+
+#endif
+
 	rt_adc_device_init();
 }
 

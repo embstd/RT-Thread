@@ -13,9 +13,9 @@
  */
 
 #include <stdint.h>
-#include "spi_flash_sst25vfxx.h"
+#include "spi_flash.h"
 
-#define FLASH_DEBUG
+#define FLASH_DEBUG 1
 
 #ifdef FLASH_DEBUG
 #define FLASH_TRACE         rt_kprintf

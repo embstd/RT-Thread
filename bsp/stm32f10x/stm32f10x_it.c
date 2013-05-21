@@ -219,7 +219,8 @@ void USART3_IRQHandler(void)
 #endif
 }
 
-#if defined(RT_USING_DFS) && STM32_USE_SDIO
+#if 0 
+//defined(RT_USING_DFS) && STM32_USE_SDIO
 /*******************************************************************************
 * Function Name  : SDIO_IRQHandler
 * Description    : This function handles SDIO global interrupt request.

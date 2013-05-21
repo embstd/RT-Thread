@@ -18,7 +18,7 @@
 #include <rtthread.h>
 #include <drivers/spi.h>
 
-struct spi_flash
+struct spi_flash_device
 {
     struct rt_device                flash_device;
     struct rt_device_blk_geometry   geometry;
@@ -26,10 +26,10 @@ struct spi_flash
     struct rt_mutex                 lock;
 };
 
-typedef spi_flash_at45dbxx spi_flash 
-typedef spi_flash_sst25vfxx spi_flash
+//typedef struct spi_flash_ spi_flash_at45dbxx  ;
+//typedef struct spi_flash_ spi_flash_sst25vfxx ;
 
-extern rt_err_t sst25vfxx_init(const char * flash_device_name, const char * spi_device_name);
+extern rt_err_t w25qxx_init(const char * flash_device_name, const char * spi_device_name);
 
 
 #endif // SPI_FLASH_SST25VFXX_H_INCLUDED

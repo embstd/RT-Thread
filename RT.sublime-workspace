@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"min",
+				"min"
+			],
+			[
+				"led",
+				"ledstate"
+			],
+			[
+				"err",
+				"err_times"
+			],
+			[
+				"test",
+				"test_times"
+			],
+			[
 				"user",
 				"user_cnt"
 			],
@@ -76,52 +92,44 @@
 	"buffers":
 	[
 		{
-			"contents": "Searching 2237 files for \"RT_Device_Class_\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\key.c:\n  324  	rt_memset(&(key_device->parent), 0, sizeof(struct rt_device));\n  325  	\n  326: 	key_device->parent.type 		= RT_Device_Class_Char;\n  327  	key_device->parent.tx_complete = RT_NULL;\n  328  	key_device->parent.init 		= rt_key_init;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\lcd_a70.c:\n  236  \n  237  	/* init device structure */\n  238: 	lcd->type = RT_Device_Class_Unknown;\n  239  	lcd->init = rt_lcd_init;\n  240  	lcd->open = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\lcd_n35.c:\n  237  \n  238  	/* init device structure */\n  239: 	lcd->type = RT_Device_Class_Unknown;\n  240  	lcd->init = rt_lcd_init;\n  241  	lcd->open = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\lcd_t35.c:\n  238  \n  239  	/* init device structure */\n  240: 	lcd->type = RT_Device_Class_Unknown;\n  241  	lcd->init = rt_lcd_init;\n  242  	lcd->open = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\lcd_x35.c:\n  243  \n  244  	/* init device structure */\n  245: 	lcd->type = RT_Device_Class_Unknown;\n  246  	lcd->init = rt_lcd_init;\n  247  	lcd->open = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\sdcard.c:\n  491  \n  492                      /* register sdcard device */\n  493:                     sdcard_device[i].type      = RT_Device_Class_Block;\n  494                      sdcard_device[i].init      = rt_sdcard_init;\n  495                      sdcard_device[i].open      = rt_sdcard_open;\n  ...\n  513  \n  514                          /* register sdcard device */\n  515:                         sdcard_device[0].type      = RT_Device_Class_Block;\n  516                          sdcard_device[0].init      = rt_sdcard_init;\n  517                          sdcard_device[0].open      = rt_sdcard_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\touch.c:\n  468  \n  469  	/* init device structure */\n  470: 	touch->parent.type = RT_Device_Class_Unknown;\n  471  	touch->parent.init = rtgui_touch_init;\n  472  	touch->parent.control = rtgui_touch_control;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n  111  \n  112      /* set device type */\n  113:     device->type    = RT_Device_Class_adcBUS;\n  114      /* initialize device interface */\n  115      device->init    = adc_bus_device_init;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\ili_lcd_general.c:\n  703  \n  704      /* register lcd device */\n  705:     _lcd_device.type  = RT_Device_Class_Graphic;\n  706      _lcd_device.init  = lcd_init;\n  707      _lcd_device.open  = lcd_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\rtc.c:\n  126  void rt_hw_rtc_init(void)\n  127  {\n  128:     rtc.type	= RT_Device_Class_RTC;\n  129  \n  130      if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5)\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 3216  \n 3217  		/* register sdcard device */\n 3218: 		sdcard_device.type  = RT_Device_Class_Block;\n 3219  		sdcard_device.init 	= rt_sdcard_init;\n 3220  		sdcard_device.open 	= rt_sdcard_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\serial.c:\n  293  	}\n  294  \n  295: 	device->type 		= RT_Device_Class_Char;\n  296  	device->rx_indicate = RT_NULL;\n  297  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\ssd1289.c:\n  496  \n  497  	/* register lcd device */\n  498: 	_lcd_device.type  = RT_Device_Class_Graphic;\n  499  	_lcd_device.init  = lcd_init;\n  500  	_lcd_device.open  = lcd_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\touch.c:\n  459  \n  460      /* init device structure */\n  461:     touch->parent.type = RT_Device_Class_Unknown;\n  462      touch->parent.init = rtgui_touch_init;\n  463      touch->parent.control = rtgui_touch_control;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\serial.c:\n  293  	}\n  294  \n  295: 	device->type 		= RT_Device_Class_Char;\n  296  	device->rx_indicate = RT_NULL;\n  297  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\devices\\spi_flash\\at45dbxx.c:\n  410  \n  411      /* register device */\n  412:     spi_flash_at45dbxx.flash_device.type    = RT_Device_Class_Block;\n  413      spi_flash_at45dbxx.flash_device.init    = AT45DB_flash_init;\n  414      spi_flash_at45dbxx.flash_device.open    = AT45DB_flash_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\devices\\spi_flash\\sst25vfxx.c:\n  330  \n  331      /* register device */\n  332:     spi_flash->flash_device.type    = RT_Device_Class_Block;\n  333      spi_flash->flash_device.init    = sst25vfxx_flash_init;\n  334      spi_flash->flash_device.open    = sst25vfxx_flash_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\console.c:\n   68  \n   69  		/* device initialization */\n   70: 		console->parent.type = RT_Device_Class_Char;\n   71  		/* set device interface */\n   72  		console->parent.init 	= console_init;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\devfs.c:\n  199  				DFS_S_IWUSR | DFS_S_IWGRP | DFS_S_IWOTH;\n  200  \n  201: 			if (dev_id->type == RT_Device_Class_Char)\n  202  				st->st_mode |= DFS_S_IFCHR;\n  203: 			else if (dev_id->type == RT_Device_Class_Block)\n  204  				st->st_mode |= DFS_S_IFBLK;\n  205  			else\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c_core.c:\n   42      struct rt_i2c_bus_device *bus;\n   43      rt_device_t dev = rt_device_find(bus_name);\n   44:     if (dev == RT_NULL || dev->type != RT_Device_Class_I2CBUS)\n   45      {\n   46          i2c_dbg(\"I2C bus %s not exist\\n\", bus_name);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c_dev.c:\n  111  \n  112      /* set device type */\n  113:     device->type    = RT_Device_Class_I2CBUS;\n  114      /* initialize device interface */\n  115      device->init    = i2c_bus_device_init;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\mtd\\mtd_nand.c:\n   69  \n   70      /* set device class and generic device interface */\n   71:     dev->type        = RT_Device_Class_MTD;\n   72      dev->init        = _mtd_init;\n   73      dev->open        = _mtd_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\mtd\\mtd_nor.c:\n   65  \n   66      /* set device class and generic device interface */\n   67:     dev->type        = RT_Device_Class_MTD;\n   68      dev->init        = _mtd_init;\n   69      dev->open        = _mtd_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\sdio\\block_dev.c:\n  341  	\n  342  				/* register mmcsd device */\n  343: 				blk_dev->dev.type = RT_Device_Class_Block;					\n  344  				blk_dev->dev.init = rt_mmcsd_init;\n  345  				blk_dev->dev.open = rt_mmcsd_open;\n  ...\n  370  	\n  371  					/* register mmcsd device */\n  372: 					blk_dev->dev.type  = RT_Device_Class_Block;								\n  373  					blk_dev->dev.init = rt_mmcsd_init;\n  374  					blk_dev->dev.open = rt_mmcsd_open;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\serial\\serial.c:\n  380      device = &(serial->parent);\n  381  \n  382:     device->type        = RT_Device_Class_Char;\n  383      device->rx_indicate = RT_NULL;\n  384      device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\spi\\spi_core.c:\n   53      /* get physical spi bus */\n   54      bus = rt_device_find(bus_name);\n   55:     if (bus != RT_NULL && bus->type == RT_Device_Class_SPIBUS)\n   56      {\n   57          device->bus = (struct rt_spi_bus *)bus;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\spi\\spi_dev.c:\n   82  \n   83      /* set device type */\n   84:     device->type    = RT_Device_Class_SPIBUS;\n   85      /* initialize device interface */\n   86      device->init    = _spi_bus_device_init;\n   ..\n  162  \n  163      /* set device type */\n  164:     device->type    = RT_Device_Class_SPIDevice;\n  165      device->init    = _spidev_device_init;\n  166      device->open    = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\src\\pipe.c:\n  168  \n  169          /* create device */\n  170:         pipe->parent.type    = RT_Device_Class_Char;\n  171          pipe->parent.init    = RT_NULL;\n  172          pipe->parent.open    = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\usb\\usbhost\\class\\adk.c:\n  332  \n  333      /* register adk device */\n  334:     adkinst->device.type  = RT_Device_Class_Char;                         \n  335      adkinst->device.init = RT_NULL;         \n  336      adkinst->device.open = RT_NULL;         \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\finsh\\cmd.c:\n  467                     RT_NAME_MAX,\n  468                     device->parent.name,\n  469:                    (device->type <= RT_Device_Class_Unknown) ?\n  470                     device_type_str[device->type] :\n  471:                    device_type_str[RT_Device_Class_Unknown]);\n  472      }\n  473  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.3.2\\src\\arch\\sys_arch_init.c:\n   59  		object = rt_list_entry(node, struct rt_object, list);\n   60  		device = (rt_device_t) object;\n   61: 		if (device->type == RT_Device_Class_NetIf)\n   62  		{\n   63  			ethif = (struct eth_device*)device;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.3.2\\src\\netif\\ethernetif.c:\n  125  	/* register to rt-thread device manager */\n  126  	rt_device_register(&(dev->parent), name, RT_DEVICE_FLAG_RDWR);\n  127: 	dev->parent.type = RT_Device_Class_NetIf;\n  128  	rt_sem_init(&(dev->tx_ack), name, 0, RT_IPC_FLAG_FIFO);\n  129  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.4.1\\src\\arch\\sys_arch.c:\n   82          object = rt_list_entry(node, struct rt_object, list);\n   83          device = (rt_device_t)object;\n   84:         if (device->type == RT_Device_Class_NetIf)\n   85          {\n   86              ethif = (struct eth_device *)device;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.4.1\\src\\netif\\ethernetif.c:\n  183      /* link changed status of device */\n  184      dev->link_changed = 0x00;\n  185:     dev->parent.type = RT_Device_Class_NetIf;\n  186      /* register to RT-Thread device manager */\n  187      rt_device_register(&(dev->parent), name, RT_DEVICE_FLAG_RDWR);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip\\src\\arch\\sys_arch.c:\n   82          object = rt_list_entry(node, struct rt_object, list);\n   83          device = (rt_device_t)object;\n   84:         if (device->type == RT_Device_Class_NetIf)\n   85          {\n   86              ethif = (struct eth_device *)device;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip\\src\\netif\\ethernetif.c:\n  183      /* link changed status of device */\n  184      dev->link_changed = 0x00;\n  185:     dev->parent.type = RT_Device_Class_NetIf;\n  186      /* register to RT-Thread device manager */\n  187      rt_device_register(&(dev->parent), name, RT_DEVICE_FLAG_RDWR);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\uip\\rt-thread\\uip_ethernetif.c:\n  172  	/* register to rt-thread device manager */\n  173  	rt_device_register(&(dev->parent), name, RT_DEVICE_FLAG_RDWR);\n  174: 	dev->parent.type = RT_Device_Class_NetIf;\n  175  	rt_sem_init(&(dev->tx_ack), name, 0, RT_IPC_FLAG_FIFO);\n  176  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\examples\\test\\device_test.c:\n  502      switch( device->type )\n  503      {\n  504:     case RT_Device_Class_Block :\n  505          rt_kprintf(\"block device!\\r\\n\");\n  506          return _block_device_test(device);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\include\\rtdef.h:\n  652   * device (I/O) class type\n  653   */\n  654: enum rt_device_class_type\n  655  {\n  656:     RT_Device_Class_Char = 0,                           /**< character device */\n  657:     RT_Device_Class_Block,                              /**< block device */\n  658:     RT_Device_Class_NetIf,                              /**< net interface */\n  659:     RT_Device_Class_MTD,                                /**< memory device */\n  660:     RT_Device_Class_CAN,                                /**< CAN device */\n  661:     RT_Device_Class_RTC,                                /**< RTC device */\n  662:     RT_Device_Class_Sound,                              /**< Sound device */\n  663:     RT_Device_Class_Graphic,                            /**< Graphic device */\n  664:     RT_Device_Class_I2CBUS,                             /**< I2C bus device */\n  665:     RT_Device_Class_USBDevice,                          /**< USB slave device */\n  666:     RT_Device_Class_USBHost,                            /**< USB host bus */\n  667:     RT_Device_Class_SPIBUS,                             /**< SPI bus device */\n  668:     RT_Device_Class_SPIDevice,                          /**< SPI device */\n  669:     RT_Device_Class_SDIO,                               /**< SDIO bus device */\n  670:     RT_Device_Class_PM,                                 /**< PM pseudo device */\n  671:     RT_Device_Class_Unknown                             /**< unknown device */\n  672  };\n  673  \n  ...\n  726      struct rt_object          parent;                   /**< inherit from rt_object */\n  727  \n  728:     enum rt_device_class_type type;                     /**< device type */\n  729      rt_uint16_t               flag;                     /**< device flag */\n  730      rt_uint16_t               open_flag;                /**< device open flag */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\arm\\at91sam926x\\serial.c:\n  237  	RT_ASSERT(device != RT_NULL);\n  238  \n  239: 	device->type 		= RT_Device_Class_Char;\n  240  	device->rx_indicate = RT_NULL;\n  241  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\arm\\s3c24x0\\rtc.c:\n  155  void rt_hw_rtc_init(void)\n  156  {\n  157: 	rtc.type	= RT_Device_Class_RTC;\n  158  \n  159  	/* register rtc device */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\arm\\s3c24x0\\serial.c:\n  238  	RT_ASSERT(device != RT_NULL);\n  239  \n  240: 	device->type 		= RT_Device_Class_Char;\n  241  	device->rx_indicate = RT_NULL;\n  242  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\arm\\sep4020\\serial.c:\n  236  	RT_ASSERT(device != RT_NULL);\n  237  \n  238: 	device->type 		= RT_Device_Class_Char;\n  239  	device->rx_indicate = RT_NULL;\n  240  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\avr32\\uc3\\serial.c:\n  210  	}\n  211  \n  212: 	device->type 		= RT_Device_Class_Char;\n  213  	device->rx_indicate = RT_NULL;\n  214  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\blackfin\\bf53x\\serial.c:\n  239  	RT_ASSERT(device != RT_NULL);\n  240  \n  241: 	device->type 		= RT_Device_Class_Char;\n  242  	device->rx_indicate = RT_NULL;\n  243  	device->tx_complete = RT_NULL;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\ppc\\ppc405\\serial.c:\n  285  \n  286  	device = (struct rt_ppc405_serial*) &ppc405_serial;\n  287: 	device->parent.type = RT_Device_Class_Char;\n  288  	\n  289  	device->hw_base = UART0_BASE;\n  ...\n  306  	out_8((rt_uint8_t *)device->hw_base + UART_IER, 0x00);	/* set interrupt enable reg */\n  307  \n  308: 	device->parent.type     = RT_Device_Class_Char;\n  309  	device->parent.init 	= rt_serial_init;\n  310  	device->parent.open 	= rt_serial_open;\n\n69 matches across 46 files\n\n\nSearching 2237 files for \"RCC_APB2PeriphClockCmd\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.c:\n   53      {\n   54          GPIO_InitTypeDef GPIO_InitStructure;\n   55:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF\n   56                                 | RCC_APB2Periph_GPIOG, ENABLE);\n   57          RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\dm9000a.c:\n  578  {\n  579      /* enable gpiob port clock */\n  580:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOE | RCC_APB2Periph_AFIO, ENABLE);\n  581  	/* enable FSMC clock */\n  582  	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n  ...\n  636      {\n  637          GPIO_InitTypeDef GPIO_InitStructure;\n  638:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF\n  639                                 | RCC_APB2Periph_GPIOG, ENABLE);\n  640          RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\enc28j60.c:\n  667     //RCC_PCLK2Config  ( uint32_t  RCC_HCLK   )\n  668      /* enable SPI1 clock */\n  669:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);\n  670  \n  671      /* enable gpiob port clock */\n  672:     //RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);\n  673:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC , ENABLE);\n  674  }\n  675  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\gpio.c:\n   31      GPIO_InitTypeDef GPIO_InitStructure;\n   32  \n   33:     RCC_APB2PeriphClockCmd(RCC_ports[port],ENABLE);\n   34  \n   35  	if(dir)\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\i2c-stm32.c:\n  326      stm32_dbg(\"Init I2C1 GPIO\\n\");\n  327          /* Ê¹ÄÜÓë I2C_BUS_NUM ÓÐ¹ØµÄÊ±ÖÓ */\n  328:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  329      RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1,ENABLE);  \n  330        \n  ...\n  339       stm32_dbg(\"Init I2C2 GPIO\\n\");\n  340          /* Ê¹ÄÜÓë I2C_BUS_NUM ÓÐ¹ØµÄÊ±ÖÓ */\n  341:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  342      RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,ENABLE);  \n  343        \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\ili_lcd_general.c:\n   40      {\n   41          GPIO_InitTypeDef GPIO_InitStructure;\n   42:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF\n   43                                 | RCC_APB2Periph_GPIOG, ENABLE);\n   44          RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n   ..\n  689          GPIO_InitTypeDef GPIO_InitStructure;\n  690  \n  691:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);\n  692  \n  693          GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\led.c:\n   41      GPIO_InitTypeDef GPIO_InitStructure;\n   42  \n   43:     RCC_APB2PeriphClockCmd(led1_rcc|led2_rcc,ENABLE);\n   44  \n   45      GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_rcc.h:\n  691  void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks);\n  692  void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState);\n  693: void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState);\n  694  void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState);\n  695  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_rcc.c:\n 1093    * @retval None\n 1094    */\n 1095: void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)\n 1096  {\n 1097    /* Check the parameters */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\msd.c:\n  757  \n  758    /* GPIOA and GPIOC Periph clock enable */\n  759:   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOD, ENABLE);\n  760    /* SPI Periph clock enable */\n  761:   RCC_APB2PeriphClockCmd(MSD_RCC_SPI, ENABLE);\n  762  \n  763    /* Configure SPI pins: SCK, MISO and MOSI */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\rt_stm32f10x_spi.c:\n  324  \n  325          /* Enable SPI1 Periph clock */\n  326:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA\n  327          | RCC_APB2Periph_AFIO | RCC_APB2Periph_SPI1,\n  328          ENABLE);\n  ...\n  361  \n  362          /* Enable SPI2 Periph clock */\n  363:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  364          /*!< Enable the SPI and GPIO clock */\n  365          RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);\n  ...\n  407  \n  408          /* Enable SPI2 Periph clock */\n  409:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  410          /*!< Enable the SPI and GPIO clock */\n  411          RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 2896  \n 2897    /* GPIOC and GPIOD Periph clock enable */\n 2898:   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);\n 2899  \n 2900    /* Configure PC.08, PC.09, PC.10, PC.11, PC.12 pin: D0, D1, D2, D3, CLK pin */\n ....\n 3165      GPIO_InitTypeDef GPIO_InitStructure;\n 3166  \n 3167:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);\n 3168      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;\n 3169      GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\ssd1289.c:\n   39      {\n   40          GPIO_InitTypeDef GPIO_InitStructure;\n   41:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF\n   42                                 | RCC_APB2Periph_GPIOG, ENABLE);\n   43          RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n   ..\n  482          GPIO_InitTypeDef GPIO_InitStructure;\n  483  \n  484:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);\n  485  \n  486          GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm3210c_eval_lcd.c:\n   99  \n  100  	/* Enable GPIO clock */\n  101: 	RCC_APB2PeriphClockCmd(LCD_NCS_GPIO_CLK, ENABLE);\n  102  \n  103  	/* Configure NCS in Output Push-Pull mode */\n  ...\n  298  \n  299  	/* Enable GPIO clock */\n  300: 	RCC_APB2PeriphClockCmd(LCD_SPI_GPIO_CLK | RCC_APB2Periph_AFIO, ENABLE);\n  301  	GPIO_PinRemapConfig(GPIO_Remap_SPI3, ENABLE);\n  302  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm3210e_eval_lcd.c:\n  169  	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);\n  170  \n  171: 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE |\n  172  		RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG |\n  173  		RCC_APB2Periph_AFIO, ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\touch.c:\n  327      {\n  328          GPIO_InitTypeDef GPIO_InitStructure;\n  329:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);\n  330  \n  331          GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;\n  ...\n  351          GPIO_InitTypeDef GPIO_InitStructure;\n  352  \n  353:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);\n  354  \n  355          GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;\n  ...\n  417  \n  418          /* Enable SPI1 Periph clock */\n  419:         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA\n  420                                 | RCC_APB2Periph_AFIO | RCC_APB2Periph_SPI1,\n  421                                 ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\usart.c:\n  105  static void RCC_Configuration(void)\n  106  {\n  107: 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);\n  108  \n  109  #ifdef RT_USING_UART1\n  110  	/* Enable USART1 and GPIOA clocks */\n  111: 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA, ENABLE);\n  112  #endif\n  113  \n  ...\n  116  #if (defined(STM32F10X_LD) || defined(STM32F10X_MD) || defined(STM32F10X_CL))\n  117      /* Enable AFIO and GPIOD clock */\n  118:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOD, ENABLE);\n  119  \n  120      /* Enable the USART2 Pins Software Remapping */\n  ...\n  122  #else\n  123      /* Enable AFIO and GPIOA clock */\n  124:     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOA, ENABLE);\n  125  #endif\n  126  \n  ...\n  130  \n  131  #ifdef RT_USING_UART3\n  132: 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);\n  133  	/* Enable USART3 clock */\n  134  	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\usart.c:\n  110  	RCC_AHB1PeriphClockCmd(UART1_GPIO_RCC, ENABLE);\n  111  	/* Enable USART2 clock */\n  112: 	RCC_APB2PeriphClockCmd(RCC_APBPeriph_UART1, ENABLE);\n  113  #endif\n  114  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_rcc.h:\n  473  void RCC_AHB3PeriphClockCmd(uint32_t RCC_AHB3Periph, FunctionalState NewState);\n  474  void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState);\n  475: void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState);\n  476  \n  477  void RCC_AHB1PeriphResetCmd(uint32_t RCC_AHB1Periph, FunctionalState NewState);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n   24  \n   25    *          1.  Enable the ADC interface clock using \n   26:   *                  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADCx, ENABLE); \n   27    *     \n   28    *          2. ADC pins configuration\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_exti.c:\n   40    *   \n   41    *  @note  SYSCFG APB clock must be enabled to get write access to SYSCFG_EXTICRx\n   42:   *         registers using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);\n   43    *          \n   44    *  @endverbatim                  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_rcc.c:\n  937       except internal SRAM, Flash and JTAG. Before to start using a peripheral you\n  938       have to enable its interface clock. You can do this using RCC_AHBPeriphClockCmd()\n  939:      , RCC_APB2PeriphClockCmd() and RCC_APB1PeriphClockCmd() functions.\n  940  \n  941    3. To reset the peripherals configuration (to the default state after device reset)\n  ...\n 1232    * @retval None\n 1233    */\n 1234: void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)\n 1235  {\n 1236    /* Check the parameters */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_sdio.c:\n   31    *                   Frequenc(PCLK2) >= (3 / 8 x Frequency(SDIO_CK))\n   32    *\n   33:   *          2. Enable peripheral clock using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, ENABLE).\n   34    *\n   35    *          3.  According to the SDIO mode, enable the GPIO clocks using \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_spi.c:\n   21    *    \n   22    *          1. Enable peripheral clock using the following functions \n   23:   *             RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE) for SPI1\n   24    *             RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE) for SPI2\n   25    *             RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE) for SPI3.\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_syscfg.c:\n   22    *\n   23    *  @note  SYSCFG APB clock must be enabled to get write access to SYSCFG registers,\n   24:   *         using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);\n   25    *                 \n   26    *  @endverbatim\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_usart.c:\n   24    *          ===================================================================\n   25    *          1. Enable peripheral clock using the follwoing functions\n   26:   *             RCC_APB2PeriphClockCmd(RCC_APB2Periph_USARTx, ENABLE) for USART1 and USART6 \n   27    *             RCC_APB1PeriphClockCmd(RCC_APB1Periph_USARTx, ENABLE) for USART2, USART3, UART4 or UART5.\n   28    *\n\n44 matches across 26 files\n\n\nSearching 2237 files for \"ADC_Cmd\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n   64  \n   65      ADC_DMACmd(ADC1, ENABLE);    //  使能 ADC1 DMA\n   66:     ADC_Cmd(ADC1, ENABLE);       //  使能 ADC1\n   67      ADC_ResetCalibration(ADC1);  // 重置指定的ADC的校准寄存器\n   68  \n   ..\n   77  {\n   78  \n   79:     ADC_Cmd(ADC1, ENABLE);       //  使能 ADC1\n   80  \n   81      return RT_EOK;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n  429  void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);\n  430  void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);\n  431: void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  432  void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  433  void ADC_ITConfig(ADC_TypeDef* ADCx, uint16_t ADC_IT, FunctionalState NewState);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  297    * @retval None\n  298    */\n  299: void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState)\n  300  {\n  301    /* Check the parameters */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n  581  void ADC_CommonInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n  582  void ADC_CommonStructInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n  583: void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  584  \n  585  /* Analog Watchdog configuration functions ************************************/\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n   33    *          3. Configure the ADC Prescaler, conversion resolution and data \n   34    *              alignment using the ADC_Init() function.\n   35:   *          4. Activate the ADC peripheral using ADC_Cmd() function.\n   36    *\n   37    *          Regular channels group configuration\n   ..\n  390    * @retval None\n  391    */\n  392: void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState)\n  393  {\n  394    /* Check the parameters */\n\n7 matches across 5 files\n\n\nSearching 2237 files for \"ADC_GetConversionValue\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n  129      for(i=0; i<count; i++, p++)\n  130      {\n  131:         *p=ADC_GetConversionValue(ADC1);  // 返回最近一次ADCx规则组的转换结果 \n  132          adc_dbg(\"adc[%d] value=%d\\n\", i,*p);\n  133      }   \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n  442  void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);\n  443  void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  444: uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx);\n  445  uint32_t ADC_GetDualModeConversionValue(void);\n  446  void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  706    * @retval The Data conversion value.\n  707    */\n  708: uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx)\n  709  {\n  710    /* Check the parameters */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n  600  void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, uint8_t Number);\n  601  void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  602: uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx);\n  603  uint32_t ADC_GetMultiModeConversionValue(void);\n  604  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n   43    *            - To configurate and activate the Discontinuous mode, use the \n   44    *              ADC_DiscModeChannelCountConfig() and ADC_DiscModeCmd() functions.\n   45:   *            - To read the ADC converted values, use the ADC_GetConversionValue()\n   46    *              function.\n   47    *\n   ..\n  560     2. Select the ADC_Channel_TempSensor and/or ADC_Channel_Vrefint using \n  561        ADC_RegularChannelConfig() or  ADC_InjectedChannelConfig() functions \n  562:    3. Get the voltage values, using ADC_GetConversionValue() or  \n  563        ADC_GetInjectedConversionValue().\n  564  \n  ...\n  569     2. Select the ADC_Channel_Vbat using ADC_RegularChannelConfig() or  \n  570        ADC_InjectedChannelConfig() functions \n  571:    3. Get the voltage value, using ADC_GetConversionValue() or  \n  572        ADC_GetInjectedConversionValue().\n  573   \n  ...\n  976    * @retval The Data conversion value.\n  977    */\n  978: uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx)\n  979  {\n  980    /* Check the parameters */\n\n8 matches across 5 files\n\n\nSearching 2237 files for \"ADC_InitTypeDef\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n   51  \n   52  \n   53:     ADC_InitTypeDef ADC_InitStructure;\n   54      RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE );\n   55      /* Time Base configuration */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n   72                                                 using the sequencer for regular channel group.\n   73                                                 This parameter must range from 1 to 16. */\n   74: }ADC_InitTypeDef;\n   75  /**\n   76    * @}\n   ..\n  427  \n  428  void ADC_DeInit(ADC_TypeDef* ADCx);\n  429: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);\n  430: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);\n  431  void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  432  void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  212    *         in the ADC_InitStruct.\n  213    * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.\n  214:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure that contains\n  215    *         the configuration information for the specified ADC peripheral.\n  216    * @retval None\n  217    */\n  218: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct)\n  219  {\n  220    uint32_t tmpreg1 = 0;\n  ...\n  270  /**\n  271    * @brief  Fills each ADC_InitStruct member with its default value.\n  272:   * @param  ADC_InitStruct : pointer to an ADC_InitTypeDef structure which will be initialized.\n  273    * @retval None\n  274    */\n  275: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)\n  276  {\n  277    /* Reset ADC init structure parameters values */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n   71                                                 regular channel group.\n   72                                                 This parameter must range from 1 to 16. */\n   73: }ADC_InitTypeDef;\n   74    \n   75  /** \n   ..\n  577  \n  578  /* Initialization and Configuration functions *********************************/\n  579: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);\n  580: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);\n  581  void ADC_CommonInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n  582  void ADC_CommonStructInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n  222    *         edge, number of conversion in the regular channels group sequencer).  \n  223    * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.\n  224:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure that contains\n  225    *         the configuration information for the specified ADC peripheral.\n  226    * @retval None\n  227    */\n  228: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct)\n  229  {\n  230    uint32_t tmpreg1 = 0;\n  ...\n  297    *         activation, continuous mode activation, External trigger source and \n  298    *         edge, number of conversion in the regular channels group sequencer).  \n  299:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure which will \n  300    *         be initialized.\n  301    * @retval None\n  302    */\n  303: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)\n  304  {\n  305    /* Initialize the ADC_Mode member */\n\n15 matches across 5 files\n\n\nSearching 2237 files for \"ADC_InitTypeDef\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n   51  \n   52  \n   53:     ADC_InitTypeDef ADC_InitStructure;\n   54      RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE );\n   55      /* Time Base configuration */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n   72                                                 using the sequencer for regular channel group.\n   73                                                 This parameter must range from 1 to 16. */\n   74: }ADC_InitTypeDef;\n   75  /**\n   76    * @}\n   ..\n  427  \n  428  void ADC_DeInit(ADC_TypeDef* ADCx);\n  429: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);\n  430: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);\n  431  void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  432  void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  212    *         in the ADC_InitStruct.\n  213    * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.\n  214:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure that contains\n  215    *         the configuration information for the specified ADC peripheral.\n  216    * @retval None\n  217    */\n  218: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct)\n  219  {\n  220    uint32_t tmpreg1 = 0;\n  ...\n  270  /**\n  271    * @brief  Fills each ADC_InitStruct member with its default value.\n  272:   * @param  ADC_InitStruct : pointer to an ADC_InitTypeDef structure which will be initialized.\n  273    * @retval None\n  274    */\n  275: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)\n  276  {\n  277    /* Reset ADC init structure parameters values */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n   71                                                 regular channel group.\n   72                                                 This parameter must range from 1 to 16. */\n   73: }ADC_InitTypeDef;\n   74    \n   75  /** \n   ..\n  577  \n  578  /* Initialization and Configuration functions *********************************/\n  579: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);\n  580: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);\n  581  void ADC_CommonInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n  582  void ADC_CommonStructInit(ADC_CommonInitTypeDef* ADC_CommonInitStruct);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n  222    *         edge, number of conversion in the regular channels group sequencer).  \n  223    * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.\n  224:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure that contains\n  225    *         the configuration information for the specified ADC peripheral.\n  226    * @retval None\n  227    */\n  228: void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct)\n  229  {\n  230    uint32_t tmpreg1 = 0;\n  ...\n  297    *         activation, continuous mode activation, External trigger source and \n  298    *         edge, number of conversion in the regular channels group sequencer).  \n  299:   * @param  ADC_InitStruct: pointer to an ADC_InitTypeDef structure which will \n  300    *         be initialized.\n  301    * @retval None\n  302    */\n  303: void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)\n  304  {\n  305    /* Initialize the ADC_Mode member */\n\n15 matches across 5 files\n\n\nSearching 2237 files for \"rt_device_control\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\touch.c:\n  478  \n  479  	/* get graphic device info */\n  480: 	result = rt_device_control(device, RTGRAPHIC_CTRL_GET_INFO, &info);\n  481  	if (result != RT_EOK)\n  482  	{\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\rtc.c:\n  174      if (device != RT_NULL)\n  175      {\n  176:         rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time);\n  177          if (t != RT_NULL) *t = time;\n  178      }\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\devices\\i2c_flash\\atc24xx.c:\n   52      if (rt_device_open(device, 0) == RT_EOK)\n   53      {\n   54:         rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);\n   55          rt_device_close(device);\n   56      }\n   ..\n  208      if (rt_device_open(device, 0) == RT_EOK)\n  209      {\n  210:         rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);\n  211          rt_device_close(device);\n  212      }\n  ...\n  249      if (rt_device_open(device, 0) == RT_EOK)\n  250      {\n  251:         //rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);\n  252          rt_device_close(device);\n  253      }\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\console.c:\n   51  static rt_err_t console_control(rt_device_t dev, rt_uint8_t cmd, void *args)\n   52  {\n   53: 	return rt_device_control(_console.device, cmd, args);\n   54  }\n   55  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\devfs.c:\n   29  \n   30  	/* close device handler */\n   31: 	result = rt_device_control(dev_id, cmd, args);\n   32  	if (result == RT_EOK)\n   33  		return DFS_STATUS_OK;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\elmfat\\dfs_elm.c:\n  845  \n  846          rt_memset(&geometry, 0, sizeof(geometry));\n  847:         rt_device_control(device, RT_DEVICE_CTRL_BLK_GETGEOME, &geometry);\n  848  \n  849          *(DWORD *)buff = geometry.sector_count;\n  ...\n  856  \n  857          rt_memset(&geometry, 0, sizeof(geometry));\n  858:         rt_device_control(device, RT_DEVICE_CTRL_BLK_GETGEOME, &geometry);\n  859  \n  860          *(WORD *)buff = (WORD)(geometry.bytes_per_sector);\n  ...\n  865  \n  866          rt_memset(&geometry, 0, sizeof(geometry));\n  867:         rt_device_control(device, RT_DEVICE_CTRL_BLK_GETGEOME, &geometry);\n  868  \n  869          *(DWORD *)buff = geometry.block_size / geometry.bytes_per_sector;\n  ...\n  871      else if (ctrl == CTRL_SYNC)\n  872      {\n  873:         rt_device_control(device, RT_DEVICE_CTRL_BLK_SYNC, RT_NULL);\n  874      }\n  875      else if (ctrl == CTRL_ERASE_SECTOR)\n  876      {\n  877:         rt_device_control(device, RT_DEVICE_CTRL_BLK_ERASE, buff);\n  878      }\n  879  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\i2c\\i2c_shell.c:\n   66          {\n   67              i2c_dbg(\"write msg addr=0x%x, len=%d, reg=0x%d,  data=0x%x\\n\",i2c_msg[0].addr, i2c_msg[0].len, i2c_data[0], i2c_data[1]);\n   68:             rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);\n   69              rt_device_close(device);\n   70          }\n   ..\n   96          if (rt_device_open(device, 0) == RT_EOK)\n   97          {\n   98:             rt_device_control(device, RT_I2C_DEV_CTRL_RW, &i2c_priv_data);\n   99              i2c_dbg(\"read msg addr=0x%x, len=%d, addr=0x%d,  data=0x%x\\n\",i2c_msg[0].addr, i2c_msg[0].len, i2c_data[0], i2c_data[1]);\n  100              rt_device_close(device);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\rtc\\alarm.c:\n   56      wkalarm.tm_hour = alarm->wktime.tm_hour;\n   57  \n   58:     ret = rt_device_control(device, RT_DEVICE_CTRL_RTC_SET_ALARM, &wkalarm);\n   59      if ((ret == RT_EOK) && wkalarm.enable)\n   60      {\n   61:         ret = rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_ALARM, &wkalarm);\n   62          if (ret == RT_EOK)\n   63          {\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\rtc\\rtc.c:\n   47          if (rt_device_open(device, 0) == RT_EOK)\n   48          {\n   49:             rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time_now);\n   50              rt_device_close(device);\n   51          }\n   ..\n  104  \n  105      /* update to RTC device. */\n  106:     ret = rt_device_control(device, RT_DEVICE_CTRL_RTC_SET_TIME, &now);\n  107  \n  108      return ret;\n  ...\n  152  \n  153      /* update to RTC device. */\n  154:     ret = rt_device_control(device, RT_DEVICE_CTRL_RTC_SET_TIME, &now);\n  155  \n  156      return ret;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\usb\\usbdevice\\class\\mstorage.c:\n  513          return -RT_ERROR;\n  514      }\n  515:     if(rt_device_control(disk, RT_DEVICE_CTRL_BLK_GETGEOME, (void*)&geometry) != RT_EOK)\n  516          return -RT_ERROR;\n  517  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\libc\\minilibc\\time.c:\n  205  	if (device != RT_NULL)\n  206  	{\n  207: 		rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time);\n  208  		if (tp != RT_NULL)\n  209  		{\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\libc\\newlib\\syscalls.c:\n  257  	{\n  258  		/* get realtime seconds */\n  259: 		rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time);\n  260  	}\n  261  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.3.2\\src\\netif\\ethernetif.c:\n  145  \n  146  	/* get hardware address */\n  147: 	rt_device_control(&(dev->parent), NIOCTL_GADDR, netif->hwaddr);\n  148  \n  149  	/* set output */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.4.1\\src\\netif\\ethernetif.c:\n  198  \n  199      /* get hardware MAC address */\n  200:     rt_device_control(&(dev->parent), NIOCTL_GADDR, netif->hwaddr);\n  201  \n  202      /* set output */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip\\src\\netif\\ethernetif.c:\n  198  \n  199      /* get hardware MAC address */\n  200:     rt_device_control(&(dev->parent), NIOCTL_GADDR, netif->hwaddr);\n  201  \n  202      /* set output */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\uip\\rt-thread\\uip_ethernetif.c:\n  192  \n  193  	/* get hardware address */\n  194: 	rt_device_control(&(dev->parent), NIOCTL_GADDR, netif->hwaddr);\n  195  \n  196  	/* set output */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\pthreads\\clock_time.c:\n   28      {\n   29  		/* get realtime seconds */\n   30:         rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time);\n   31      }\n   32  \n   ..\n  132      {\n  133  		/* set realtime seconds */\n  134:         rt_device_control(device, RT_DEVICE_CTRL_RTC_SET_TIME, &second);\n  135      }\n  136  	else return -1;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\examples\\test\\device_test.c:\n   62          // step 2: get device info\n   63          rt_memset(&geometry, 0, sizeof(geometry));\n   64:         result = rt_device_control(device,\n   65                                     RT_DEVICE_CTRL_BLK_GETGEOME,\n   66                                     &geometry);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\include\\rtthread.h:\n  390                            const void *buffer,\n  391                            rt_size_t   size);\n  392: rt_err_t  rt_device_control(rt_device_t dev, rt_uint8_t cmd, void *arg);\n  393  \n  394  /*@}*/\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\libcpu\\arm\\s3c24x0\\rtc.c:\n  181  	if (device != RT_NULL)\n  182  	{\n  183: 		rt_device_control(device, RT_DEVICE_CTRL_RTC_GET_TIME, &time);\n  184  \n  185  		rt_kprintf(\"%d, %s\\n\", time, ctime(&time));\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\src\\device.c:\n  342   * @return the result\n  343   */\n  344: rt_err_t rt_device_control(rt_device_t dev, rt_uint8_t cmd, void *arg)\n  345  {\n  346      RT_ASSERT(dev != RT_NULL);\n  ...\n  354      return RT_EOK;\n  355  }\n  356: RTM_EXPORT(rt_device_control);\n  357  \n  358  /**\n\n33 matches across 21 files\n\n\nSearching 2237 files for \"rt_device_read\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\key.c:\n  280  	char key_value;\n  281  \n  282: 	while(rt_device_read(dev, 0, &key_value, 1) == 1)\n  283  	{\n  284  		/* init keyboard event */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\console.c:\n   36  	RT_ASSERT(device != RT_NULL);\n   37  \n   38: 	return rt_device_read(device->device, pos, buffer, size);\n   39  }\n   40  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\devfs\\devfs.c:\n   48  \n   49  	/* read device data */\n   50: 	result = rt_device_read(dev_id, file->pos, buf, count);\n   51  	file->pos += result;\n   52  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\dfs\\filesystems\\elmfat\\dfs_elm.c:\n  808      rt_device_t device = disk[drv];\n  809  \n  810:     result = rt_device_read(device, sector, buff, count);\n  811      if (result == count)\n  812      {\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\drivers\\usb\\usbdevice\\class\\mstorage.c:\n  245      RT_ASSERT(_count < geometry.sector_count);\n  246  \n  247:     rt_device_read(disk, _block, ep_in->buffer, 1);\n  248      dcd_ep_write(device->dcd, ep_in, ep_in->buffer, geometry.bytes_per_sector);\n  249      _count --;\n  ...\n  322      if(status == STATUS_SEND)\n  323      {\n  324:         rt_device_read(disk, _block, eps->ep_in->buffer, 1);\n  325          dcd_ep_write(device->dcd, eps->ep_in, eps->ep_in->buffer,\n  326                       geometry.bytes_per_sector);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\external\\lua\\applications\\lua_in_finsh.c:\n   95          }\n   96  \n   97:         while (rt_device_read(dev4lua.device, 0, &ch, 1) == 1)\n   98          {\n   99              /* handle CR key */\n  ...\n  101              {\n  102                  char next;\n  103:                 if (rt_device_read(dev4lua.device, 0, &next, 1) == 1)\n  104                      ch = next;\n  105              }\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\finsh\\shell.c:\n  378  \n  379  		/* read one character from device */\n  380: 		while (rt_device_read(shell->device, 0, &ch, 1) == 1)\n  381  		{\n  382  			/* handle history key */\n  ...\n  390  				char next;\n  391  \n  392: 				if (rt_device_read(shell->device, 0, &next, 1) == 1)\n  393  					ch = next;\n  394  				else ch = '\\r';\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip-1.4.1\\src\\arch\\sys_arch.c:\n  555      RT_ASSERT(fd != RT_NULL);\n  556  \n  557:     len = rt_device_read((rt_device_t)fd, 0, buf, size);\n  558      if (len <= 0)\n  559          return 0;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\net\\lwip\\src\\arch\\sys_arch.c:\n  555      RT_ASSERT(fd != RT_NULL);\n  556  \n  557:     len = rt_device_read((rt_device_t)fd, 0, buf, size);\n  558      if (len <= 0)\n  559          return 0;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\utilities\\zmodem\\rz.c:\n   81  	while(1)                     \n   82  	{\n   83: 	   n=rt_device_read(shell->device, 0, &ch, 1);\n   84  	   if (n == 0) break;\n   85  	}\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\components\\utilities\\zmodem\\zdevice.c:\n   64  	while (1)\n   65  	{\n   66:      	Line_left = rt_device_read(shell->device, 0, buf, 1);\n   67  		if (Line_left)\n   68  		{\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\examples\\test\\device_test.c:\n   94              rt_uint8_t * data_point;\n   95  \n   96:             i = rt_device_read(device, 0, read_buffer, 1);\n   97              if(i != 1)\n   98              {\n   ..\n  148              /* verify first sector */\n  149              sector_no = 0;\n  150:             i = rt_device_read(device,sector_no,read_buffer,1);\n  151              if( i != 1 )\n  152              {\n  ...\n  177              /* verify sector sector */\n  178              sector_no = 1;\n  179:             i = rt_device_read(device,sector_no,read_buffer,1);\n  180              if( i != 1 )\n  181              {\n  ...\n  206              /* verify the end sector */\n  207              sector_no = geometry.sector_count-1;\n  208:             i = rt_device_read(device,sector_no,read_buffer,1);\n  209              if( i != 1 )\n  210              {\n  ...\n  284                  for(i=0; i<200; i++)\n  285                  {\n  286:                     sector += rt_device_read(device, i, read_buffer, 1);\n  287                      if((i != 0) && ((i%4) == 0) )\n  288                      {\n  ...\n  351                  for(i=0; i<200; i++)\n  352                  {\n  353:                     sector += rt_device_read(device, (geometry.sector_count / 10) * (i%10) + (i%10), read_buffer, 1);\n  354                      if((i != 0) && ((i%4) == 0) )\n  355                      {\n  ...\n  419                  {\n  420                      rt_size_t n;\n  421:                     n = rt_device_read(device, 50, multiple_buffer, sector);\n  422                      if(n == sector)\n  423                      {\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\include\\rtthread.h:\n  382  rt_err_t  rt_device_open (rt_device_t dev, rt_uint16_t oflag);\n  383  rt_err_t  rt_device_close(rt_device_t dev);\n  384: rt_size_t rt_device_read (rt_device_t dev,\n  385                            rt_off_t    pos,\n  386                            void       *buffer,\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\src\\device.c:\n  281   * @note since 0.4.0, the unit of size/pos is a block for block device.\n  282   */\n  283: rt_size_t rt_device_read(rt_device_t dev,\n  284                           rt_off_t    pos,\n  285                           void       *buffer,\n  ...\n  299      return 0;\n  300  }\n  301: RTM_EXPORT(rt_device_read);\n  302  \n  303  /**\n\n24 matches across 14 files\n\n\nSearching 2237 files for \"ADC_Channel_11\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n   62      ADC_InitStructure.ADC_NbrOfChannel = 1;//用于转换的通道数\n   63      ADC_Init(ADC1, &ADC_InitStructure);\n   64:     ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 1, ADC_SampleTime_55Cycles5);  //采样时间为55.5周期 \n   65      \n   66      return RT_EOK;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n  183  #define ADC_Channel_9                               ((uint8_t)0x09)\n  184  #define ADC_Channel_10                              ((uint8_t)0x0A)\n  185: #define ADC_Channel_11                              ((uint8_t)0x0B)\n  186  #define ADC_Channel_12                              ((uint8_t)0x0C)\n  187  #define ADC_Channel_13                              ((uint8_t)0x0D)\n  ...\n  199                                   ((CHANNEL) == ADC_Channel_6) || ((CHANNEL) == ADC_Channel_7) || \\\n  200                                   ((CHANNEL) == ADC_Channel_8) || ((CHANNEL) == ADC_Channel_9) || \\\n  201:                                  ((CHANNEL) == ADC_Channel_10) || ((CHANNEL) == ADC_Channel_11) || \\\n  202                                   ((CHANNEL) == ADC_Channel_12) || ((CHANNEL) == ADC_Channel_13) || \\\n  203                                   ((CHANNEL) == ADC_Channel_14) || ((CHANNEL) == ADC_Channel_15) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  568    *     @arg ADC_Channel_9: ADC Channel9 selected\n  569    *     @arg ADC_Channel_10: ADC Channel10 selected\n  570:   *     @arg ADC_Channel_11: ADC Channel11 selected\n  571    *     @arg ADC_Channel_12: ADC Channel12 selected\n  572    *     @arg ADC_Channel_13: ADC Channel13 selected\n  ...\n  908    *     @arg ADC_Channel_9: ADC Channel9 selected\n  909    *     @arg ADC_Channel_10: ADC Channel10 selected\n  910:   *     @arg ADC_Channel_11: ADC Channel11 selected\n  911    *     @arg ADC_Channel_12: ADC Channel12 selected\n  912    *     @arg ADC_Channel_13: ADC Channel13 selected\n  ...\n 1134    *     @arg ADC_Channel_9: ADC Channel9 selected\n 1135    *     @arg ADC_Channel_10: ADC Channel10 selected\n 1136:   *     @arg ADC_Channel_11: ADC Channel11 selected\n 1137    *     @arg ADC_Channel_12: ADC Channel12 selected\n 1138    *     @arg ADC_Channel_13: ADC Channel13 selected\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n  311  #define ADC_Channel_9                               ((uint8_t)0x09)\n  312  #define ADC_Channel_10                              ((uint8_t)0x0A)\n  313: #define ADC_Channel_11                              ((uint8_t)0x0B)\n  314  #define ADC_Channel_12                              ((uint8_t)0x0C)\n  315  #define ADC_Channel_13                              ((uint8_t)0x0D)\n  ...\n  335                                   ((CHANNEL) == ADC_Channel_9) || \\\n  336                                   ((CHANNEL) == ADC_Channel_10) || \\\n  337:                                  ((CHANNEL) == ADC_Channel_11) || \\\n  338                                   ((CHANNEL) == ADC_Channel_12) || \\\n  339                                   ((CHANNEL) == ADC_Channel_13) || \\\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n  508    *            @arg ADC_Channel_9: ADC Channel9 selected\n  509    *            @arg ADC_Channel_10: ADC Channel10 selected\n  510:   *            @arg ADC_Channel_11: ADC Channel11 selected\n  511    *            @arg ADC_Channel_12: ADC Channel12 selected\n  512    *            @arg ADC_Channel_13: ADC Channel13 selected\n  ...\n  684    *            @arg ADC_Channel_9: ADC Channel9 selected\n  685    *            @arg ADC_Channel_10: ADC Channel10 selected\n  686:   *            @arg ADC_Channel_11: ADC Channel11 selected\n  687    *            @arg ADC_Channel_12: ADC Channel12 selected\n  688    *            @arg ADC_Channel_13: ADC Channel13 selected\n  ...\n 1162    *            @arg ADC_Channel_9: ADC Channel9 selected\n 1163    *            @arg ADC_Channel_10: ADC Channel10 selected\n 1164:   *            @arg ADC_Channel_11: ADC Channel11 selected\n 1165    *            @arg ADC_Channel_12: ADC Channel12 selected\n 1166    *            @arg ADC_Channel_13: ADC Channel13 selected\n\n11 matches across 5 files\n\n\nSearching 2237 files for \"ADC_RegularChannelConfig\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\adc_stm32.c:\n   62      ADC_InitStructure.ADC_NbrOfChannel = 1;//用于转换的通道数\n   63      ADC_Init(ADC1, &ADC_InitStructure);\n   64:     ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 1, ADC_SampleTime_55Cycles5);  //采样时间为55.5周期 \n   65      \n   66      return RT_EOK;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\inc\\stm32f10x_adc.h:\n  440  void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, uint8_t Number);\n  441  void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  442: void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);\n  443  void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);\n  444  uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\Libraries\\STM32F10x_StdPeriph_Driver\\src\\stm32f10x_adc.c:\n  588    * @retval None\n  589    */\n  590: void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime)\n  591  {\n  592    uint32_t tmpreg1 = 0, tmpreg2 = 0;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc\\stm32f4xx_adc.h:\n  593  \n  594  /* Regular Channels Configuration functions ***********************************/\n  595: void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);\n  596  void ADC_SoftwareStartConv(ADC_TypeDef* ADCx);\n  597  FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCx);\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\Libraries\\STM32F4xx_StdPeriph_Driver\\src\\stm32f4xx_adc.c:\n   38    *          ====================================    \n   39    *            - To configure the ADC regular channels group features, use \n   40:   *              ADC_Init() and ADC_RegularChannelConfig() functions.\n   41    *            - To activate the continuous mode, use the ADC_continuousModeCmd()\n   42    *              function.\n   ..\n  559        with the ADC channels using ADC_TempSensorVrefintCmd() function. \n  560     2. Select the ADC_Channel_TempSensor and/or ADC_Channel_Vrefint using \n  561:       ADC_RegularChannelConfig() or  ADC_InjectedChannelConfig() functions \n  562     3. Get the voltage values, using ADC_GetConversionValue() or  \n  563        ADC_GetInjectedConversionValue().\n  ...\n  567     1. Enable the internal connection of VBAT source with the ADC channel using \n  568        ADC_VBATCmd() function. \n  569:    2. Select the ADC_Channel_Vbat using ADC_RegularChannelConfig() or  \n  570        ADC_InjectedChannelConfig() functions \n  571     3. Get the voltage value, using ADC_GetConversionValue() or  \n  ...\n  706    * @retval None\n  707    */\n  708: void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime)\n  709  {\n  710    uint32_t tmpreg1 = 0, tmpreg2 = 0;\n\n8 matches across 5 files\n",
+			"file": "bsp/stm32f10x/rt_stm32f10x_spi.c",
 			"settings":
 			{
-				"buffer_size": 59803,
+				"buffer_size": 15398,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 2236 files for \"sdcard_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\board.h:\n   20  \n   21  void rt_hw_board_init(void);\n   22: void rt_hw_sdcard_init(void);\n   23  \n   24  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\sdcard.c:\n  369  struct dfs_partition part[4];\n  370  \n  371: static rt_err_t rt_sdcard_init(rt_device_t dev)\n  372  {\n  373      return RT_EOK;\n  ...\n  451  }\n  452  \n  453: void rt_hw_sdcard_init(void)\n  454  {\n  455      rt_uint8_t i, status;\n  ...\n  492                      /* register sdcard device */\n  493                      sdcard_device[i].type      = RT_Device_Class_Block;\n  494:                     sdcard_device[i].init      = rt_sdcard_init;\n  495                      sdcard_device[i].open      = rt_sdcard_open;\n  496                      sdcard_device[i].close     = rt_sdcard_close;\n  ...\n  514                          /* register sdcard device */\n  515                          sdcard_device[0].type      = RT_Device_Class_Block;\n  516:                         sdcard_device[0].init      = rt_sdcard_init;\n  517                          sdcard_device[0].open      = rt_sdcard_open;\n  518                          sdcard_device[0].close     = rt_sdcard_close;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\startup.c:\n  119  \n  120  #ifdef RT_USING_DFS\n  121: 	rt_hw_sdcard_init();\n  122  #ifdef RT_USING_DFS_UFFS\n  123  	rt_hw_nand_init();\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   64  \n   65  /* SD Card init function */\n   66: void rt_hw_sdcard_init(void);\n   67  void rt_hw_msd_init(void);\n   68  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 3002  \n 3003  /* RT-Thread Device Driver Interface */\n 3004: static rt_err_t rt_sdcard_init(rt_device_t dev)\n 3005  {\n 3006  	NVIC_InitTypeDef NVIC_InitStructure;\n ....\n 3160  }\n 3161  \n 3162: void rt_hw_sdcard_init()\n 3163  {\n 3164      /* SDIO POWER */\n ....\n 3217  		/* register sdcard device */\n 3218  		sdcard_device.type  = RT_Device_Class_Block;\n 3219: 		sdcard_device.init 	= rt_sdcard_init;\n 3220  		sdcard_device.open 	= rt_sdcard_open;\n 3221  		sdcard_device.close = rt_sdcard_close;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  119  	/* init sdcard driver */\n  120  #if STM32_USE_SDIO\n  121: 	rt_hw_sdcard_init();\n  122  #else\n  123  	rt_hw_msd_init();\n\n11 matches across 6 files\n\n\nSearching 2236 files for \"rt_hw_sdcard_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\board.h:\n   20  \n   21  void rt_hw_board_init(void);\n   22: void rt_hw_sdcard_init(void);\n   23  \n   24  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\sdcard.c:\n  451  }\n  452  \n  453: void rt_hw_sdcard_init(void)\n  454  {\n  455      rt_uint8_t i, status;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\startup.c:\n  119  \n  120  #ifdef RT_USING_DFS\n  121: 	rt_hw_sdcard_init();\n  122  #ifdef RT_USING_DFS_UFFS\n  123  	rt_hw_nand_init();\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   64  \n   65  /* SD Card init function */\n   66: void rt_hw_sdcard_init(void);\n   67  void rt_hw_msd_init(void);\n   68  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 3160  }\n 3161  \n 3162: void rt_hw_sdcard_init()\n 3163  {\n 3164      /* SDIO POWER */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  119  	/* init sdcard driver */\n  120  #if STM32_USE_SDIO\n  121: 	rt_hw_sdcard_init();\n  122  #else\n  123  	rt_hw_msd_init();\n\n6 matches across 6 files\n\n\nSearching 2236 files for \"STM32_USE_SDIO\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   20  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   21  // 	<i>Default: 1\n   22: #define STM32_USE_SDIO			1\n   23  \n   24  /* whether use board external SRAM memory */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  118  #ifdef RT_USING_DFS\n  119  	/* init sdcard driver */\n  120: #if STM32_USE_SDIO\n  121  	rt_hw_sdcard_init();\n  122  #else\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm32f10x_it.c:\n  220  }\n  221  \n  222: #if defined(RT_USING_DFS) && STM32_USE_SDIO\n  223  /*******************************************************************************\n  224  * Function Name  : SDIO_IRQHandler\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   22  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   23  // 	<i>Default: 1\n   24: #define STM32_USE_SDIO			0\n   25  \n   26  /* whether use board external SRAM memory */\n\n4 matches across 4 files\n\n\nSearching 2236 files for \"rt_hw_msd_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   65  /* SD Card init function */\n   66  void rt_hw_sdcard_init(void);\n   67: void rt_hw_msd_init(void);\n   68  \n   69  /* ETH interface init function */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\msd.c:\n  886  }\n  887  \n  888: void rt_hw_msd_init()\n  889  {\n  890  	if (MSD_Init() == MSD_RESPONSE_NO_ERROR)\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  121  	rt_hw_sdcard_init();\n  122  #else\n  123: 	rt_hw_msd_init();\n  124  #endif\n  125  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   66  \n   67  /* SD Card init function */\n   68: void rt_hw_msd_init(void);\n   69  \n   70  #endif\n\n4 matches across 4 files\n\n\nSearching 2236 files for \"STM32_USE_SDIO\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   20  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   21  // 	<i>Default: 1\n   22: #define STM32_USE_SDIO			0\n   23  \n   24  /* whether use board external SRAM memory */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  118  #ifdef RT_USING_DFS\n  119  	/* init sdcard driver */\n  120: #if STM32_USE_SDIO\n  121  	rt_hw_sdcard_init();\n  122  #else\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm32f10x_it.c:\n  220  }\n  221  \n  222: #if defined(RT_USING_DFS) && STM32_USE_SDIO\n  223  /*******************************************************************************\n  224  * Function Name  : SDIO_IRQHandler\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   22  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   23  // 	<i>Default: 1\n   24: #define STM32_USE_SDIO			0\n   25  \n   26  /* whether use board external SRAM memory */\n\n4 matches across 4 files\n",
+			"settings":
+			{
+				"buffer_size": 6190,
 				"line_ending": "Windows",
 				"name": "Find Results",
 				"scratch": true
 			}
 		},
 		{
-			"file": "bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c",
+			"file": "bsp/stm32f10x/board.h",
 			"settings":
 			{
-				"buffer_size": 45894,
+				"buffer_size": 2113,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h",
+			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
 			"settings":
 			{
-				"buffer_size": 21207,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "components/devices/i2c_flash/atc24xx.c",
-			"settings":
-			{
-				"buffer_size": 7279,
+				"buffer_size": 3533,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "bsp/stm32f10x/application.c",
+			"file": "bsp/mini2440/sdcard.c",
 			"settings":
 			{
-				"buffer_size": 4307,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bsp/stm32f10x/adc_stm32.c",
-			"settings":
-			{
-				"buffer_size": 7851,
+				"buffer_size": 13464,
 				"line_ending": "Unix"
 			}
 		}
@@ -186,33 +194,54 @@
 	},
 	"file_history":
 	[
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/external/libz/zutil.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_core.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/rtdevice.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
+		"/C/Documents and Settings/smit/桌面/carGpio.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_dev.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/w25qxx.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdevices%5Cspi_flash%5Cw25qxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/w25qxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_internal.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/复件 sst25vfxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/spi_flash.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/adc_stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/sdcard.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/msd.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/led.c",
+		"/C/Documents and Settings/smit/桌面/tcc_ts_ak.c",
+		"/C/Documents and Settings/smit/桌面/gpio.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/i2c-stm32.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Ci2c-stm32.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c",
+		"/C/Documents and Settings/smit/桌面/BootService/AndroidManifest.xml",
+		"/C/Documents and Settings/smit/桌面/BootService/src/com/smdt/keyeventservice/ShellService.java",
+		"/C/Documents and Settings/smit/桌面/BootService/src/com/smdt/keyeventservice/BootReceiver.java",
+		"/C/Documents and Settings/smit/桌面/BootService/src/com/smdt/keyeventservice/Main.java",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/i2c_flash/atc24xx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/i2c-stm32.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_dev.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/board.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/touch.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/ili_lcd_general.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cili_lcd_general.c",
 		"/D/360云盘/STM32/相关例程/STM32F103VB开发板程序/AD转换/SRC/main.c",
 		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/7-野火M3-ADC/野火M3-ADC/USER/adc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/src/dfs_fs.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/devfs/devfs.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/sdcard.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/msd.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/at45dbxx.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/spi_flash.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_uffs.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cuffs%5Cdfs_uffs.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/uffs/dfs_uffs.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/ssd1289.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cssd1289.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/ssd1289.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/yaffs.diff                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cyaffs2%5Cyaffs.diff",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/yaffs2/yaffs.diff",
@@ -225,22 +254,18 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/libc/minilibc/sys/types.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_dev.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/spi.h                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdrivers%5Cinclude%5Cdrivers%5Cspi.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/spi.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
 		"/D/GitHub/EmbStd_STM32/复件 RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/x86/drivers/keyboard.c",
 		"/C/TDDOWNLOAD/rt-thread-master/components/drivers/include/drivers/i2c.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_shell.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/SConscript",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/rtdevice.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/atc24xx/atc24xx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/i2c/i2c_shell.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/finsh/cmd.c",
@@ -280,7 +305,6 @@
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/enc28j60.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cenc28j60.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/enc28j60.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/components/finsh/finsh_token.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/led.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/usart.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/drivers/usart.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/console.c",
@@ -297,23 +321,7 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c_dev.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc88xx-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc88xx-pcm.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
-		"/C/Documents and Settings/smit/桌面/tcc-pcm.c",
-		"/C/Documents and Settings/smit/桌面/tcc88xx-pcm.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/readme.txt                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Creadme.txt",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/RT.sublime-project",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/src/module.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/file/readspeed.c",
-		"/D/Program Files/SublimeText2/Data/Packages/User/Default (Windows).sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/Default/Default (Windows).sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/Default/Preferences.sublime-settings",
-		"/D/Program Files/SublimeText2/Data/Packages/User/Preferences.sublime-settings",
-		"/D/Program Files/SublimeText2/Data/Packages/User/C.sublime-settings",
-		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Base File.sublime-settings",
-		"/D/Program Files/SublimeText2/Data/Packages/Alignment/Default (Windows).sublime-keymap",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/at91sam9260/led.c",
-		"/D/Program Files/SublimeText2/Data/Packages/CTags/Default.sublime-keymap",
-		"/D/Program Files/SublimeText2/Data/Packages/Package Control/Package Control.sublime-settings"
+		"/C/Documents and Settings/smit/桌面/tcc-pcm.c"
 	],
 	"find":
 	{
@@ -321,7 +329,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*c,*h",
@@ -342,6 +350,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"STM32_USE_SDIO",
+			"rt_hw_msd_init",
+			"msd_init",
+			"STM32_USE_SDIO",
+			"rt_hw_sdcard_init",
+			"sdcard_init",
+			"malloc",
+			"malloc.h",
+			"ff_wtoupper",
+			"dfs_init",
+			"MTC_W25X10_BV",
+			"MTC_W25Q32_BV",
+			"MTC_W25Q16_DW",
+			"rt_spi_bus_attach_device",
+			"rt_spi_bus_device_init",
+			"rt_spidev_device_init",
+			"spi_flash_sst25vfxx",
+			"typedef",
+			"RT_USING_I2C",
+			"SDIO_Init",
+			"RT_USING_DFS",
+			"RT_USING_RTGUI",
+			"STM32F10X_CL",
+			"HSE_VALUE",
+			"HSI_VALUE",
+			"time",
 			"ADC_RegularChannelConfig",
 			"ADC_Channel_11",
 			"rt_adc_control",
@@ -443,33 +477,7 @@
 			"CFR_EWI_BB",
 			"FINSH_FUNCTION_EXPORT",
 			"case",
-			"switch",
-			"UART2_GPIO_RX",
-			"GPIO_Init",
-			"i2c_send_bytes",
-			"send_address",
-			"I2C_CheckEvent",
-			"I2C_EE_WaitEepromStandbyState",
-			"I2C_EE_PageWrite",
-			"I2C_EE_ByteWrite",
-			"I2C_PageSize",
-			"I2C1",
-			"rt_i2c_priv_data",
-			"led_thread_entry",
-			"rt_thread_delay",
-			"RT_ERR",
-			"delay",
-			"i2c_stop",
-			"I2C_GenerateSTOP",
-			"I2C_CheckEvent",
-			"i2c_stm32_send_address",
-			"i2c_start",
-			"i2c_stop",
-			"rt_application_init",
-			"rt_init_thread_entry",
-			"RT_OBJECT_HOOK_CALL",
-			"rt_ipc_object_init",
-			"IPC"
+			"switch"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -492,14 +500,44 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "bsp/stm32f10x/rt_stm32f10x_spi.c",
 					"settings":
 					{
-						"buffer_size": 59803,
+						"buffer_size": 15398,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15371,
+								15371
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6462.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"settings":
+					{
+						"buffer_size": 6190,
 						"regions":
 						{
 							"match":
@@ -508,940 +546,120 @@
 								"regions":
 								[
 									[
-										214,
-										230
+										157,
+										168
 									],
 									[
-										457,
-										473
+										326,
+										337
 									],
 									[
-										666,
-										682
+										431,
+										442
 									],
 									[
-										875,
-										891
+										691,
+										702
 									],
 									[
-										1084,
-										1100
+										1061,
+										1072
 									],
 									[
-										1348,
-										1364
+										1334,
+										1345
 									],
 									[
-										1649,
-										1665
+										1526,
+										1537
 									],
 									[
-										1953,
-										1969
+										1726,
+										1737
 									],
 									[
-										2209,
-										2225
+										1850,
+										1861
 									],
 									[
-										2471,
-										2487
+										2033,
+										2044
 									],
 									[
-										2697,
-										2713
+										2273,
+										2284
 									],
 									[
-										2919,
-										2935
+										2513,
+										2530
 									],
 									[
-										3137,
-										3153
+										2646,
+										2663
 									],
 									[
-										3366,
-										3382
+										2813,
+										2830
 									],
 									[
-										3603,
-										3619
+										3005,
+										3022
 									],
 									[
-										3843,
-										3859
+										3159,
+										3176
 									],
 									[
-										4112,
-										4128
+										3342,
+										3359
 									],
 									[
-										4441,
-										4457
+										3630,
+										3644
 									],
 									[
-										4753,
-										4769
+										3839,
+										3853
 									],
 									[
-										5024,
-										5040
+										4013,
+										4027
 									],
 									[
-										5120,
-										5136
+										4324,
+										4338
 									],
 									[
-										5409,
-										5425
+										4614,
+										4628
 									],
 									[
-										5644,
-										5660
+										4769,
+										4783
 									],
 									[
-										5933,
-										5949
+										4953,
+										4967
 									],
 									[
-										6205,
-										6221
+										5119,
+										5133
 									],
 									[
-										6458,
-										6474
+										5391,
+										5405
 									],
 									[
-										6666,
-										6682
+										5600,
+										5614
 									],
 									[
-										6941,
-										6957
+										5774,
+										5788
 									],
 									[
-										7243,
-										7259
-									],
-									[
-										7473,
-										7489
-									],
-									[
-										7669,
-										7685
-									],
-									[
-										7930,
-										7946
-									],
-									[
-										8204,
-										8220
-									],
-									[
-										8542,
-										8558
-									],
-									[
-										8669,
-										8685
-									],
-									[
-										8935,
-										8951
-									],
-									[
-										9248,
-										9264
-									],
-									[
-										9573,
-										9589
-									],
-									[
-										9867,
-										9883
-									],
-									[
-										10242,
-										10258
-									],
-									[
-										10530,
-										10546
-									],
-									[
-										10911,
-										10927
-									],
-									[
-										11132,
-										11148
-									],
-									[
-										11362,
-										11378
-									],
-									[
-										11403,
-										11419
-									],
-									[
-										11491,
-										11507
-									],
-									[
-										11575,
-										11591
-									],
-									[
-										11660,
-										11676
-									],
-									[
-										11745,
-										11761
-									],
-									[
-										11827,
-										11843
-									],
-									[
-										11909,
-										11925
-									],
-									[
-										11993,
-										12009
-									],
-									[
-										12079,
-										12095
-									],
-									[
-										12165,
-										12181
-									],
-									[
-										12253,
-										12269
-									],
-									[
-										12337,
-										12353
-									],
-									[
-										12423,
-										12439
-									],
-									[
-										12505,
-										12521
-									],
-									[
-										12592,
-										12608
-									],
-									[
-										12680,
-										12696
-									],
-									[
-										12897,
-										12913
-									],
-									[
-										13273,
-										13289
-									],
-									[
-										13494,
-										13510
-									],
-									[
-										13691,
-										13707
-									],
-									[
-										13925,
-										13941
-									],
-									[
-										14129,
-										14145
-									],
-									[
-										14366,
-										14382
-									],
-									[
-										14626,
-										14642
-									],
-									[
-										14837,
-										14853
-									],
-									[
-										15170,
-										15192
-									],
-									[
-										15517,
-										15539
-									],
-									[
-										15793,
-										15815
-									],
-									[
-										16180,
-										16202
-									],
-									[
-										16295,
-										16317
-									],
-									[
-										16382,
-										16404
-									],
-									[
-										16577,
-										16599
-									],
-									[
-										16814,
-										16836
-									],
-									[
-										17057,
-										17079
-									],
-									[
-										17336,
-										17358
-									],
-									[
-										17644,
-										17666
-									],
-									[
-										17893,
-										17915
-									],
-									[
-										18277,
-										18299
-									],
-									[
-										18601,
-										18623
-									],
-									[
-										18843,
-										18865
-									],
-									[
-										18968,
-										18990
-									],
-									[
-										19212,
-										19234
-									],
-									[
-										19415,
-										19437
-									],
-									[
-										19664,
-										19686
-									],
-									[
-										19964,
-										19986
-									],
-									[
-										20210,
-										20232
-									],
-									[
-										20516,
-										20538
-									],
-									[
-										20824,
-										20846
-									],
-									[
-										21068,
-										21090
-									],
-									[
-										21233,
-										21255
-									],
-									[
-										21511,
-										21533
-									],
-									[
-										21832,
-										21854
-									],
-									[
-										22031,
-										22053
-									],
-									[
-										22232,
-										22254
-									],
-									[
-										22523,
-										22545
-									],
-									[
-										22666,
-										22688
-									],
-									[
-										22913,
-										22935
-									],
-									[
-										23131,
-										23153
-									],
-									[
-										23280,
-										23302
-									],
-									[
-										23594,
-										23616
-									],
-									[
-										23961,
-										23983
-									],
-									[
-										24335,
-										24357
-									],
-									[
-										24697,
-										24719
-									],
-									[
-										25119,
-										25141
-									],
-									[
-										25339,
-										25361
-									],
-									[
-										25706,
-										25728
-									],
-									[
-										26074,
-										26096
-									],
-									[
-										26542,
-										26564
-									],
-									[
-										26946,
-										26968
-									],
-									[
-										27348,
-										27355
-									],
-									[
-										27489,
-										27496
-									],
-									[
-										27817,
-										27824
-									],
-									[
-										28182,
-										28189
-									],
-									[
-										28550,
-										28557
-									],
-									[
-										29012,
-										29019
-									],
-									[
-										29154,
-										29161
-									],
-									[
-										29461,
-										29483
-									],
-									[
-										29903,
-										29925
-									],
-									[
-										30262,
-										30284
-									],
-									[
-										30624,
-										30646
-									],
-									[
-										31077,
-										31099
-									],
-									[
-										31360,
-										31382
-									],
-									[
-										31624,
-										31646
-									],
-									[
-										31790,
-										31812
-									],
-									[
-										32036,
-										32051
-									],
-									[
-										32489,
-										32504
-									],
-									[
-										32628,
-										32643
-									],
-									[
-										32689,
-										32704
-									],
-									[
-										33135,
-										33150
-									],
-									[
-										33334,
-										33349
-									],
-									[
-										33550,
-										33565
-									],
-									[
-										33666,
-										33681
-									],
-									[
-										34054,
-										34069
-									],
-									[
-										34235,
-										34250
-									],
-									[
-										34296,
-										34311
-									],
-									[
-										34807,
-										34822
-									],
-									[
-										35006,
-										35021
-									],
-									[
-										35312,
-										35327
-									],
-									[
-										35448,
-										35463
-									],
-									[
-										35696,
-										35711
-									],
-									[
-										36149,
-										36164
-									],
-									[
-										36288,
-										36303
-									],
-									[
-										36349,
-										36364
-									],
-									[
-										36795,
-										36810
-									],
-									[
-										36994,
-										37009
-									],
-									[
-										37210,
-										37225
-									],
-									[
-										37326,
-										37341
-									],
-									[
-										37714,
-										37729
-									],
-									[
-										37895,
-										37910
-									],
-									[
-										37956,
-										37971
-									],
-									[
-										38467,
-										38482
-									],
-									[
-										38666,
-										38681
-									],
-									[
-										38972,
-										38987
-									],
-									[
-										39108,
-										39123
-									],
-									[
-										39389,
-										39406
-									],
-									[
-										39605,
-										39622
-									],
-									[
-										39879,
-										39896
-									],
-									[
-										40081,
-										40098
-									],
-									[
-										40285,
-										40302
-									],
-									[
-										40587,
-										40604
-									],
-									[
-										40787,
-										40804
-									],
-									[
-										41046,
-										41063
-									],
-									[
-										41263,
-										41280
-									],
-									[
-										41491,
-										41508
-									],
-									[
-										41720,
-										41737
-									],
-									[
-										41869,
-										41886
-									],
-									[
-										42196,
-										42213
-									],
-									[
-										42418,
-										42435
-									],
-									[
-										42809,
-										42826
-									],
-									[
-										42960,
-										42977
-									],
-									[
-										43234,
-										43251
-									],
-									[
-										43432,
-										43449
-									],
-									[
-										43595,
-										43612
-									],
-									[
-										43833,
-										43850
-									],
-									[
-										44073,
-										44090
-									],
-									[
-										44299,
-										44316
-									],
-									[
-										44515,
-										44532
-									],
-									[
-										44757,
-										44774
-									],
-									[
-										44996,
-										45013
-									],
-									[
-										45228,
-										45245
-									],
-									[
-										45457,
-										45474
-									],
-									[
-										45611,
-										45628
-									],
-									[
-										45900,
-										45917
-									],
-									[
-										46227,
-										46244
-									],
-									[
-										46422,
-										46439
-									],
-									[
-										46650,
-										46667
-									],
-									[
-										46818,
-										46835
-									],
-									[
-										47029,
-										47043
-									],
-									[
-										47257,
-										47271
-									],
-									[
-										47457,
-										47471
-									],
-									[
-										47691,
-										47705
-									],
-									[
-										47939,
-										47953
-									],
-									[
-										48167,
-										48181
-									],
-									[
-										48483,
-										48497
-									],
-									[
-										48675,
-										48689
-									],
-									[
-										48914,
-										48928
-									],
-									[
-										49058,
-										49072
-									],
-									[
-										49300,
-										49314
-									],
-									[
-										49534,
-										49548
-									],
-									[
-										49760,
-										49774
-									],
-									[
-										49968,
-										49982
-									],
-									[
-										50183,
-										50197
-									],
-									[
-										50385,
-										50399
-									],
-									[
-										50595,
-										50609
-									],
-									[
-										50828,
-										50842
-									],
-									[
-										51041,
-										51055
-									],
-									[
-										51282,
-										51296
-									],
-									[
-										51558,
-										51572
-									],
-									[
-										51875,
-										51889
-									],
-									[
-										52166,
-										52180
-									],
-									[
-										52353,
-										52367
-									],
-									[
-										52672,
-										52686
-									],
-									[
-										53043,
-										53057
-									],
-									[
-										53558,
-										53572
-									],
-									[
-										54037,
-										54051
-									],
-									[
-										54336,
-										54350
-									],
-									[
-										54635,
-										54649
-									],
-									[
-										55063,
-										55077
-									],
-									[
-										55482,
-										55496
-									],
-									[
-										55916,
-										55930
-									],
-									[
-										56250,
-										56264
-									],
-									[
-										56584,
-										56598
-									],
-									[
-										57016,
-										57040
-									],
-									[
-										57418,
-										57442
-									],
-									[
-										57817,
-										57841
-									],
-									[
-										58187,
-										58211
-									],
-									[
-										58703,
-										58727
-									],
-									[
-										59043,
-										59067
-									],
-									[
-										59411,
-										59435
-									],
-									[
-										59621,
-										59645
+										6085,
+										6099
 									]
 								],
 								"scope": ""
@@ -1450,14 +668,14 @@
 						"selection":
 						[
 							[
-								57731,
-								57731
+								5408,
+								5408
 							]
 						],
 						"settings":
 						{
 							"detect_indentation": false,
-							"output_tag": 10,
+							"output_tag": 5,
 							"result_base_dir": "",
 							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
 							"result_line_regex": "^ +([0-9]+):",
@@ -1465,142 +683,52 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 20865.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c",
-					"settings":
-					{
-						"buffer_size": 45894,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								18651,
-								18675
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 8498.0,
+						"translation.y": 2835.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h",
+					"file": "bsp/stm32f10x/board.h",
 					"settings":
 					{
-						"buffer_size": 21207,
+						"buffer_size": 2113,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								697,
+								697
 							]
 						],
 						"settings":
 						{
 							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1915.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "components/devices/i2c_flash/atc24xx.c",
+					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
 					"settings":
 					{
-						"buffer_size": 7279,
+						"buffer_size": 3533,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6108,
-								6108
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3366.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "bsp/stm32f10x/application.c",
-					"settings":
-					{
-						"buffer_size": 4307,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3615,
-								3615
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1338.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "bsp/stm32f10x/adc_stm32.c",
-					"settings":
-					{
-						"buffer_size": 7851,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5361,
-								5361
+								2899,
+								2885
 							]
 						],
 						"settings":
@@ -1608,11 +736,40 @@
 							"is_xml": false,
 							"origin_encoding": "UTF-8",
 							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1275.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "bsp/mini2440/sdcard.c",
+					"settings":
+					{
+						"buffer_size": 13464,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10093,
+								10110
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 255.0,
+						"translation.y": 6373.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1680,6 +837,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 237.0,
+	"side_bar_width": 289.0,
 	"status_bar_visible": true
 }

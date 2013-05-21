@@ -22,7 +22,7 @@
 
 #include "board.h"
 
-#define SPI_USE_DMA
+//#define SPI_USE_DMA 1
 
 struct stm32_spi_bus
 {
