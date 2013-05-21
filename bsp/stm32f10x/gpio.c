@@ -13,6 +13,8 @@
  */
 #include <rtthread.h>
 #include <stm32f10x.h>
+ 
+#include "gpio.h"
 
 static uint32_t stm32_ports[]=
 {(uint32_t)GPIOA,(uint32_t)GPIOB,(uint32_t)GPIOC,
@@ -61,6 +63,31 @@ uint32_t rt_hw_gpio_get(uint32_t port, uint32_t pin)
 {
     return GPIO_ReadInputDataBit((GPIO_TypeDef *)stm32_ports[port], 1<<pin);
 }
+
+
+void gpio_direction_output(uint32_t gpio, uint32_t value)
+{
+	rt_hw_gpio_init(GET_PORT(gpio), GET_PIN(gpio),OUTPUT_DIRECTION);
+	rt_hw_gpio_set(GET_PORT(gpio), GET_PIN(gpio), value);
+}
+
+uint32_t gpio_direction_input(uint32_t gpio)
+{
+	rt_hw_gpio_init(GET_PORT(gpio), GET_PIN(gpio),INPUT_DIRECTION);
+	return rt_hw_gpio_get(GET_PORT(gpio), GET_PIN(gpio));
+}
+
+uint32_t gpio_get_value(uint32_t gpio)
+{
+	return rt_hw_gpio_get(GET_PORT(gpio), GET_PIN(gpio));
+}
+
+void gpio_set_value(uint32_t gpio, uint32_t value)
+{
+	rt_hw_gpio_set(GET_PORT(gpio), GET_PIN(gpio), value);
+}
+
+
 
 #ifdef RT_USING_FINSH
 #include <finsh.h>

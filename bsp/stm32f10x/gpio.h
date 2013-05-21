@@ -16,8 +16,21 @@
 #define __GPIO_H__
 
 #include <rtthread.h>
+#include <stdint.h>
 
-void rt_hw_gpio_init(void);
+#define GPIO_NUM(port, pin) ((port << 8) + pin)
+#define GET_PORT(gpio) ((gpio >> 8 )& 0xFF)
+#define GET_PIN(gpio)  (gpio & 0xFF)
 
+#define OUTPUT_DIRECTION 1
+#define INPUT_DIRECTION 0
+
+
+void rt_hw_gpio_init(uint32_t port, uint32_t pin,uint32_t dir);
+
+void gpio_direction_output(uint32_t gpio, uint32_t value);
+uint32_t gpio_direction_input(uint32_t gpio);
+uint32_t gpio_get_value(uint32_t gpio);
+void gpio_set_value(uint32_t gpio, uint32_t value);
 
 #endif
