@@ -26,6 +26,11 @@
 #define FLASH_TRACE(...)
 #endif /* #ifdef FLASH_DEBUG */
 
+#define BLOCK_BUFFER_MEM 1
+#ifdef BLOCK_BUFFER_MEM
+    uint8_t *block_buffer;
+#endif
+
 /* JEDEC Manufacturer¡¯s ID */
 #define MF_ID           (0xEF)
 /* JEDEC Device ID: Memory type and Capacity */
@@ -91,6 +96,7 @@ static uint32_t w25qxx_read(uint32_t offset, uint8_t * buffer, uint32_t size)
 {
     uint8_t send_buffer[4];
 
+    //rt_kprintf("page_read: offset=%d, size=%d\r\n",offset,size);
     send_buffer[0] = CMD_WRDI;
     rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
 
@@ -118,9 +124,78 @@ uint32_t w25qxx_page_write(uint32_t page, const uint8_t * buffer, uint32_t size)
 {
     uint32_t index;
     uint8_t send_buffer[4];
+    
 
+#ifdef BLOCK_BUFFER_MEM
+    //Read Block data
+    //Get the block offset.
+    uint32_t block_index, page_index, i;
+    uint8_t * buffer2;
+    RT_ASSERT((page&0xFF) == 0);
+    block_index = page / spi_flash_device.geometry.block_size;
+    page_index = page % spi_flash_device.geometry.block_size;
+
+    //rt_kprintf("page_write: page=%d, size=%d\r\n",page,size);
+    //rt_kprintf("buffer: block_index=%d, page_index=%d\r\n",block_index,page_index);
+    if(size > spi_flash_device.geometry.block_size)
+    {
+        rt_kprintf("page_write: size=%d too larger\r\n",size);
+        return 0;
+    }
+
+    w25qxx_read(block_index*spi_flash_device.geometry.block_size,
+            block_buffer,
+            spi_flash_device.geometry.block_size);
+
+
+    // set data into block_buffer.
+    rt_memcpy((uint8_t *)(block_buffer + page_index), (uint8_t *)buffer, size);
+    
+    // for(i=0; i<256; i++)
+    // {
+    //     rt_kprintf("page_write: buffer[%d]=%d\r\n",i, *(uint8_t *)(block_buffer + i));
+    // }
+    // update block.
+    buffer2=block_buffer;
+    page=block_index*spi_flash_device.geometry.block_size;
+
+    send_buffer[0] = CMD_WREN;
+    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+
+    send_buffer[0] = CMD_ERASE_4K;
+    send_buffer[1] = (page >> 16);
+    send_buffer[2] = (page >> 8);
+    send_buffer[3] = (page);
+    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 4);
+
+    w25qxx_wait_busy(); // wait erase done.
+
+    for(index=0; index < (spi_flash_device.geometry.block_size/256); index++)
+    {
+        send_buffer[0] = CMD_WREN;
+        rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+
+        send_buffer[0] = CMD_PP;
+        send_buffer[1] = (uint8_t)(page >> 16);
+        send_buffer[2] = (uint8_t)(page >> 8);
+        send_buffer[3] = (uint8_t)(page);
+
+        rt_spi_send_then_send(spi_flash_device.rt_spi_device,
+                              send_buffer, 4,
+                              buffer2, 256);
+
+        buffer2 += 256;
+        page += 256;
+        w25qxx_wait_busy();
+    }
+
+    send_buffer[0] = CMD_WRDI;
+    rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
+
+#else
     RT_ASSERT((page&0xFF) == 0);
 
+    //rt_kprintf("page_write: page=%d, size=%d\r\n",page,size);
     send_buffer[0] = CMD_WREN;
     rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
 
@@ -153,7 +228,7 @@ uint32_t w25qxx_page_write(uint32_t page, const uint8_t * buffer, uint32_t size)
 
     send_buffer[0] = CMD_WRDI;
     rt_spi_send(spi_flash_device.rt_spi_device, send_buffer, 1);
-
+#endif
     return size;
 }
 
@@ -166,6 +241,15 @@ static rt_err_t w25qxx_flash_init(rt_device_t dev)
 static rt_err_t w25qxx_flash_open(rt_device_t dev, rt_uint16_t oflag)
 {
     uint8_t send_buffer[3];
+
+#ifdef BLOCK_BUFFER_MEM
+    block_buffer = rt_malloc(spi_flash_device.geometry.block_size);
+    if( block_buffer == RT_NULL )
+    {
+        rt_kprintf("no memory for block_buffer!\r\n");
+        return RT_ERROR;
+    }
+#endif
 
     flash_lock((struct spi_flash_device *)dev);
 
@@ -186,6 +270,10 @@ static rt_err_t w25qxx_flash_open(rt_device_t dev, rt_uint16_t oflag)
 
 static rt_err_t w25qxx_flash_close(rt_device_t dev)
 {
+
+#ifdef BLOCK_BUFFER_MEM
+    rt_free(block_buffer);
+#endif
     return RT_EOK;
 }
 
@@ -231,7 +319,7 @@ static rt_size_t w25qxx_flash_write(rt_device_t dev,
 {
     flash_lock((struct spi_flash_device *)dev);
 
-    w25qxx_page_write(pos*spi_flash_device.geometry.bytes_per_sector,
+    size=w25qxx_page_write(pos*spi_flash_device.geometry.bytes_per_sector,
                       buffer,
                       size*spi_flash_device.geometry.bytes_per_sector);
 
@@ -292,11 +380,14 @@ rt_err_t w25qxx_init(const char * flash_device_name, const char * spi_device_nam
             return -RT_ENOSYS;
         }
 
-        spi_flash_device.geometry.bytes_per_sector = 4096;
-        spi_flash_device.geometry.block_size = 4096; /* block erase: 4k */
-        //spi_flash_device.geometry.bytes_per_sector = 256;
-        //spi_flash_device.geometry.block_size = 4096; /* block erase: 4k */
 
+#ifdef BLOCK_BUFFER_MEM
+        spi_flash_device.geometry.bytes_per_sector = 512; //256
+        spi_flash_device.geometry.block_size = 4096; /* block erase: 4k */
+#else
+        spi_flash_device.geometry.bytes_per_sector = 4096;
+        spi_flash_device.geometry.block_size = 4096; /* block erase: 4k */      
+#endif
         /* get memory type and capacity */
         memory_type_capacity = id_recv[1];
         memory_type_capacity = (memory_type_capacity << 8) | id_recv[2];
@@ -339,8 +430,11 @@ rt_err_t w25qxx_init(const char * flash_device_name, const char * spi_device_nam
         else if(memory_type_capacity == MTC_W25X10_BV)
         {
             FLASH_TRACE("W25X10BV detection\r\n");
-            spi_flash_device.geometry.sector_count = 32;  
-            //spi_flash_device.geometry.sector_count = 512;  /* 1-Mbit / 8 / 256 = 512 */
+#ifdef BLOCK_BUFFER_MEM
+             spi_flash_device.geometry.sector_count = 256; //512  /* 1-Mbit / 8 / 256 = 512 */
+#else
+             spi_flash_device.geometry.sector_count = 32;  
+#endif
         }
         else
         {
