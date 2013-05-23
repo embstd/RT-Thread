@@ -4,7 +4,8 @@
 bsp/stm32f10x/build/*
 bsp/stm32f10x/*.dep
 bsp/stm32f10x/*.bin
-
+RT.sublime-workspace
+RT.sublime-project
 .*
 ctags.exe
 #################
