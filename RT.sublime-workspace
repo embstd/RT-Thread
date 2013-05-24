@@ -92,45 +92,19 @@
 	"buffers":
 	[
 		{
-			"file": "bsp/stm32f10x/rt_stm32f10x_spi.c",
+			"file": "bsp/stm32f10x/application.c",
 			"settings":
 			{
-				"buffer_size": 15398,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Searching 2236 files for \"sdcard_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\board.h:\n   20  \n   21  void rt_hw_board_init(void);\n   22: void rt_hw_sdcard_init(void);\n   23  \n   24  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\sdcard.c:\n  369  struct dfs_partition part[4];\n  370  \n  371: static rt_err_t rt_sdcard_init(rt_device_t dev)\n  372  {\n  373      return RT_EOK;\n  ...\n  451  }\n  452  \n  453: void rt_hw_sdcard_init(void)\n  454  {\n  455      rt_uint8_t i, status;\n  ...\n  492                      /* register sdcard device */\n  493                      sdcard_device[i].type      = RT_Device_Class_Block;\n  494:                     sdcard_device[i].init      = rt_sdcard_init;\n  495                      sdcard_device[i].open      = rt_sdcard_open;\n  496                      sdcard_device[i].close     = rt_sdcard_close;\n  ...\n  514                          /* register sdcard device */\n  515                          sdcard_device[0].type      = RT_Device_Class_Block;\n  516:                         sdcard_device[0].init      = rt_sdcard_init;\n  517                          sdcard_device[0].open      = rt_sdcard_open;\n  518                          sdcard_device[0].close     = rt_sdcard_close;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\startup.c:\n  119  \n  120  #ifdef RT_USING_DFS\n  121: 	rt_hw_sdcard_init();\n  122  #ifdef RT_USING_DFS_UFFS\n  123  	rt_hw_nand_init();\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   64  \n   65  /* SD Card init function */\n   66: void rt_hw_sdcard_init(void);\n   67  void rt_hw_msd_init(void);\n   68  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 3002  \n 3003  /* RT-Thread Device Driver Interface */\n 3004: static rt_err_t rt_sdcard_init(rt_device_t dev)\n 3005  {\n 3006  	NVIC_InitTypeDef NVIC_InitStructure;\n ....\n 3160  }\n 3161  \n 3162: void rt_hw_sdcard_init()\n 3163  {\n 3164      /* SDIO POWER */\n ....\n 3217  		/* register sdcard device */\n 3218  		sdcard_device.type  = RT_Device_Class_Block;\n 3219: 		sdcard_device.init 	= rt_sdcard_init;\n 3220  		sdcard_device.open 	= rt_sdcard_open;\n 3221  		sdcard_device.close = rt_sdcard_close;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  119  	/* init sdcard driver */\n  120  #if STM32_USE_SDIO\n  121: 	rt_hw_sdcard_init();\n  122  #else\n  123  	rt_hw_msd_init();\n\n11 matches across 6 files\n\n\nSearching 2236 files for \"rt_hw_sdcard_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\board.h:\n   20  \n   21  void rt_hw_board_init(void);\n   22: void rt_hw_sdcard_init(void);\n   23  \n   24  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\sdcard.c:\n  451  }\n  452  \n  453: void rt_hw_sdcard_init(void)\n  454  {\n  455      rt_uint8_t i, status;\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\mini2440\\startup.c:\n  119  \n  120  #ifdef RT_USING_DFS\n  121: 	rt_hw_sdcard_init();\n  122  #ifdef RT_USING_DFS_UFFS\n  123  	rt_hw_nand_init();\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   64  \n   65  /* SD Card init function */\n   66: void rt_hw_sdcard_init(void);\n   67  void rt_hw_msd_init(void);\n   68  \n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\sdcard.c:\n 3160  }\n 3161  \n 3162: void rt_hw_sdcard_init()\n 3163  {\n 3164      /* SDIO POWER */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  119  	/* init sdcard driver */\n  120  #if STM32_USE_SDIO\n  121: 	rt_hw_sdcard_init();\n  122  #else\n  123  	rt_hw_msd_init();\n\n6 matches across 6 files\n\n\nSearching 2236 files for \"STM32_USE_SDIO\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   20  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   21  // 	<i>Default: 1\n   22: #define STM32_USE_SDIO			1\n   23  \n   24  /* whether use board external SRAM memory */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  118  #ifdef RT_USING_DFS\n  119  	/* init sdcard driver */\n  120: #if STM32_USE_SDIO\n  121  	rt_hw_sdcard_init();\n  122  #else\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm32f10x_it.c:\n  220  }\n  221  \n  222: #if defined(RT_USING_DFS) && STM32_USE_SDIO\n  223  /*******************************************************************************\n  224  * Function Name  : SDIO_IRQHandler\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   22  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   23  // 	<i>Default: 1\n   24: #define STM32_USE_SDIO			0\n   25  \n   26  /* whether use board external SRAM memory */\n\n4 matches across 4 files\n\n\nSearching 2236 files for \"rt_hw_msd_init\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   65  /* SD Card init function */\n   66  void rt_hw_sdcard_init(void);\n   67: void rt_hw_msd_init(void);\n   68  \n   69  /* ETH interface init function */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\msd.c:\n  886  }\n  887  \n  888: void rt_hw_msd_init()\n  889  {\n  890  	if (MSD_Init() == MSD_RESPONSE_NO_ERROR)\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  121  	rt_hw_sdcard_init();\n  122  #else\n  123: 	rt_hw_msd_init();\n  124  #endif\n  125  #endif\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   66  \n   67  /* SD Card init function */\n   68: void rt_hw_msd_init(void);\n   69  \n   70  #endif\n\n4 matches across 4 files\n\n\nSearching 2236 files for \"STM32_USE_SDIO\"\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\board.h:\n   20  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   21  // 	<i>Default: 1\n   22: #define STM32_USE_SDIO			0\n   23  \n   24  /* whether use board external SRAM memory */\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\startup.c:\n  118  #ifdef RT_USING_DFS\n  119  	/* init sdcard driver */\n  120: #if STM32_USE_SDIO\n  121  	rt_hw_sdcard_init();\n  122  #else\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f10x\\stm32f10x_it.c:\n  220  }\n  221  \n  222: #if defined(RT_USING_DFS) && STM32_USE_SDIO\n  223  /*******************************************************************************\n  224  * Function Name  : SDIO_IRQHandler\n\nD:\\GitHub\\EmbStd_STM32\\RT-Thread\\bsp\\stm32f40x\\drivers\\board.h:\n   22  // <o> SDCard Driver <1=>SDIO sdcard <0=>SPI MMC card\n   23  // 	<i>Default: 1\n   24: #define STM32_USE_SDIO			0\n   25  \n   26  /* whether use board external SRAM memory */\n\n4 matches across 4 files\n",
-			"settings":
-			{
-				"buffer_size": 6190,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "bsp/stm32f10x/board.h",
-			"settings":
-			{
-				"buffer_size": 2113,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
-			"settings":
-			{
-				"buffer_size": 3533,
+				"buffer_size": 5211,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "bsp/mini2440/sdcard.c",
+			"file": "bsp/stm32f10x/test.c",
 			"settings":
 			{
-				"buffer_size": 13464,
-				"line_ending": "Unix"
+				"buffer_size": 8529,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -194,23 +168,50 @@
 	},
 	"file_history":
 	[
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/project.uvproj",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/test.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
+		"/C/Documents and Settings/smit/桌面/application.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/w25qxx.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdevices%5Cspi_flash%5Cw25qxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/sdcard.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/lcd_a70.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cmini2440%5Clcd_a70.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/lcd_n35.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cmini2440%5Clcd_n35.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/at45dbxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/test/device_test.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/src/dfs_fs.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/elmfat/dfs_elm.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/lcd_a70.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/lcd_n35.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/elmfat/ff.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/sst25vfxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/w25qxx.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/application.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/spi.h                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdrivers%5Cinclude%5Cdrivers%5Cspi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtthread.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/src/mem.c",
+		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_uffs.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cuffs%5Cdfs_uffs.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/spi.h",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/stm32f10x_it.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/board.h",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/sdcard.c",
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/startup.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/external/libz/zutil.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/rtdevice.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rtconfig.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/application.c",
 		"/C/Documents and Settings/smit/桌面/carGpio.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/spi/spi_dev.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/w25qxx.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdevices%5Cspi_flash%5Cw25qxx.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/w25qxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_internal.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/复件 sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/spi_flash.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/adc_stm32.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/sdcard.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/gpio.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/msd.h",
@@ -235,11 +236,8 @@
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/ili_lcd_general.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cili_lcd_general.c",
 		"/D/360云盘/STM32/相关例程/STM32F103VB开发板程序/AD转换/SRC/main.c",
 		"/D/360云盘/STM32/野火STM32/第三部分-库开发中级篇/第三部分-库开发中级篇/7-野火M3-ADC/野火M3-ADC/USER/adc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/src/dfs_fs.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/devfs/devfs.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/msd.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/spi_flash/at45dbxx.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_uffs.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cuffs%5Cdfs_uffs.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/uffs/dfs_uffs.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/ssd1289.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cssd1289.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/ssd1289.c",
@@ -252,15 +250,10 @@
 		"/E/tp/DY_XX_ZET6221WMA_TPC0857__70_12x20_v3402031301_20130428.h",
 		"/D/GitHub/EmbStd_STM32/USB_HUB_DEBUG/pcb/FILM_SETUP.txt",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/rt_stm32f10x_spi.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/libc/minilibc/sys/types.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/sst25vfxx.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/components/devices/at45dbxx/at45dbxx.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/spi.h                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdrivers%5Cinclude%5Cdrivers%5Cspi.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/spi.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitignore",
 		"/D/GitHub/EmbStd_STM32/复件 RT-Thread/components/drivers/i2c/i2c_core.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/x86/drivers/keyboard.c",
 		"/C/TDDOWNLOAD/rt-thread-master/components/drivers/include/drivers/i2c.h",
@@ -273,7 +266,6 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/src/kservice.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/examples/kernel/tc_comm.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/include/rtdef.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdef.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_i2c.c",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h",
@@ -303,25 +295,7 @@
 		"/D/GitHub/EmbStd_STM32/RT-Thread/.gitattributes",
 		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f10x/Libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_spi.c",
 		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/enc28j60.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cenc28j60.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/enc28j60.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/rtt/components/finsh/finsh_token.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/usart.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/stm32f107/drivers/usart.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/mini2440/console.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/src/device.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/application.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Capplication.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtthread.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/application.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/pthreads/pthread_mutex.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/dfs_jffs2.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Ccomponents%5Cdfs%5Cfilesystems%5Cjffs2%5Cdfs_jffs2.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/src/ipc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/include/rtdebug.h",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/dfs/filesystems/jffs2/dfs_jffs2.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/rtc/rtc.c",
-		"/D/GitHub/EmbStd_STM32/RT-Thread/components/drivers/include/drivers/i2c_dev.h",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc88xx-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc88xx-pcm.c",
-		"/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/tcc-pcm.c                C%3A%5CDocuments+and+Settings%5Csmit%5C%E6%A1%8C%E9%9D%A2%5Ctcc-pcm.c",
-		"/C/Documents and Settings/smit/桌面/tcc-pcm.c"
+		"/D/GitHub/EmbStd_STM32/RT-Thread/bsp/enc28j60.c"
 	],
 	"find":
 	{
@@ -329,9 +303,11 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*h,*c",
+			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*c,*h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*h",
 			"D:\\GitHub\\EmbStd_STM32\\RT-Thread,*.c,*h",
@@ -350,6 +326,67 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"A10_PWR_CTL",
+			"gpio_direction_output",
+			"err_times",
+			"led",
+			"mkdir",
+			"dfs_elm_mount",
+			"RT_USING_DFS_ELMFAT",
+			"RT_USING_DFS_",
+			"RT_USING_DFS_ELMFAT",
+			"rt_memcpy",
+			"w25qxx_read",
+			"rt_memcpy",
+			"memcpy",
+			"mem",
+			"memcopy",
+			"block_buffer",
+			"block_size",
+			"rt_malloc",
+			"AT45DB_flash_write_page_256",
+			"CMD_ERASE_4K",
+			"w25qxx_page_write",
+			"AT45DB_flash_read_page_256",
+			"w25qxx_flash_read",
+			"bytes_per_sector",
+			"GET_SECTOR_SIZE",
+			"bytes_per_sector",
+			"RT_USING_DFS_DEVFS",
+			"RT_USING_DFS_ELMFAT",
+			"RT_USING_DFS_DEVFS",
+			"devfs_init",
+			"mem_size_aligned",
+			"list_mem",
+			"xfer",
+			"rt_device_register",
+			"rt_spidev_device_init",
+			"rt_device",
+			"rt_spi_device",
+			"user_data",
+			"rt_spi_device",
+			"w25qxx_init",
+			"user_data",
+			"cs",
+			"stm32_spi_cs",
+			"GPIO_ResetBits",
+			"stm32_spi_cs",
+			"GPIOA",
+			"stm32_spi_cs",
+			"GPIO_ResetBits",
+			"IS_GPIO_ALL_PERIPH",
+			"stm32f10x_gpio.c",
+			"f_mkfs",
+			"elm_result_to_dfs",
+			"dfs_mkfs",
+			"mkfs",
+			"SPI_USE_DMA",
+			"SPI File System init",
+			"SDIO_IRQHandler",
+			"RT_USING_DFS",
+			"SDIO_IRQHandler",
+			"STM32_USE_SDIO",
+			"rt_hw_sdcard_init",
 			"STM32_USE_SDIO",
 			"rt_hw_msd_init",
 			"msd_init",
@@ -416,68 +453,7 @@
 			"rt_show_version",
 			"RT_Device_Class_SPIBUS",
 			"RT_Device_Class_I2CBUS",
-			"IS_I2C_EVENT",
-			"I2C_EVENT_MASTER_MODE_SELECT",
-			"i2c_stop",
-			"i2c_send_address",
-			"rt_i2c_transfer",
-			"I2C_SendData",
-			"stm32_i2c_check_timeout",
-			"rt_malloc",
-			"RT_NULL",
-			"rt_malloc",
-			"at24c16b_write",
-			"rt_i2c_master_send",
-			"I2C_PageSize",
-			"I2C_EE_BufferRead",
-			"rt_malloc",
-			"malloc",
-			"EV7",
-			"I2C_EVENT_MASTER_BYTE_RECEIVED",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
-			"I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED",
-			"ack",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
-			"i2c_waitack",
-			"i2c_stop",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
-			"I2C_CheckEvent",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTING",
-			"I2C_EVENT_MASTER_BYTE_TRANSMITTED",
-			"i2c_send_bytes",
-			"stm32_i2c_check_timeout",
-			"i2c_send_bytes",
-			"i2c_start",
-			"i2c_restart",
-			"I2C_Send7bitAddress",
-			"I2C_Direction_Transmitter",
-			"I2C_Direction_",
-			"I2C_Direction_Receiver",
-			"I2C_Cmd",
-			"I2C_AcknowledgeConfig",
-			"i2c_recv_bytes",
-			"I2C_Speed",
-			"I2C1",
-			"I2C_BUS_NUM",
-			"rt_i2c_stm32_add_bus",
-			"I2C_Mode_I2C",
-			"GPIO_Remap_I2C1",
-			"GPIO_Mode_AF_OD",
-			"CFR_EWI_BB",
-			"PERIPH_BB_BASE",
-			"I2S3_CLOCK_SRC",
-			"TIM2",
-			"TIM2_BASE",
-			"WWDG",
-			"CFR_EWI_BB",
-			"WWDG_OFFSET",
-			"EEPROM_ADDRESS",
-			"CFR_EWI_BB",
-			"FINSH_FUNCTION_EXPORT",
-			"case",
-			"switch"
+			"IS_I2C_EVENT"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -500,264 +476,51 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "bsp/stm32f10x/rt_stm32f10x_spi.c",
+					"file": "bsp/stm32f10x/application.c",
 					"settings":
 					{
-						"buffer_size": 15398,
+						"buffer_size": 5211,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15371,
-								15371
+								4873,
+								4873
 							]
 						],
 						"settings":
 						{
 							"is_xml": false,
 							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6462.0,
+						"translation.y": 2868.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "bsp/stm32f10x/test.c",
 					"settings":
 					{
-						"buffer_size": 6190,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										157,
-										168
-									],
-									[
-										326,
-										337
-									],
-									[
-										431,
-										442
-									],
-									[
-										691,
-										702
-									],
-									[
-										1061,
-										1072
-									],
-									[
-										1334,
-										1345
-									],
-									[
-										1526,
-										1537
-									],
-									[
-										1726,
-										1737
-									],
-									[
-										1850,
-										1861
-									],
-									[
-										2033,
-										2044
-									],
-									[
-										2273,
-										2284
-									],
-									[
-										2513,
-										2530
-									],
-									[
-										2646,
-										2663
-									],
-									[
-										2813,
-										2830
-									],
-									[
-										3005,
-										3022
-									],
-									[
-										3159,
-										3176
-									],
-									[
-										3342,
-										3359
-									],
-									[
-										3630,
-										3644
-									],
-									[
-										3839,
-										3853
-									],
-									[
-										4013,
-										4027
-									],
-									[
-										4324,
-										4338
-									],
-									[
-										4614,
-										4628
-									],
-									[
-										4769,
-										4783
-									],
-									[
-										4953,
-										4967
-									],
-									[
-										5119,
-										5133
-									],
-									[
-										5391,
-										5405
-									],
-									[
-										5600,
-										5614
-									],
-									[
-										5774,
-										5788
-									],
-									[
-										6085,
-										6099
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								5408,
-								5408
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 5,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2835.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "bsp/stm32f10x/board.h",
-					"settings":
-					{
-						"buffer_size": 2113,
+						"buffer_size": 8529,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								697,
-								697
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/Program Files/SublimeText2/Data/Packages/GBK Encoding Support/tmp/startup.c                D%3A%5CGitHub%5CEmbStd_STM32%5CRT-Thread%5Cbsp%5Cstm32f10x%5Cstartup.c",
-					"settings":
-					{
-						"buffer_size": 3533,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2899,
-								2885
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1275.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "bsp/mini2440/sdcard.c",
-					"settings":
-					{
-						"buffer_size": 13464,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10093,
-								10110
+								5202,
+								5202
 							]
 						],
 						"settings":
@@ -769,7 +532,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6373.0,
+						"translation.y": 3106.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

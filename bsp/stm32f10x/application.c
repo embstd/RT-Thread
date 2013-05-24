@@ -46,9 +46,8 @@
 #include "gpio.h"
 
 ALIGN(RT_ALIGN_SIZE)
-static rt_uint8_t led_stack[ 4096 ];
+static rt_uint8_t app_stack[ 2048 ];
 
-#define EEPROM_Block0_ADDRESS 0x50//0xA0
 
 #define LED1_GPIO GPIO_NUM(2,6) //GPIOC_6
 #define LED1_ON()  gpio_direction_output(LED1_GPIO, 1)
@@ -63,8 +62,8 @@ static rt_uint8_t led_stack[ 4096 ];
 #define KEY2_GPIO GPIO_NUM(4,1) //GPIOE_1
 #define GETKEY2()  gpio_direction_input(KEY2_GPIO)
 
-static struct rt_thread led_thread;
-static void led_thread_entry(void* parameter)
+static struct rt_thread app_thread;
+static void app_thread_entry(void* parameter)
 {
     unsigned int count=0;
     int i;
@@ -226,17 +225,20 @@ int rt_application_init()
 	rt_thread_t init_thread;
 
 	rt_err_t result;
-
-    /* init led thread */
-	result = rt_thread_init(&led_thread,
-		"led",
-		led_thread_entry, RT_NULL,
-		(rt_uint8_t*)&led_stack[0], sizeof(led_stack), 20, 5);
+#if 0
+    /* init app thread */
+	result = rt_thread_init(&app_thread,
+		"app",
+		app_thread_entry, RT_NULL,
+		(rt_uint8_t*)&app_stack[0], sizeof(app_stack), 20, 5);
 	if (result == RT_EOK)
 	{
-        rt_thread_startup(&led_thread);
+        rt_thread_startup(&app_thread);
 	}
-
+#else
+	 rt_test_init();
+#endif
+	 
 #if (RT_THREAD_PRIORITY_MAX == 32)
 	init_thread = rt_thread_create("init",
 								rt_init_thread_entry, RT_NULL,
