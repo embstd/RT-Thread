@@ -62,12 +62,20 @@ static rt_uint8_t app_stack[ 2048 ];
 #define KEY2_GPIO GPIO_NUM(4,1) //GPIOE_1
 #define GETKEY2()  gpio_direction_input(KEY2_GPIO)
 
+#define MOT_GPIO GPIO_NUM(1,9) //GPIOB_9
+#define MOT_ON()   gpio_direction_output(MOT_GPIO, 1)
+#define MOT_OFF()  gpio_direction_output(MOT_GPIO, 0)
+
 static struct rt_thread app_thread;
+// extern uint16_t IR_KEY_LED_ID;
+// extern void InputCaptureInit( void );
 static void app_thread_entry(void* parameter)
 {
     unsigned int count=0;
     int i;
 
+    MOT_OFF();
+    InputCaptureInit();
     while (1)
     { 
 
@@ -97,10 +105,15 @@ static void app_thread_entry(void* parameter)
     		LED1_OFF();
     	}
 
-
-		LED2_ON();
-		rt_thread_delay(RT_TICK_PER_SECOND/2);
-		LED2_OFF();
+  //   	if(IR_KEY_LED_ID)
+		// {
+		// 	IR_KEY_LED_ID--;
+		// 	LED2_ON();
+		// //MOT_ON();
+		// 	rt_thread_delay(RT_TICK_PER_SECOND/2);
+		// 	LED2_OFF();
+		// //MOT_OFF();
+		// }
 		rt_thread_delay(RT_TICK_PER_SECOND/2);
 
     }
@@ -225,7 +238,7 @@ int rt_application_init()
 	rt_thread_t init_thread;
 
 	rt_err_t result;
-#if 0
+#if 1
     /* init app thread */
 	result = rt_thread_init(&app_thread,
 		"app",
