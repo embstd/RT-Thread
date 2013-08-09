@@ -67,7 +67,7 @@ static rt_uint8_t app_stack[ 2048 ];
 #define MOT_OFF()  gpio_direction_output(MOT_GPIO, 0)
 
 static struct rt_thread app_thread;
-// extern uint16_t IR_KEY_LED_ID;
+
 // extern void InputCaptureInit( void );
 static void app_thread_entry(void* parameter)
 {
@@ -105,15 +105,15 @@ static void app_thread_entry(void* parameter)
     		LED1_OFF();
     	}
 
-  //   	if(IR_KEY_LED_ID)
-		// {
-		// 	IR_KEY_LED_ID--;
-		// 	LED2_ON();
-		// //MOT_ON();
-		// 	rt_thread_delay(RT_TICK_PER_SECOND/2);
-		// 	LED2_OFF();
-		// //MOT_OFF();
-		// }
+    	if(GET_IR_KEY_LED_ID())
+		{
+			
+			LED2_ON();
+		//MOT_ON();
+			rt_thread_delay(RT_TICK_PER_SECOND/2);
+			LED2_OFF();
+		//MOT_OFF();
+		}
 		rt_thread_delay(RT_TICK_PER_SECOND/2);
 
     }

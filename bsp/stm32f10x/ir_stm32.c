@@ -57,6 +57,8 @@ void InputCaptureInit( void )
  
  TIM_Cmd( TIM2, ENABLE );
  TIM_ITConfig( TIM2, TIM_IT_CC2 | TIM_IT_Update, ENABLE );
+
+ stm32_dbg( "IR Initial.... DONE.\n\n");
 }
 
 // 使能TIM2和GPIOA的时钟
@@ -108,7 +110,20 @@ static uint8_t check_ir_key(uint32_t ir)
 
 #define MAX_Pluse 60
 uint16_t IR_PluseArry[MAX_Pluse], PluseInd=0;
-uint16_t IR_KEY_LED_ID=1;
+int16_t IR_KEY_LED_ID=1;
+int16_t GET_IR_KEY_LED_ID(void)
+{
+
+  if(IR_KEY_LED_ID)
+  { 
+    IR_KEY_LED_ID--;
+    return IR_KEY_LED_ID+1;
+  }
+  else
+    return IR_KEY_LED_ID;  
+}
+
+
 static void check_pluse_array(uint8_t id)
 {
     uint8_t i,j;
