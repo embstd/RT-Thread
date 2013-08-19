@@ -159,7 +159,7 @@ static rt_err_t rt_adc_open(struct rt_device *dev, rt_uint16_t oflag)
     rt_mutex_take(&adc_lock, RT_WAITING_FOREVER);
     if(!user_cnt)
     {
-        rt_adc_cfg(dev, NULL);
+        rt_adc_cfg(dev, RT_NULL);
         rt_adc_start(dev);
     }
     user_cnt++;
@@ -261,7 +261,7 @@ rt_err_t rt_adc_device_init(void)
     device->open    = rt_adc_open;
     device->close   = rt_adc_close;
     device->read    = rt_adc_read;
-    device->write   = NULL;
+    device->write   = RT_NULL;
     device->control = rt_adc_control;
 
     /* register to device manager */
