@@ -73,7 +73,7 @@
 #define FINSH_USING_DESCRIPTION
 
 /* SECTION: device filesystem */
-#define RT_USING_DFS
+//#define RT_USING_DFS
 
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
@@ -184,7 +184,7 @@
 #define RT_USING_I2C 1 
 #define RT_I2C_DEBUG 1
 
-#define RT_USING_SPI 1
-#define USING_SPI1 1
+//#define RT_USING_SPI 1
+//#define USING_SPI1 1
 //#define RT_DEBUG_IPC 1
 // Debug Info END

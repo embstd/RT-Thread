@@ -49,14 +49,6 @@ ALIGN(RT_ALIGN_SIZE)
 static rt_uint8_t app_stack[ 2048 ];
 
 
-#define LED1_GPIO GPIO_NUM(2,6) //GPIOC_6
-#define LED1_ON()  gpio_direction_output(LED1_GPIO, 1)
-#define LED1_OFF() gpio_direction_output(LED1_GPIO, 0)
-
-#define LED2_GPIO GPIO_NUM(2,7) //GPIOC_7
-#define LED2_ON()  gpio_direction_output(LED2_GPIO, 1)
-#define LED2_OFF() gpio_direction_output(LED2_GPIO, 0)
-
 #define KEY1_GPIO GPIO_NUM(4,0) //GPIOE_0
 #define GETKEY1()  gpio_direction_input(KEY1_GPIO)
 #define KEY2_GPIO GPIO_NUM(4,1) //GPIOE_1
@@ -81,39 +73,16 @@ static void app_thread_entry(void* parameter)
 
     	if (!GETKEY1()) //Key Down
     	{
-    		/* code */
-    		for(i=3; i>0; i--)
-    		{
-    			LED1_ON();
-    			rt_thread_delay(RT_TICK_PER_SECOND/2);
-    			LED1_OFF();
-    			rt_thread_delay(RT_TICK_PER_SECOND/2);
-    		}
-    		LED1_ON();
-
-    		// at24c16b_write(0x0, 128);
-    		// at24c16b_read(0x0, 128);
-
+    		at24c16b_write(0x0, 128);
+    		at24c16b_read(0x0, 128);
+#ifdef RT_USING_DFS
     			if (dfs_mount("W25X10BV", "/", "elm", 0, 0) == 0)
 		rt_kprintf("SPI File System initialized!\n");
 	else
 		rt_kprintf("SPI File System init failed!\n");
-
+#endif
     	}
-    	else
-    	{
-    		LED1_OFF();
-    	}
-
-    	if(GET_IR_KEY_LED_ID())
-		{
-			
-			LED2_ON();
-		//MOT_ON();
-			rt_thread_delay(RT_TICK_PER_SECOND/2);
-			LED2_OFF();
-		//MOT_OFF();
-		}
+    	
 		rt_thread_delay(RT_TICK_PER_SECOND/2);
 
     }
@@ -248,6 +217,7 @@ int rt_application_init()
 	{
         rt_thread_startup(&app_thread);
 	}
+	rt_show_test_init();
 #else
 	 rt_test_init();
 #endif
